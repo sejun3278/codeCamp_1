@@ -222,41 +222,45 @@ export default function ReplyPage () {
     }
 
     // 댓글 수정하기
-    const modifyReplyFn = async () => {
-        if(replyModifyAble === false) {
-            return alert('빈칸을 모두 입력해주세요.');
-        }
-
-        console.log(boardId, page)
-
-        try {
-            await updateBoardComment({
-                variables : {
-                    password : modfiyReply.password,
-                    boardCommentId : modfiyReply['_id'],
-                    updateBoardCommentInput : {
-                        contents : modfiyReply.contents,
-                        rating : modfiyReply.rating
-                    }
-                },
-
-                refetchQueries : [{ 
-                    query : FETCH_BOARD_COMMENTS,
-                    variables : {
-                        page : page,
-                        boardId : boardId
-                    }
-                }]
-            })
-
-            alert('수정이 완료되었습니다.');
-
+    const modifyReplyFn = async (cancel) => {
+        if(cancel) {
             setModifyTarget(null);
             setModfiyReply(input);
 
-        } catch(error) {
-            alert(error);
-            return console.log(error);
+        } else {
+            if(replyModifyAble === false) {
+                return alert('빈칸을 모두 입력해주세요.');
+            }
+
+            try {
+                await updateBoardComment({
+                    variables : {
+                        password : modfiyReply.password,
+                        boardCommentId : modfiyReply['_id'],
+                        updateBoardCommentInput : {
+                            contents : modfiyReply.contents,
+                            rating : modfiyReply.rating
+                        }
+                    },
+
+                    refetchQueries : [{ 
+                        query : FETCH_BOARD_COMMENTS,
+                        variables : {
+                            page : page,
+                            boardId : boardId
+                        }
+                    }]
+                })
+
+                alert('수정이 완료되었습니다.');
+
+                setModifyTarget(null);
+                setModfiyReply(input);
+
+            } catch(error) {
+                alert(error);
+                return console.log(error);
+            }
         }
     }
 

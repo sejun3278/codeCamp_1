@@ -126,7 +126,7 @@ export const ReplyListContents = styled.div`
 
 export const ReplyList = styled.div`
     min-height : 70px;
-    margin-top : 25px;
+    padding-top : 25px;
     border-bottom : solid 1px #ababab;
     box-sizing: border-box;
 `

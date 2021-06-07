@@ -6,6 +6,7 @@ export const Wrapper = styled.div`
 `
 
 export const DivGrid = styled.div`
+    margin-top : 70px;
     display : grid;
     grid-template-columns : 25% 50% 25%;
 

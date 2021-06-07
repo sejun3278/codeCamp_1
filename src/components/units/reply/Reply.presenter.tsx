@@ -145,9 +145,11 @@ export default function BoardReplyPage({
                                     <textarea maxLength={100} defaultValue={modfiyReplyInput.contents} name='contents' placeholder="개인정보를 공유 및 요청하거나, 명예 훼손, 무단 광고, 불법 정보 유포시 모니터링 후 삭제될 수 있으며, 이에 대한 민형사상 책임은 게시자에게 있습니다." onChange={(event) => saveReplyWriterInfo(event, false, true)}></textarea>
                                     <ReplyOptionaryDiv>
                                         <ReplyLimit> {modfiyReplyInput.contents.length} / 100 </ReplyLimit>
+
                                         <ReplyWriteSumbit type='button' value='수정하기' onClick={modifyReply}
                                             style={replyModifyAble === true ? { 'backgroundColor' : '#FFD600', 'color' : 'black' } : undefined}
                                         />
+                                        <ReplyWriteSumbit type='button' value='취소' onClick={() => modifyReply(true)} />
                                     </ReplyOptionaryDiv>
                                 </ReplyWriteContentsDiv>
                             </ReplyWriteDiv>

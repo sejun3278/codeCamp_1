@@ -2519,7 +2519,7 @@ lodash.throttle@^4.0.0:
   resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
   integrity sha1-wj6RtxAkKscMN/HhzaknTMOb8vQ=
 
-lodash@^4.17.13, lodash@^4.17.21:
+lodash@^4.17.13, lodash@^4.17.15, lodash@^4.17.21:
   version "4.17.21"
   resolved "https://registry.npmjs.org/lodash/-/lodash-4.17.21.tgz"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -3497,6 +3497,13 @@ react-dom@17.0.2:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
     scheduler "^0.20.2"
+
+react-hook-scrolltop@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-hook-scrolltop/-/react-hook-scrolltop-1.0.1.tgz#84eee99cda137a3e1bd19bfc8472017b1498d9df"
+  integrity sha512-uYWYa7Ci/mVOp11qhD80J/UyMrdfJaKnzgbLz8TvEZUfLnAm5rdimPHpik1VpjFiSNPWzjDdLecHYc1Wq9PViA==
+  dependencies:
+    lodash "^4.17.15"
 
 react-infinite-scroller@^1.2.4:
   version "1.2.4"

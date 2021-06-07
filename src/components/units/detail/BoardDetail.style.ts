@@ -6,6 +6,7 @@ export const Wrapper = styled.div`
 `
 
 export const DivGrid = styled.div`
+    margin-top : 70px;
     display : grid;
     grid-template-columns : 25% 50% 25%;
 
@@ -148,7 +149,7 @@ export const BoradOptionDiv = styled.div`
     text-align : center;
     margin-top : 50px;
 
-    div {
+    input[type=button] {
         display : inline-block;
         width : 120px;
         border : 1px solid #BDBDBD;

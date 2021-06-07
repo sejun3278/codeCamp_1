@@ -12,6 +12,7 @@ export default function BoardWritePage({
     contents,
     // replyCount,
     ToggleLikeOrdisLike,
+    router
     // addReply,
     // saveReplyWriterInfo,
     // replyAble,
@@ -92,8 +93,8 @@ export default function BoardWritePage({
                 </PageWrapperGrid>
 
                 <BoradOptionDiv>
-                    <div> 목록으로 </div>
-                    <div> 수정하기 </div>
+                    <input type='button' value='목록으로' onClick={() => router.push('/')}/>
+                    <input type='button' value='수정하기'/>
                 </BoradOptionDiv>
 
                 {/* 댓글 컴포넌트 추가 */}

@@ -4,28 +4,64 @@ import {
     //   ChangeEvent,
     //   ChangeEventHandler,
     //   RefObject,
+      useContext,
       useEffect,
-    //   useRef,
+      useRef,
       useState,
 } from "react";
 import { fromPromise, useMutation, useQuery } from '@apollo/client';
 
 import { useRouter } from 'next/router';
+import { GlobalContext } from "../../../../pages/_app";
 
 export default function HeaderPage () {
+    const [ScrollY, setScrollY] = useState(0);
+    const logoDiv = useRef<HTMLInputElement>();
     const router = useRouter();
 
-    // 홈으로 이동
-    const moveHome = () => {
-        router.push('/');
+    const { accessToken } = useContext(GlobalContext);
+
+    const handleFollow = () => {
+        setScrollY(Math.trunc(window.pageYOffset)); // window 스크롤 값을 ScrollY에 저장
     }
 
+    useEffect(() => {
+        if(ScrollY >= 100) {
+            logoDiv.current.classList.add('FixedLogo');
 
-    const carouselList = new Array(4).fill(null);
+        } else {
+            logoDiv.current.classList.remove('FixedLogo');
+        }
+
+    }, [ScrollY])
+
+    useEffect(() => {
+        const watch = () => {
+          window.addEventListener('scroll', handleFollow);
+        }
+
+        watch(); // addEventListener 함수를 실행
+        return () => {
+          window.removeEventListener('scroll', handleFollow); // addEventListener 함수를 삭제
+        }
+    })
+    // window.addEventListener('scroll', (e) => {
+    //     const scrollTop = document.querySelector('body').scrollTop;
+
+    //     console.log(scrollTop)
+    // });
+
+    // 홈으로 이동
+    const moveUrl = (url) => {
+        router.push(url);
+    }
+
     return(
         <HeaderUI
-            moveHome={moveHome}
-            carouselList={carouselList}
+            moveUrl={moveUrl}
+            router={router}
+            logoDiv={logoDiv}
+            accessToken={accessToken}
         />
     )
 }

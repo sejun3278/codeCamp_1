@@ -7,18 +7,24 @@ import {
       useEffect,
     //   useRef,
       useState,
+      useContext
 } from "react";
 import { fromPromise, useMutation, useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
+import { LayoutContext } from '../../../components/commons/layout/index';
 
 export default function BoardDetailPage () {
     const boardId = useRouter().query.id;
+    const router = useRouter();
     const imageList = require('../../../../image.json');
 
     const { data, loading, refetch } = useQuery(FETCH_BOARD, {
         variables : { boardId : boardId }
     });
 
+    const { text } = useContext(LayoutContext)
+    console.log(text)
+    
     const [ likeBoard ] = useMutation(LIKE_BOARD);
     const [ dislikeBoard ] = useMutation(DISLIKE_BOARD);
 
@@ -54,6 +60,7 @@ export default function BoardDetailPage () {
                 boardInfo={data.fetchBoard}
                 imageList={imageList}
                 contents={contents}
+                router={router}
                 // replyCount={replyCount}
                 // checkReplyCount={checkReplyCount}
                 // saveReplyWriterInfo={saveReplyWriterInfo}

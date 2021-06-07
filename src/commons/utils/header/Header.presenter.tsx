@@ -1,6 +1,6 @@
 import {
     HeaderDiv, HeaderLogoDiv, HeaderLogo, HeaderLoginDiv, HeaderLogoImg, HeaderLogin, HeaderSignup, CarouselDiv,
-    CaruselImage
+    CaruselImage, HeaderCategoryDiv, HeaderCategory, CaruselImage1, CaruselImage2, CaruselImage3
 } from './Header.style';
 import Slider from "react-slick";
 
@@ -12,38 +12,60 @@ const sliderSettings = {
     infinite: true,
     speed: 500,
     slidesToShow: 1,
-    slidesToScroll: 1
+    slidesToScroll: 1,
+    arrow : true
 };
 
 export default function HeaderPage({
-    moveHome,
-    carouselList
+    moveUrl,
+    router,
+    logoDiv,
+    accessToken
 }) {
     return(
         <HeaderDiv>
-            <HeaderLogoDiv>
+            <HeaderLogoDiv ref={logoDiv}>
                 <HeaderLogo>
-                    <HeaderLogoImg src="/images/logo.png" onClick={moveHome}/>
+                    <HeaderLogoImg src="/images/logo.png" onClick={() => moveUrl('/')}/>
                 </HeaderLogo>
 
                 <HeaderLoginDiv>
-                    <HeaderLogin type='button' value='로그인' />
-                    <HeaderSignup type='button' value='회원가입' />
+                    {!accessToken
+                    &&
+                        <div>
+                            <HeaderLogin type='button' value='로그인' onClick={() => moveUrl('/login')} />
+                            <HeaderSignup type='button' value='회원가입' onClick={() => moveUrl('/signup')} />
+                        </div>
+                    }
                 </HeaderLoginDiv>
             </HeaderLogoDiv>
 
             <CarouselDiv>
                 <Slider {...sliderSettings} >
-                    {carouselList.map( (img, key) => {
-                        return(
-                            <CaruselImage key={key} 
-                                style={{ 'backgroundImage' : `url('/images/mainBanner_${key + 1}')` }}
-                            />
-                        )
-                    })}
+                    <CaruselImage>
+                        <CaruselImage1 />
+                    </CaruselImage>
+
+                    <CaruselImage>
+                        <CaruselImage2 />
+                    </CaruselImage>
+
+                    <CaruselImage>
+                        <CaruselImage3 />
+                    </CaruselImage>
                 </Slider>
-                    
             </CarouselDiv>
+
+            <HeaderCategoryDiv>
+                <HeaderCategory 
+                    style={router.route.includes('/board') || router.route === "/" ? { 'color' : 'black' } : undefined}
+                    onClick={() => moveUrl('/')}
+                > 
+                    자유게시판 
+                </HeaderCategory>
+                <HeaderCategory> 중고마켓 </HeaderCategory>
+                <HeaderCategory style={{ 'border' : 'none' }}> 마이페이지 </HeaderCategory>
+            </HeaderCategoryDiv>
         </HeaderDiv>
     )
 }
