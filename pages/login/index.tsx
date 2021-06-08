@@ -1,51 +1,48 @@
-import { gql, useMutation } from '@apollo/client';
-import { useRouter } from 'next/router';
-import { useState, useContext } from 'react';
-import { GlobalContext } from '../_app';
+// import { gql, useMutation } from '@apollo/client';
+// import { useRouter } from 'next/router';
+// import { useState, useContext } from 'react';
+// import { GlobalContext } from '../_app';
 
-const LOGIN_USER_EXAMPLE = gql`
-    mutation loginUserExample($email : String!, $password : String!) {
-        loginUserExample(email : $email, password : $password) {
-            accessToken
-        }
-    }
-`;
+// import Login from '../../src/components/units/login/login.container';
 
-const LoginPage = () => {
-    const router = useRouter();
-    const { setAccessToken } = useContext(GlobalContext);
+// const LOGIN_USER_EXAMPLE = gql`
+//     mutation loginUserExample($email : String!, $password : String!) {
+//         loginUserExample(email : $email, password : $password) {
+//             accessToken
+//         }
+//     }
+// `;
 
-    const [ loginUserExample ] = useMutation(LOGIN_USER_EXAMPLE);
+// export default function LoginPage() {
+//     // const router = useRouter();
+//     // const { setAccessToken } = useContext(GlobalContext);
 
-    const Login = async () => {
-        const { data } = await loginUserExample({
-            variables : {
-                email : "sejun3278@naver.com",
-                password : "123"
-            }
-        })
+//     // const [ loginUserExample ] = useMutation(LOGIN_USER_EXAMPLE);
 
-        const accessToken = data?.loginUserExample.accessToken;
+//     // const Login = async () => {
+//     //     const { data } = await loginUserExample({
+//     //         variables : {
+//     //             email : "sejun3278@naver.com",
+//     //             password : "123"
+//     //         }
+//     //     })
 
-        setAccessToken(accessToken);
+//     //     const accessToken = data?.loginUserExample.accessToken;
 
-        router.push('/');
-    }
-    return(
-        <div>
-            {/* <form> */}
-                {/* <div>
-                    이메일 <input type='text' onChange={(event) => setEmail(event.target.value.trim())} />
-                </div>
+//     //     setAccessToken(accessToken);
 
-                <div>
-                    비밀번호 <input type='password' onChange={(event) => setPassword(event.target.value.trim())} />
-                </div> */}
+//     //     router.push('/');
+//     // }
+//     return (
+//         <Login />
+//     )
+//         // <div>
+//         //     <button onClick={Login}> 로그인 </button>
+//         // </div>
+// }
 
-                <button onClick={Login}> 로그인 </button>
-            {/* </form> */}
-        </div>
-    )
+import LoginPage from '../../src/components/units/login/Login.container';
+
+export default function BoardWritePage() {
+    return <LoginPage />
 }
-
-export default LoginPage;

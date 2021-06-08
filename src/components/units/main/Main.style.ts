@@ -178,6 +178,10 @@ export const SeacrhBtnDiv = styled.div`
 export const BoardsListDiv = styled.div`
     min-height : 80px;
     margin : 20px 15px;
+
+    @media (max-width : 500px) {
+        margin : 20px 0px;
+    }
 `
 
 export const EmptyPage = styled.div`
@@ -207,6 +211,7 @@ export const BoardContents = styled.div`
     border-bottom : solid 1px #ababab;
     text-align : center;
     cursor : default;
+    
 `
 
 export const BoardContentsLimit = styled.div`
@@ -220,4 +225,47 @@ export const BoardContentsLimit = styled.div`
 export const BoardsContentDiv = styled.div`
     color : #4F4F4F;
     font-size : 13px;
+`
+
+export const BoardListOptionalDiv = styled.div`
+    margin : 40px 15px;
+    /* display : grid; */
+    /* grid-template-columns : 70% auto; */
+    text-align : center;
+
+`
+export const BoardListPageDiv = styled.div`
+    /* min-width : 450px; */
+
+    div {
+        display : inline-block;
+        margin : 0px 10px;
+        cursor : pointer;
+        color : #4F4F4F;
+        font-size : 14px;
+    }
+`
+export const BoardWriteDiv = styled.div`
+    border : solid 1px #ababab;
+    border-radius : 5px;
+    font-size : 13px;
+    width : 171px;
+    height : 42px;
+    line-height : 42px;
+    text-align : center;
+    font-weight : bold;
+    float : right;
+    margin-top : -30px;
+    cursor : pointer;
+
+    img {
+        width : 15px;
+        margin-right : 5px;
+    }
+
+    @media (max-width : 1000px) {
+        display : block;
+        float : none;
+        margin-top : 15px;
+    }
 `

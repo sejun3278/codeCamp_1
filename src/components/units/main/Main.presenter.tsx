@@ -1,11 +1,12 @@
 import {
     MainBoardDiv, MainContentsDiv, BestContentsDiv, BestItemListDiv, BestItems, BestThumb, BestTextDiv,
     BestBoardTitle, BestOtherInfoDiv, BestProfile, BestLike, BestBoardWriter, BestCreateDate, BestLikeImg, SearchDiv, SearchBar,
-    SeacrhBtnDiv, BoardsListDiv, EmptyPage, BoardListDivs, BoardsCount, BoardListContentsDiv, BoardContents, BoardContentsLimit, BoardsContentDiv
-
+    SeacrhBtnDiv, BoardsListDiv, EmptyPage, BoardListDivs, BoardsCount, BoardListContentsDiv, BoardContents, BoardContentsLimit, BoardsContentDiv,
+    BoardListPageDiv, BoardListOptionalDiv, BoardWriteDiv
 } from './Main.style';
 
 import imageList from '../../../../image.json';
+import React from 'react';
 export default function MainPage({
     bestBoards,
     router,
@@ -14,7 +15,13 @@ export default function MainPage({
     search,
     boards,
     boardsCount,
-    page
+    currentPage,
+    pageArr,
+    movePage,
+    moveBlock,
+    nextBlock,
+    prevBlcok
+    // prevBlock
 }) {
     return(
         <MainBoardDiv>
@@ -81,12 +88,11 @@ export default function MainPage({
                                 </BoardContents>
                                 
                                 <BoardsContentDiv>
-                                {boards.fetchBoards.map( (el, key) => {
-                                    
+                                {boards.fetchBoards.map( (el, key) => {                                    
 
                                     return(
                                         <BoardContents key={key}>
-                                            <div> {} </div>
+                                            <div> {(currentPage * 10) - key } </div>
                                             <BoardContentsLimit> {el.title} </BoardContentsLimit>
                                             <BoardContentsLimit> {el.writer} </BoardContentsLimit>
                                             <div> {el.createdAt.slice(0, 10)} </div>
@@ -98,6 +104,39 @@ export default function MainPage({
                           </BoardListDivs>
                     }
                 </BoardsListDiv>
+
+                <BoardListOptionalDiv>
+                    <BoardListPageDiv>
+                        {prevBlcok &&
+                            <div onClick={() => moveBlock(false)}> 
+                                <img alt='' src="./images/prev.png" /> 
+                            </div>
+                        }
+
+                        {pageArr.map( (page, key) => {
+                            return(
+                                <div key={key}
+                                    onClick={() => currentPage !== page ? movePage(page) : undefined}
+                                    // onClick={currentPage !== page && () => movePage(page)}
+                                    style={currentPage === page ? { 'color' : '#FFD600', 'fontWeight' : 'bold' } : undefined}
+                                >
+                                    {page}
+                                </div>
+                            )
+                        })}
+                        {nextBlock && 
+                            <div onClick={() => moveBlock(true)}> 
+                                <img alt='' src="./images/next.png" /> 
+                            </div>
+                        }
+
+                    </BoardListPageDiv>
+
+                    <BoardWriteDiv onClick={() => router.push('/board')}>
+                        <img alt='' src='./images/write.png'/>
+                        게시물 등록하기
+                    </BoardWriteDiv>
+                </BoardListOptionalDiv>
 
             </MainContentsDiv>
             <div />

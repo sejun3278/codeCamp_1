@@ -9,9 +9,10 @@ import {
       useState,
       useContext
 } from "react";
-import { fromPromise, useMutation, useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { LayoutContext } from '../../../components/commons/layout/index';
+// import WithAuth from '../../commons/hocs/widthAtuth';
 
 export default function BoardDetailPage () {
     const boardId = useRouter().query.id;
@@ -23,8 +24,6 @@ export default function BoardDetailPage () {
     });
 
     const { text } = useContext(LayoutContext)
-    console.log(text)
-    
     const [ likeBoard ] = useMutation(LIKE_BOARD);
     const [ dislikeBoard ] = useMutation(DISLIKE_BOARD);
 
@@ -79,3 +78,5 @@ export default function BoardDetailPage () {
         return null;
     }
 }
+
+// export default WithAuth(BoardDetailPage)
