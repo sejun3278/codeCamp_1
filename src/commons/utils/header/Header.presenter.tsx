@@ -58,12 +58,17 @@ export default function HeaderPage({
 
             <HeaderCategoryDiv>
                 <HeaderCategory 
-                    style={router.route.includes('/board') || router.route === "/" ? { 'color' : 'black' } : undefined}
+                    style={(router.route.includes('/board') || router.route === "/") ? { 'color' : 'black' } : undefined}
                     onClick={() => moveUrl('/')}
                 > 
                     자유게시판 
                 </HeaderCategory>
-                <HeaderCategory> 중고마켓 </HeaderCategory>
+                <HeaderCategory
+                    style={router.route.includes('/market') ? { 'color' : 'black' } : undefined}
+                    onClick={() => moveUrl('/market/write')}
+                > 
+                    중고마켓 
+                </HeaderCategory>
                 <HeaderCategory style={{ 'border' : 'none' }}> 마이페이지 </HeaderCategory>
             </HeaderCategoryDiv>
         </HeaderDiv>

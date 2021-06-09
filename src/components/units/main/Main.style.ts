@@ -211,7 +211,6 @@ export const BoardContents = styled.div`
     border-bottom : solid 1px #ababab;
     text-align : center;
     cursor : default;
-    
 `
 
 export const BoardContentsLimit = styled.div`
@@ -220,11 +219,19 @@ export const BoardContentsLimit = styled.div`
     text-overflow:ellipsis; 
     white-space:nowrap;
     padding : 0px 20px;
+
+    .searchFont {
+        background-color : orange;
+    }
 `
 
 export const BoardsContentDiv = styled.div`
     color : #4F4F4F;
     font-size : 13px;
+
+    div {
+        cursor: pointer;
+    }
 `
 
 export const BoardListOptionalDiv = styled.div`

@@ -16,7 +16,7 @@ import { GlobalContext } from "../../../../pages/_app";
 
 export default function HeaderPage () {
     const [ScrollY, setScrollY] = useState(0);
-    const logoDiv = useRef<HTMLInputElement>();
+    const logoDiv= useRef<HTMLHeadingElement>();
     const router = useRouter();
 
     const { accessToken } = useContext(GlobalContext);
@@ -45,14 +45,9 @@ export default function HeaderPage () {
           window.removeEventListener('scroll', handleFollow); // addEventListener 함수를 삭제
         }
     })
-    // window.addEventListener('scroll', (e) => {
-    //     const scrollTop = document.querySelector('body').scrollTop;
-
-    //     console.log(scrollTop)
-    // });
 
     // 홈으로 이동
-    const moveUrl = (url) => {
+    const moveUrl = (url : string) => {
         router.push(url);
     }
 

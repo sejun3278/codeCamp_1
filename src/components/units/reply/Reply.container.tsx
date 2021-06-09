@@ -22,7 +22,7 @@ export default function ReplyPage () {
     const boardId = useRouter().query.id;
 
     const [ input, setInput ] = useState(initionl)
-    const [ page, setPage ] = useState(1);
+    const [ page, _ ] = useState(1);
     const [ modal, toggleModal ] = useState(false);
 
     const [ confirmPassword, setConfirm ] = useState("");
@@ -134,7 +134,7 @@ export default function ReplyPage () {
     const initRating = new Array(5).fill(null);
 
     const onloadMore = () => {
-        if( (data?.fetchBoardComments.length % 10) !== 0) { return };
+        if(data?.fetchBoardComments.length % 10 !== 0) { return };
         fetchMore({
             variables : { 
                 // page : page + 1

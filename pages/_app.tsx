@@ -32,7 +32,7 @@ function MyApp({ Component, pageProps }) {
     credentials : 'include'
   })
 
-  // // @ts-ignore
+  // @ts-ignore
   // const errorLink = onError( async( { graphQLErrors, operation, forward } ) => {
   //   if(graphQLErrors) {
   //     for(let err of graphQLErrors) {
@@ -82,7 +82,9 @@ function MyApp({ Component, pageProps }) {
     <GlobalContext.Provider value={{ accessToken, setAccessToken }}>
       <ApolloProvider client={client}>
         <Wrapper style={{ 'height' : '100%' }}>
-          {(router.pathname.includes('board') === true || router.pathname === '/')
+          {
+          // (router.pathname.includes('board') === true || router.pathname === '/')
+          (router.pathname !== '/login' && router.pathname !== '/signup')
             && 
             <Header />
           }

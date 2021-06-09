@@ -7,6 +7,7 @@ import {
 
 import imageList from '../../../../image.json';
 import React from 'react';
+
 export default function MainPage({
     bestBoards,
     router,
@@ -88,12 +89,24 @@ export default function MainPage({
                                 </BoardContents>
                                 
                                 <BoardsContentDiv>
-                                {boards.fetchBoards.map( (el, key) => {                                    
+                                {boards.fetchBoards.map( (el, key) => {
+                                    
+                                    let title = el.title;
+                                    if(search !== "") {
+                                        const originTitle = title;
+                                        const start = originTitle.indexOf(search);
+
+                                        title = title.slice(0, start);
+                                        title += `<b class='searchFont'> ${originTitle.slice(start, start + search.length)} </b>`;
+                                        title += originTitle.slice(start + search.length, originTitle.length);
+                                    }
 
                                     return(
-                                        <BoardContents key={key}>
+                                        <BoardContents key={key}
+                                            onClick={() => router.push(`/board/${el._id}`)}
+                                        >
                                             <div> {(currentPage * 10) - key } </div>
-                                            <BoardContentsLimit> {el.title} </BoardContentsLimit>
+                                            <BoardContentsLimit dangerouslySetInnerHTML={{ __html : title }} />
                                             <BoardContentsLimit> {el.writer} </BoardContentsLimit>
                                             <div> {el.createdAt.slice(0, 10)} </div>
                                         </BoardContents>

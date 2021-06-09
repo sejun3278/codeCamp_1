@@ -17,3 +17,14 @@ export const checkImage = (image) => {
 
     return true;
 }
+
+// 이메일 체크 함수
+export const checkEmail = (email) => {
+    if(!email.includes('.')) {
+        return null;
+    }
+
+    const regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+
+    return email.match(regExp);
+}
