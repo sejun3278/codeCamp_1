@@ -29,11 +29,11 @@ export default function LoginPage () {
     const emailRef = useRef<HTMLInputElement>();
     const passwordRef = useRef<HTMLInputElement>();
 
-    if (typeof window !== "undefined") {
-        // 코드 작성
-        const _next : any = window.document.querySelector('#__next');
-        _next.style.height = '100%';
-    }
+    // if (typeof window !== "undefined") {
+    //     // 코드 작성
+    //     const _next : any = window.document.querySelector('#__next');
+    //     _next.style.height = '100%';
+    // }
 
     const onChangeInput = (event) => {
         const changeInput = { ...input };

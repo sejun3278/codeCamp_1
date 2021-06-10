@@ -1,4 +1,4 @@
-import MarketGoodsWrite from '../../../src/components/units/market/write/Write.container';
+import MarketGoodsWrite from '../../../src/components/units/market/goods/write/GoodsWrite.container';
 
 export default function MarketGoodsWritePage() {
     return <MarketGoodsWrite />

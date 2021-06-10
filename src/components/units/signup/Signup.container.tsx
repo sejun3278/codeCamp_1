@@ -39,11 +39,11 @@ export default function SignupPage () {
     const [ modal, setModal ] = useState(false);
     const [ createUser ] = useMutation(CREATE_USER_INPUT);
 
-    if (typeof window !== "undefined") {
-        // 코드 작성
-        const _next : any = window.document.querySelector('#__next');
-        _next.style.height = '100%';
-    }
+    // if (typeof window !== "undefined") {
+    //     // 코드 작성
+    //     const _next : any = window.document.querySelector('#__next');
+    //     _next.style.height = '100%';
+    // }
 
     // 인풋값 삽입
     const changeInput = (event) => {

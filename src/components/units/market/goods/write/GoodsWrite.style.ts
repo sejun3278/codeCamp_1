@@ -136,7 +136,7 @@ export const MarketWriteBtn = styled.input`
 `
 
 export const MarketThumbDiv = styled.div`
-    display : inline-block;
+    float : left;
     width : 160px;
     font-size : 14px;
 
@@ -183,5 +183,38 @@ export const MarketThumbShowDiv = styled.div`
 
     @media (max-width : 425px) {
         margin : 60px;
+    }
+`
+
+export const MarketThumbnailShow = styled.div`
+    /* margin-top : -52px; */
+    height : 148px;
+    width : 148px;
+    background-repeat: no-repeat;
+    background-size : cover;
+
+    @media (max-width : 425px) {
+        width : 100%;
+    }
+`
+export const MarketThumb = styled.div`
+    display : inline-block;
+
+    @media (max-width : 425px) {
+        width : 100%;
+    }
+`
+
+export const RemoveThumbnail = styled.img`
+    position : absolute;
+    margin-left : -10px;
+    margin-top : -155px;
+    cursor: pointer;
+`
+
+export const SelectMainThumbDiv = styled.div`
+
+    @media (max-width : 425px) {
+        display : none;
     }
 `

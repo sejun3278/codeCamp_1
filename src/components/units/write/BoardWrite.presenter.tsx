@@ -77,7 +77,7 @@ export default function BoardWritePage({
                         </InputDiv>
 
                         <InputDiv>
-                            <InputTitle> 주소 * </InputTitle>
+                            <InputTitle> 주소 </InputTitle>
                             <HostDiv>
                                 <div>
                                     <HostNumberDiv> 

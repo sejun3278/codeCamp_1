@@ -7,6 +7,7 @@ import {
 
 import imageList from '../../../../image.json';
 import React from 'react';
+import { setComma } from '../../../commons/libraries/validations';
 
 export default function MainPage({
     bestBoards,
@@ -78,7 +79,7 @@ export default function MainPage({
                           </EmptyPage>
 
                         : <BoardListDivs>
-                            <BoardsCount> 총 {boardsCount.fetchBoardsCount.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")} 개의 게시물이 조회되었습니다. </BoardsCount>
+                            <BoardsCount> 총 {setComma(boardsCount?.fetchBoardsCount)} 개의 게시물이 조회되었습니다. </BoardsCount>
                           
                             <BoardListContentsDiv>
                                 <BoardContents style={{ 'fontWeight' : 'bold' }}>

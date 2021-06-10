@@ -41,7 +41,8 @@
 //         // </div>
 // }
 
-import LoginPage from '../../src/components/units/login/Login.container';
+// import LoginPage from '../../src/components/units/login/Login.container';
+import LoginPage from '../../src/components/commons/login/Login.container';
 
 export default function BoardWritePage() {
     return <LoginPage />

@@ -28,3 +28,8 @@ export const checkEmail = (email) => {
 
     return email.match(regExp);
 }
+
+// 숫자 컴마 적용하기
+export const setComma = (int) => {
+    return String(int).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+}

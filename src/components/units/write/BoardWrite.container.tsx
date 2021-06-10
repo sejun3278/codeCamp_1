@@ -15,7 +15,7 @@ import { fromPromise, useMutation, useQuery, ApolloError } from '@apollo/client'
 import { useRouter } from 'next/router';
 import { checkImage } from '../../../commons/libraries/validations';
 import { getStorageUrl } from '../../../commons/libraries/utils';
-import next from 'next';
+import { promises } from 'stream';
 
 const dataInit = {
   writer: "",

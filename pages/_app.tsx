@@ -24,12 +24,13 @@ const Wrapper = styled.div`
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
   const [ accessToken, setAccessToken ] = useState("");
+  console.log(accessToken)
 
   const uploadLink = createUploadLink({
     // uri : 'http://example.codebootcamp.co.kr/graphql',
-    uri : 'http://backend.codebootcamp.co.kr/graphql',
-    Headers : { authorization : `Bearer ${accessToken}` },
-    credentials : 'include'
+    uri: "http://backend.codebootcamp.co.kr/graphql",
+    headers: { authorization: `Bearer ${accessToken}` },
+    credentials: "include",
   })
 
   // @ts-ignore
@@ -75,7 +76,7 @@ function MyApp({ Component, pageProps }) {
   const client = new ApolloClient({
     // uri : 'http://backend.codebootcamp.co.kr/graphql',
     link : ApolloLink.from([ uploadLink ]),
-    cache : new InMemoryCache(),
+    cache : new InMemoryCache()
   })
   
   return (
@@ -85,7 +86,7 @@ function MyApp({ Component, pageProps }) {
           {
           // (router.pathname.includes('board') === true || router.pathname === '/')
           (router.pathname !== '/login' && router.pathname !== '/signup')
-            && 
+            &&
             <Header />
           }
 
