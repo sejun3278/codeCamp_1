@@ -15,12 +15,12 @@ const initinal = {
     "tags" : [],
 }
 
-const fileInit = [ null, null ]
+const fileInit = []
 
 export default function MarketGoodsPage () {
     const [ input, setInput ] = useState(initinal);
     const [ able, setAble ] = useState(false);
-    const [ file, setFile ] = useState(fileInit);
+    const [ showImages, setShowImages ] = useState(fileInit);
 
     const [ usedItem ] = useMutation(USED_ITEM);
     const router = useRouter();
@@ -46,20 +46,17 @@ export default function MarketGoodsPage () {
         } else if(type === 'price') {
             value = Number(value);
         }
-
         inputs[type] = value;
 
         setInput(inputs);
 
-        let ables = false;
-        if(
+        const ables = 
+        (
             inputs['name'].length > 0 &&
             inputs['remarks'].length > 0 &&
             inputs['contents'].length > 0 &&
             inputs['price'] > 0
-        ) {
-            ables = true;
-        }
+        )
         setAble(ables);
     }
 
@@ -108,48 +105,45 @@ export default function MarketGoodsPage () {
     // 파일 추가하기
     const addFile = (event) => {
         // 파일 정보 구하기
-        const fileInfo = event.target.files[0];
+        const fileList = event.target.files;
 
-        if(fileInfo !== undefined) {
-            // 이미지 사이즈 및 파일 검증하기
-            if (!checkImage(fileInfo)) return;
-            
-            let selectInx = null;
-            let list = [ ...file ];
+        const imageList = [...showImages];
 
-            for(let i = 0; i < list.length; i++) {
-                if(list[i] === null) {
-                    selectInx = i;
-                    break;
+        let url = '';
+        for(let i = 0; i < 2; i++) {
+            const fileInfo = fileList[i];
+
+            if(fileInfo !== undefined) {
+                // 이미지 사이즈 및 파일 검증하기
+                if (!checkImage(fileInfo)) return;
+
+                const reader = new FileReader();
+                reader.readAsDataURL(fileInfo);
+
+                reader.onload = async (event) => {
+                    // 미리보기용 사진 만들기
+                    url = String(event.target.result); 
+                                
+                    imageList.push(url);
                 }
             }
-
-            let url = '';
-            const reader = new FileReader();
-            reader.readAsDataURL(fileInfo);
-            reader.onload = (event) => {
-                // 미리보기용 사진 만들기
-                url = String(event.target.result);
-                list[selectInx] = url;
-
-                setFile(list);
-            }
         }
+
+        window.setTimeout( () => {
+            setShowImages(imageList)
+        }, 100)
     }
 
     // 파일 삭제하기
     const removeFile = (idx) => {
-        const list = [ ...file ];
-        list[idx] = null;
+        let imageList = [ ...showImages ];
 
-        if(idx === 0) {
-            if(list[1] !== null) {
-                list[0] = list[1];
-                list[1] = null;
-            }
-        }
-        
-        setFile(list);
+        imageList[idx] = null;
+        imageList = imageList.filter( (el) => {
+            return el !== null;
+        })
+
+        setShowImages(imageList);
     }
 
     return(
@@ -158,7 +152,7 @@ export default function MarketGoodsPage () {
             addGoods={addGoods}
             able={able}
             nameRef={nameRef}
-            file={file}
+            showImages={showImages}
             addFile={addFile}
             formRef={formRef}
             removeFile={removeFile}

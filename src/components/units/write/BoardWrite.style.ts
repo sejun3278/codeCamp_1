@@ -37,6 +37,11 @@ export const InputTitle = styled.div`
     font-weight : bold;
     height : 30px;
     font-size : 14px;
+
+    b {
+        color : #bababa;
+        margin-left : 5px;
+    }
 `
 
 export const InputContents = styled.input`
@@ -63,7 +68,7 @@ export const HostNumberDiv = styled.div`
     width : 80px;
 `
 export const InputDiv = styled.div`
-    min-height : 100px;
+    min-height : 130px;
 
     input[type=text], input[type=password], textarea {
         border : solid 2px #bdbdbd;
@@ -86,11 +91,6 @@ export const HostNumberButton = styled.input`
     color: white;
     font-size : 12px;
     cursor: pointer;
-`
-
-export const ImageDiv = styled.div`
-    min-width : 160px;
-    height : 100px;
 `
 
 export const ImageDivs = styled.div`
@@ -181,4 +181,142 @@ export const ImageRemoveBtn = styled.img`
     width : 20px !important;
     height : 20px !important;
     margin-left : 58px;
+`
+
+export const AddImageDiv = styled.div`
+    display : inline-block;
+    width : 80px;
+    height : 80px;
+    margin-right : 7px;
+
+    label {
+        text-align : center;
+        display: inline-block; 
+        /* padding: .5em .75em;  */
+        height : 70px;
+        width : 70px;
+        /* line-height: normal;  */
+        vertical-align: middle; 
+        background-color: #BDBDBD; 
+        cursor: pointer; 
+        border: 1px solid #ebebeb; 
+        border-bottom-color: #e2e2e2; 
+        border-radius: .25em;
+        
+        @media (max-width : 425px) {
+            width : 100%;
+        }
+    }
+
+    input[type=file] { 
+        /* 파일 필드 숨기기 */ 
+        position: absolute; 
+        width: 1px; 
+        height: 1px; 
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip:rect(0,0,0,0);
+        border: 0;
+    }
+`
+
+export const ShowThumbImage = styled.img`
+    width : 70px;
+    height : 70px;
+
+`
+
+export const ShowThumbDiv = styled.div`
+    display : inline-block;
+    height : 70px;
+    width : 70px;
+    margin-right : 13px;
+    background-repeat : no-repeat;
+    background-size : cover;
+
+    label {
+        text-align : center;
+        display: inline-block; 
+        /* padding: .5em .75em;  */
+        height : 70px;
+        width : 70px;
+        /* line-height: normal;  */
+        /* vertical-align: middle;  */
+        background-color: #BDBDBD; 
+        cursor: pointer; 
+        border: 1px solid #ebebeb; 
+        border-bottom-color: #e2e2e2; 
+        border-radius: .25em;
+        
+        @media (max-width : 425px) {
+            width : 100%;
+        }
+    }
+
+    input[type=file] { 
+        /* 파일 필드 숨기기 */ 
+        position: absolute; 
+        width: 1px; 
+        height: 1px; 
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip:rect(0,0,0,0);
+        border: 0;
+    }
+`;
+
+
+export const ImageAddDiv = styled.div`
+
+`
+export const ImageDiv = styled.div`
+    float : left;
+    width : 78px;
+    height : 78px;
+    margin-right : 15px;
+    background-size : cover;
+    background-repeat : no-repeat;
+
+    label {
+        text-align : center;
+        display: inline-block;
+        /* padding: .5em .75em;  */
+        height : 78px;
+        width : 78px;
+        /* line-height: normal;  */
+        vertical-align: middle; 
+        background-color: #BDBDBD; 
+        cursor: pointer; 
+        border: 1px solid #ebebeb; 
+        border-bottom-color: #e2e2e2; 
+        border-radius: .25em;
+        
+        @media (max-width : 425px) {
+            width : 100%;
+        }
+    }
+
+    input[type=file] { 
+        /* 파일 필드 숨기기 */ 
+        position: absolute; 
+        width: 1px; 
+        height: 1px; 
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip:rect(0,0,0,0);
+        border: 0;
+    }
+`
+
+
+export const AddImageShowDiv = styled.div`
+    margin-top : 15px;
+    font-size : 14px;
+`
+
+export const RemoveImageIcon = styled.img`
+
 `

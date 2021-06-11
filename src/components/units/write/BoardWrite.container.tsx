@@ -3,6 +3,7 @@ import BoardWriteUI from './BoardWrite.presenter';
 import { CREATE_BOARD, UPLOAD_FILE } from './BoardWrite.queries'
 // import { useRouter } from "next/router";
 import {
+    useEffect,
 //   ChangeEvent,
 //   ChangeEventHandler,
 //   RefObject,
@@ -23,8 +24,8 @@ const dataInit = {
   title: "",
   contents: "",
   youtubeUrl : "",
-  images : [null, null, null],
-  showImages : [null, null, null]
+  images : [],
+  showImages : []
 };
 
 export default function BoardWritePage() {
@@ -37,28 +38,31 @@ export default function BoardWritePage() {
     // const addImageBtn = useRef<HTMLInputElement>();
 
     const setState = (event) => {
-        let value = event.target.value;
+        const input = {
+            ...dataList
+        }
+
+        let value = event.target.value.trim();
         if(event.target.name === 'contents') {
             // 내용 줄바꿈
             value = value.replace(/(?:\r\n|\r|\n)/g, '<br/>');
         }
 
-        dataList[event.target.name] = event.target.value;
-        setData(dataList)
+        input[event.target.name] = value;
+        setData(input)
 
         const able =
             (
-                dataList.writer.length > 0 &&
-                dataList.password.length > 0 &&
-                dataList.title.length > 0 &&
-                dataList.contents.length > 0
+                input.writer.length > 0 &&
+                input.password.length > 0 &&
+                input.title.length > 0 &&
+                input.contents.length > 0
             )
-
         setAble(able);
     }
 
     const addBoard = async (event) => {
-        event.preventDefault()
+        event.preventDefault();
 
         try{
             if(addAble === false) {
@@ -93,85 +97,67 @@ export default function BoardWritePage() {
 
     // 이미지 등록하기
     const addImage = async (event) => {
-        // 현재 이미지 파일 리스트
-        const imageList = dataInit;
+        // 파일 정보(들) 구하기
+        const fileList = event.target.files;
 
-        // 이미지 순서 구하기
-        const imageidx = Number(event.target.name);
-
-        if(imageList.showImages[imageidx] !== null) {
-
+        // 파일을 저장할 배열 가져오기
+        const inputList = { ...dataList };
+        
+        if((inputList.showImages + fileList.length) > 3) {
+            alert('총 3 개의 이미지만 업로드 할 수 있습니다.');
+            return;
         }
 
-        // 파일 정보 구하기
-        const file = event.target.files[0];
+        let url = '';
+        for(let i = 0; i < 3; i++) {
+            const fileInfo = fileList[i];
 
-        if(file !== undefined) {
-            // 이미지 사이즈 및 파일 검증하기
-            if (!checkImage(file)) return;
-            
-            let selectInx = null;
-            let list = { ...dataInit };
+            if(fileInfo !== undefined) {
+                if (!checkImage(fileInfo)) return;
 
-            for(let i = 0; i < dataInit.images.length; i++) {
-                if(dataInit.images[i] === null) {
-                    selectInx = i;
-                    break;
+                const reader = new FileReader();
+                reader.readAsDataURL(fileInfo);
+
+                reader.onload = async (event) => {
+                    // 미리보기용 사진 만들기
+                    url = String(event.target.result); 
+                                
+                    inputList.showImages.push(url);
+                }
+
+                try {
+                    const { data } = await uploadFile({ variables : { file : fileInfo } });
+
+                    url = getStorageUrl(data.uploadFile.url);
+                    inputList.images.push(url);
+    
+                } catch(err) {
+                    return alert(err)
                 }
             }
-
-            let url = '';
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = (event) => {
-                // 미리보기용 사진 만들기
-                url = String(event.target.result);
-                list.showImages[selectInx] = url;
-
-                setData(dataList);
-            }
-
-            try {
-                const { data } = await uploadFile({ variables : { file } });
-
-                url = getStorageUrl(data.uploadFile.url);
-                list.images[selectInx] = url;
-
-                setData(dataList);
-
-            } catch(err) {
-                return alert(err)
-            }
         }
+
+        // 사진 미리보기 출력하기
+        window.setTimeout( () => {
+            setData(inputList);
+        }, 100)
     }
 
     // 등록한 이미지 삭제하기
     const removeImage = (idx) => {
         // 현재 이미지 파일 리스트
-        const imageList = { ...dataList };
+        const inputList = { ...dataList };
 
-        imageList.images[idx] = null;
-        imageList.showImages[idx] = null;
+        inputList.showImages[idx] = null;
+        inputList.showImages = inputList.showImages.filter( (el) => {
+            return el !== null;
+        })
 
-        // 파일 순서 땡기기
-        for(let i = 0; i <= 1; i++) {
-            let nextIdx = null;
-            
-            if(imageList.showImages[i] === null) {
-                nextIdx = i + 1;
-                
-                imageList.showImages[i] = imageList.showImages[nextIdx];
-                imageList.showImages[nextIdx] = null;
-
-                imageList.images[i] = imageList.images[nextIdx];
-                imageList.images[nextIdx] = null;
-            }
-        }
-        setData(imageList);
-    }
-
-    const onClickUpload = () => {
-        // addImageBtn.current.click();
+        inputList.images[idx] = null;
+        inputList.images = inputList.images.filter( (el) => {
+            return el !== null;
+        })
+        setData(inputList);
     }
 
     return (
@@ -181,6 +167,7 @@ export default function BoardWritePage() {
             addAble={addAble}
             addImage={addImage}
             data={dataList}
+            showImage={dataList.showImages}
             removeImage={removeImage}
         />
     )

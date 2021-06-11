@@ -12,7 +12,9 @@ import { useRouter } from 'next/router';
 
 export const GlobalContext = createContext({
   accessToken : "",
-  setAccessToken : (_ : any) => {}
+  setAccessToken : (_ : any) => {},
+  loginEmail : "",
+  setLoginEmail : (_ : any) => {}
 })
 
 const Wrapper = styled.div`
@@ -24,7 +26,7 @@ const Wrapper = styled.div`
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
   const [ accessToken, setAccessToken ] = useState("");
-  console.log(accessToken)
+  const [ loginEmail, setLoginEmail ] = useState("");
 
   const uploadLink = createUploadLink({
     // uri : 'http://example.codebootcamp.co.kr/graphql',
@@ -80,7 +82,7 @@ function MyApp({ Component, pageProps }) {
   })
   
   return (
-    <GlobalContext.Provider value={{ accessToken, setAccessToken }}>
+    <GlobalContext.Provider value={{ accessToken, setAccessToken, loginEmail, setLoginEmail }}>
       <ApolloProvider client={client}>
         <Wrapper style={{ 'height' : '100%' }}>
           {

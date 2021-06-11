@@ -5,11 +5,15 @@ import { useRouter } from 'next/router';
 
 import { useQuery } from '@apollo/client';
 import { FETCH_USED_ITEM } from './GoodsDetail.queries';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+
+import { GlobalContext } from '../../../../../../pages/_app';
 
 export default function GoodsDetailPage() {
     const router = useRouter();
     const goodsId = router.query.id;
+
+    const { loginEmail } = useContext(GlobalContext);
 
     const [ thumb, setThumb ] = useState(0);
 
@@ -37,17 +41,19 @@ export default function GoodsDetailPage() {
         setThumb(copyThumb);
     }
 
-    console.log(goodsInfo)
-
+    console.log(goodsInfo?.fetchUseditem, loginEmail)
     return(
         <>
             <GoodsDetailUI 
                 goodsInfo={goodsInfo?.fetchUseditem}
                 selectImage={selectImage}
                 thumb={thumb}
+                loginEmail={loginEmail}
             />
 
-            <GoodsCommnetUI />
+            <GoodsCommnetUI 
+                loginEmail={loginEmail}
+            />
         </>
     )
 }

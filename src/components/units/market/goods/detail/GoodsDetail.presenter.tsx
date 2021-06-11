@@ -5,28 +5,12 @@ import {
     GoodsMapDiv, GoodsOptionDiv
 } from './GoodsDetail.style';
 import { setComma } from '../../../../../commons/libraries/validations';
-// import Slider from 'react-slick';
-// import styled from '@emotion/styled';
-
-// // slick 스타일 지정하기 //
-// const GoodsImageSlider = styled(Slider) `
-
-// `;
-//////////////////////////
-
-// const sliderSettings = {
-//     dots: true,
-//     infinite: true,
-//     speed: 500,
-//     slidesToShow: 1,
-//     slidesToScroll: 1,
-//     arrow : true
-// };
 
 export default function GoodsDetailUI({
     goodsInfo,
     selectImage,
-    thumb
+    thumb,
+    loginEmail
 }) {
     return(
         <>
@@ -125,7 +109,10 @@ export default function GoodsDetailUI({
 
                     <GoodsOptionDiv>
                         <input type='button' value='목록으로' />
-                        <input type='button' value='수정하기' />
+                        <input type='button' 
+                               value={goodsInfo?.seller?.email === loginEmail ? '수정하기' : '구매하기'}
+                               style={{ 'backgroundColor' : '#FFD600' }}
+                        />
                     </GoodsOptionDiv>
                 </GoodsDetailInfoDiv>
                 <div></div>

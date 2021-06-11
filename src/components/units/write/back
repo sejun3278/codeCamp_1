@@ -1,8 +1,9 @@
 import { 
     Wrapper, TitleDiv, HalfGrid, DivGrid, InputDiv,
     InputTitle, InputContents, TextAreaContents, HostDiv, HostNumberDiv,
-    HostNumberInput, HostNumberButton, SetMainDiv, SetMain, SelectMain, SelectLabel, SubmitDiv, Sumbit,
-    ImageAddDiv, ImageDiv, AddImageShowDiv, ImageRemoveBtn
+    HostNumberInput, HostNumberButton, ImageDiv, ImageContents, SetMainDiv, SetMain,
+    SelectMain, SelectLabel, ImageDivs, SubmitDiv, Sumbit, ImageAdd, ImageShowDiv, ImageRemoveBtn,
+    AddImageDiv, AddImageShowDiv, ShowThumbImage, ShowThumbDiv
 
 } from './BoardWrite.style';
 import imageList from '../../../../image.json'
@@ -13,7 +14,6 @@ export default function BoardWritePage({
     addAble,
     addImage,
     data,
-    showImage,
     removeImage
 }) {
 
@@ -133,22 +133,25 @@ export default function BoardWritePage({
                             />
                         </InputDiv>
 
-                        <InputDiv style={{ 'marginTop' : '10px' }}>
-                            <InputTitle> 사진 첨부 <b> ( {showImage.length} / 3 ) </b> </InputTitle>
-                            <ImageAddDiv>
-                                {showImage.map( (images, key) => {
+                        <InputDiv style={{ 'marginTop' : '30px' }}>
+                            <InputTitle> 사진 첨부 <b> ( {data.showImages.length} / 3 ) </b> </InputTitle>
+                            <ImageDiv>
+                                {data.showImages.map( (showImage, key) => {
                                     return(
-                                        <ImageDiv key={key}
-                                            style={{ 'backgroundImage' : `url(${images})`  }}
+                                        <ShowThumbDiv key={key}
+                                            style={{ 'backgroundImage' : `url(${showImage})` }}
                                         >
-                                            <ImageRemoveBtn onClick={() => removeImage(key)} alt='' src={imageList.imgRemove} />
-                                        </ImageDiv>
+                                            
+                                            {/* <ImageRemoveBtn alt='' src={imageList.imgRemove} onClick={() => removeImage(key)} /> */}
+                                            {/* <ShowThumbImage alt='' src={showImage} /> */}
+                                        </ShowThumbDiv>
                                     )
                                 })}
 
-                                {new Array(3 - showImage.length).fill(null).map( (_, key) => {
-                                    return( 
-                                        <ImageDiv key={key}>
+                                
+                                {Array(3 - data?.showImages.length).fill(1).map( (_, key) => {
+                                    return(
+                                        <ShowThumbDiv key={key}>
                                             <label htmlFor={`file_${key}`}>
                                                 <AddImageShowDiv>
                                                     <div> + </div>
@@ -162,14 +165,13 @@ export default function BoardWritePage({
                                                 onChange={addImage}
                                                 multiple
                                             />
-                                        </ImageDiv>
+                                        </ShowThumbDiv>
                                     )
                                 })}
-
-                            </ImageAddDiv>
+                            </ImageDiv>
                         </InputDiv>
 
-                        <InputDiv style={{ 'marginTop' : '40px' }}>
+                        <InputDiv style={{ 'marginTop' : '20px' }}>
                             <InputTitle> 메인 설정 </InputTitle>
                             <SetMainDiv>
                                 <SetMain> 

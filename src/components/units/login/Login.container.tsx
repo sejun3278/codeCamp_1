@@ -24,7 +24,8 @@ export default function LoginPage () {
     const [ able, setAble ] = useState(false);
     
     const [ loginUser ] = useMutation(LOGIN_USER);
-    const { setAccessToken } = useContext(GlobalContext);
+    const globalContextList = useContext(GlobalContext);
+    // const { setLoginEmail } = useContext
 
     const emailRef = useRef<HTMLInputElement>();
     const passwordRef = useRef<HTMLInputElement>();
@@ -82,7 +83,10 @@ export default function LoginPage () {
 
                 // accessToken 저장하기
                 const accessToken = login.data.loginUser.accessToken;
-                setAccessToken(accessToken);
+                globalContextList.setAccessToken(accessToken);
+
+                // 이메일 저장하기
+                globalContextList.setLoginEmail(input.email);
 
                 alert(input.email + ' 님 반갑습니다!');
                 router.push('/');

@@ -5,6 +5,7 @@ import {
 
 } from './GoodsWrite.style';
 import React from 'react';
+import imageList from '../../../../../../image.json';
 
 import 'react-quill/dist/quill.snow.css';
 
@@ -13,7 +14,7 @@ export default function MarketWrite({
     addGoods,
     able,
     nameRef,
-    file,
+    showImages,
     addFile,
     removeFile,
     formRef,
@@ -84,8 +85,37 @@ export default function MarketWrite({
                             </MarketWriteContents>
 
                             <MarketWriteContents style={{ 'marginTop' : '65px' }}>
-                                <Title> 사진 첨부 </Title>
-                                {file.map( (el, key) => {
+                                <Title> 사진 첨부 <b> ( {showImages.length} / 2 ) </b></Title>
+                                {showImages.map( (image, key) => {
+
+                                    return(
+                                        <MarketThumbDiv key={key} style={{ 'backgroundImage' : `url(${image})` }}>
+                                            <MarketThumb style={{ 'textAlign' : 'right' }}>
+                                                <RemoveThumbnail alt='' src={imageList.imgRemove} onClick={() => removeFile(key)}/>
+                                            </MarketThumb>
+                                        </MarketThumbDiv>
+                                    )
+                                })}
+
+                                {new Array(2 - showImages.length).fill(null).map( (_, key) => {
+                                    return(
+                                        <MarketThumbDiv key={key}>
+                                            <MarketThumb>
+                                                <label htmlFor={`thumb_${key}`}>
+                                                    <MarketThumbShowDiv>
+                                                        <div>
+                                                            <div> + </div>
+                                                            <div> Upload </div>
+                                                        </div>
+                                                    </MarketThumbShowDiv>
+                                                </label>
+                                                <input accept=".png" type='file' id={`thumb_${key}`} onChange={addFile} multiple />
+                                            </MarketThumb>
+                                        </MarketThumbDiv>
+                                    )
+                                })}
+
+                                {/* {file.map( (el, key) => {
                                     return(
                                         <MarketThumbDiv key={key} 
                                             style={key === 1 ? { 'textAlign' : 'right' } : undefined}
@@ -114,7 +144,7 @@ export default function MarketWrite({
 
                                         </MarketThumbDiv>
                                     )
-                                })}
+                                })} */}
                             </MarketWriteContents>
 
                             <MarketWriteContents style={{ 'marginTop' : '85px' }}>

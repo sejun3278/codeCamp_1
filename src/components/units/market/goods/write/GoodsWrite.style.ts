@@ -63,6 +63,11 @@ export const MarketWriteContents= styled.div`
 export const Title = styled.div`
     font-weight : bold;
     height : 35px;
+
+    b {
+        color : #ababab;
+        margin-left : 5px;
+    }
 `
 
 export const MarketMapGridDiv = styled.div`
@@ -137,8 +142,12 @@ export const MarketWriteBtn = styled.input`
 
 export const MarketThumbDiv = styled.div`
     float : left;
-    width : 160px;
+    width : 148px;
+    height : 148px;
     font-size : 14px;
+    background-repeat : no-repeat;
+    background-size : cover;
+    margin-right : 20px;
 
     @media (max-width : 425px) {
         width : 100%;
@@ -207,9 +216,15 @@ export const MarketThumb = styled.div`
 
 export const RemoveThumbnail = styled.img`
     position : absolute;
-    margin-left : -10px;
-    margin-top : -155px;
+    margin-left : 120px;
     cursor: pointer;
+    width : 18px;
+    cursor: pointer;
+
+    
+    @media (max-width : 425px) {
+        margin-left : -35px;
+    }
 `
 
 export const SelectMainThumbDiv = styled.div`
