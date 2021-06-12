@@ -22,6 +22,11 @@ export const FETCH_USEDITEM_QUESTIONS = gql`
     }
 `;
 
+export const DELETE_QUESTION = gql`
+    mutation deleteUseditemQuestion($useditemQuestionId : ID!) {
+        deleteUseditemQuestion(useditemQuestionId : $useditemQuestionId)
+    }
+`
 
 // export const FETCH_BOARD_COMMENTS = gql`
 //   query fetchBoardComments($page : Int, $boardId : ID!) {

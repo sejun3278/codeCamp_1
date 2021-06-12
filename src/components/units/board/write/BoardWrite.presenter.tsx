@@ -1,12 +1,11 @@
 import { 
     Wrapper, TitleDiv, HalfGrid, DivGrid, InputDiv,
     InputTitle, InputContents, TextAreaContents, HostDiv, HostNumberDiv,
-    HostNumberInput, HostNumberButton, ImageDiv, ImageContents, SetMainDiv, SetMain,
-    SelectMain, SelectLabel, ImageDivs, SubmitDiv, Sumbit, ImageAdd, ImageShowDiv, ImageRemoveBtn,
-    AddImageDiv, AddImageShowDiv, ShowThumbImage, ShowThumbDiv
+    HostNumberInput, HostNumberButton, SetMainDiv, SetMain, SelectMain, SelectLabel, SubmitDiv, Sumbit,
+    ImageAddDiv, ImageDiv, AddImageShowDiv, ImageRemoveBtn
 
 } from './BoardWrite.style';
-import imageList from '../../../../image.json'
+import imageList from '../../../../../image.json'
 
 export default function BoardWritePage({
     setState,
@@ -14,7 +13,10 @@ export default function BoardWritePage({
     addAble,
     addImage,
     data,
-    removeImage
+    showImage,
+    removeImage,
+    editMode,
+    boardInfo
 }) {
 
     return <Wrapper>
@@ -22,7 +24,7 @@ export default function BoardWritePage({
             <div> </div>
             <div>
                 <TitleDiv>
-                    게시물 등록
+                    {editMode === false ? '게시물 등록' : '게시물 수정'}
                 </TitleDiv>
 
                 <div>
@@ -36,7 +38,9 @@ export default function BoardWritePage({
                                     placeholder="이름을 적어주세요."
                                     name="writer"
                                     onChange={setState}
-                                    // defaultValue={inputs.writer}
+                                    defaultValue={data.writer}
+                                    disabled={editMode === true}
+                                    readOnly={editMode === true}
                                 />
                             </InputDiv>
 
@@ -61,6 +65,7 @@ export default function BoardWritePage({
                                 placeholder="제목을 적어주세요."
                                 name="title"
                                 onChange={setState}
+                                defaultValue={data.title}
                                 // defaultValue={title}
                                     // onChange={(event) => setState(event, 'title')}
                             />
@@ -75,6 +80,8 @@ export default function BoardWritePage({
                                 // onChange={(event) => setState(event, 'contents')}
                                 // defaultValue={contents}
                                 maxLength={500}
+                                defaultValue={data.contents}
+
                             ></TextAreaContents>
                         </InputDiv>
 
@@ -128,30 +135,27 @@ export default function BoardWritePage({
                                 placeholder="링크를 복사해주세요."
                                 name="youtubeUrl"
                                 onChange={setState}
-                                // defaultValue={youtube}
+                                defaultValue={data.youtubeUrl}
                                 // onChange={(event) => setState(event, 'youtube')}
                             />
                         </InputDiv>
 
-                        <InputDiv style={{ 'marginTop' : '30px' }}>
-                            <InputTitle> 사진 첨부 <b> ( {data.showImages.length} / 3 ) </b> </InputTitle>
-                            <ImageDiv>
-                                {data.showImages.map( (showImage, key) => {
+                        <InputDiv style={{ 'marginTop' : '10px' }}>
+                            <InputTitle> 사진 첨부 <b> ( {showImage.length} / 3 ) </b> </InputTitle>
+                            <ImageAddDiv>
+                                {showImage.map( (images, key) => {
                                     return(
-                                        <ShowThumbDiv key={key}
-                                            style={{ 'backgroundImage' : `url(${showImage})` }}
+                                        <ImageDiv key={key}
+                                            style={{ 'backgroundImage' : `url(${images})`  }}
                                         >
-                                            
-                                            {/* <ImageRemoveBtn alt='' src={imageList.imgRemove} onClick={() => removeImage(key)} /> */}
-                                            {/* <ShowThumbImage alt='' src={showImage} /> */}
-                                        </ShowThumbDiv>
+                                            <ImageRemoveBtn onClick={() => removeImage(key)} alt='' src={imageList.imgRemove} />
+                                        </ImageDiv>
                                     )
                                 })}
 
-                                
-                                {Array(3 - data?.showImages.length).fill(1).map( (_, key) => {
-                                    return(
-                                        <ShowThumbDiv key={key}>
+                                {new Array(3 - showImage.length).fill(null).map( (_, key) => {
+                                    return( 
+                                        <ImageDiv key={key}>
                                             <label htmlFor={`file_${key}`}>
                                                 <AddImageShowDiv>
                                                     <div> + </div>
@@ -165,13 +169,14 @@ export default function BoardWritePage({
                                                 onChange={addImage}
                                                 multiple
                                             />
-                                        </ShowThumbDiv>
+                                        </ImageDiv>
                                     )
                                 })}
-                            </ImageDiv>
+
+                            </ImageAddDiv>
                         </InputDiv>
 
-                        <InputDiv style={{ 'marginTop' : '20px' }}>
+                        <InputDiv style={{ 'marginTop' : '40px' }}>
                             <InputTitle> 메인 설정 </InputTitle>
                             <SetMainDiv>
                                 <SetMain> 
@@ -196,7 +201,7 @@ export default function BoardWritePage({
                         </InputDiv>
 
                         <SubmitDiv>
-                            <Sumbit type='submit' value="등록하기"
+                            <Sumbit type='submit' value={editMode === true ? '수정하기' : '등록하기'}
                                 style={addAble === true ? { 'cursor' : 'pointer' } : { 'cursor' : 'not-allowed' } }
                                 color={addAble === true ? "#FFD600" : "#bbb"}
                             />

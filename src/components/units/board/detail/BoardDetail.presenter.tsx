@@ -3,21 +3,16 @@ import {
     BoardContentsDiv, BoardTitle, BoardImagesDiv, BoardContents, BoardYoutubeDiv, BoardYoutube, BoardLikeAndDislikeDiv, BoardLikeDiv, BoardDislikeDiv,
     BoardLikeAndDislikeIcon, BoardLikeAndDislikeCount, PageWrapper, PageWrapperGrid, BoradOptionDiv, BoardImage
 } from './BoardDetail.style';
-import ReplyUI from '../reply/Reply.container';
+import ReplyUI from './reply/Reply.container';
 import LazyLoad from 'react-lazy-load';
 
 export default function BoardWritePage({
     boardInfo,
     imageList,
     contents,
-    // replyCount,
     ToggleLikeOrdisLike,
-    router
-    // addReply,
-    // saveReplyWriterInfo,
-    // replyAble,
-    // initRating,
-    // rating
+    router,
+    boardId
 }) {
     return <Wrapper>
         <DivGrid>
@@ -35,21 +30,21 @@ export default function BoardWritePage({
                                     </WriterThumbnailDiv>
 
                                     <WriterNameDiv>
-                                        <WriterName> {boardInfo.writer} </WriterName>
-                                        <WriterDate color="#828282"> Date : {boardInfo.createdAt.slice(0, 10)} </WriterDate>
+                                        <WriterName> {boardInfo?.fetchBoard.writer} </WriterName>
+                                        <WriterDate color="#828282"> Date : {boardInfo?.fetchBoard?.createdAt.slice(0, 10)} </WriterDate>
                                     </WriterNameDiv>
                                 </WriterInfo>
                             </WriterInfoDiv>
 
                             <BoardContentsDiv>
                                 <BoardTitle>
-                                    {boardInfo.title}
+                                    {boardInfo?.fetchBoard?.title}
                                 </BoardTitle>
 
-                                {boardInfo.images.length > 0
+                                {boardInfo?.fetchBoard?.images.length > 0
                                     &&  <BoardImagesDiv>
                                             {/* 이미지 들어갈 부분 */}
-                                            {boardInfo.images.map( (el, key) => {
+                                            {boardInfo?.fetchBoard?.images.map( (el, key) => {
                                                 return(
                                                     <LazyLoad key={key}>
                                                         <BoardImage>
@@ -66,9 +61,9 @@ export default function BoardWritePage({
                                 <BoardContents dangerouslySetInnerHTML={{ __html : contents }} />
 
                                 {/* 유튜브 연결 */}
-                                {boardInfo.youtubeUrl !== null && boardInfo.youtubeUrl.length > 0
+                                {boardInfo?.fetchBoard?.youtubeUrl !== null && boardInfo?.fetchBoard?.youtubeUrl.length > 0
                                     &&  <BoardYoutubeDiv>
-                                            <BoardYoutube src={boardInfo.youtubeUrl} frameBorder='0' encrypted-media />
+                                            <BoardYoutube src={boardInfo?.fetchBoard?.youtubeUrl} frameBorder='0' encrypted-media />
                                         </BoardYoutubeDiv>
                                 }
 
@@ -76,12 +71,12 @@ export default function BoardWritePage({
                                 <BoardLikeAndDislikeDiv>
                                     <BoardLikeDiv title='좋아요'>
                                         <BoardLikeAndDislikeIcon alt='' src={imageList.like} onClick={() => ToggleLikeOrdisLike(true)} />
-                                        <BoardLikeAndDislikeCount color="#828282"> {boardInfo.likeCount} </BoardLikeAndDislikeCount>
+                                        <BoardLikeAndDislikeCount color="#828282"> {boardInfo?.fetchBoard?.likeCount} </BoardLikeAndDislikeCount>
                                     </BoardLikeDiv>
 
                                     <BoardDislikeDiv title='싫어요'>
                                         <BoardLikeAndDislikeIcon alt='' src={imageList.dislike} onClick={() => ToggleLikeOrdisLike(false)} />
-                                        <BoardLikeAndDislikeCount color="#828282"> {boardInfo.dislikeCount} </BoardLikeAndDislikeCount>
+                                        <BoardLikeAndDislikeCount color="#828282"> {boardInfo?.fetchBoard?.dislikeCount} </BoardLikeAndDislikeCount>
                                     </BoardDislikeDiv>
 
                                 </BoardLikeAndDislikeDiv>
@@ -94,7 +89,7 @@ export default function BoardWritePage({
 
                 <BoradOptionDiv>
                     <input type='button' value='목록으로' onClick={() => router.push('/')}/>
-                    <input type='button' value='수정하기'/>
+                    <input type='button' value='수정하기' onClick={() => router.push(`/board/edit/${boardId}`)}/>
                 </BoradOptionDiv>
 
                 {/* 댓글 컴포넌트 추가 */}

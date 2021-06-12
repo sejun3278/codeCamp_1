@@ -1,14 +1,7 @@
 import ReplyUI from './Reply.presenter';
 import { CREATE_BOARD_COMMENT, FETCH_BOARD_COMMENTS, DELETE_BOARD_COMMENT, UPDATE_BOARD_COMMENT } from './Reply.queries';
-import {
-    //   ChangeEvent,
-    //   ChangeEventHandler,
-    //   RefObject,
-      useEffect,
-      useRef,
-      useState,
-} from "react";
-import { fromPromise, useMutation, useQuery } from '@apollo/client';
+import { useRef, useState } from "react";
+import { useMutation, useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
 
 const initionl = {
@@ -33,14 +26,14 @@ export default function ReplyPage () {
 
     const [ replyAble, setReplyAble ] = useState(false);
     const [ replyModifyAble, setReplyModifyAble ] = useState(false);
-    const imageList = require('../../../../image.json');
+    const imageList = require('../../../../../../image.json');
 
     const [ createBoardComment ] = useMutation(CREATE_BOARD_COMMENT);
     const [ deleteBoardComment ] = useMutation(DELETE_BOARD_COMMENT);
     const [ updateBoardComment ] = useMutation(UPDATE_BOARD_COMMENT);
     
     // 댓글 리스트 조회하기
-    const { loading, data, fetchMore } = useQuery(FETCH_BOARD_COMMENTS, {
+    const { data, fetchMore } = useQuery(FETCH_BOARD_COMMENTS, {
         variables : {
             page : page,
             boardId : boardId
@@ -197,7 +190,7 @@ export default function ReplyPage () {
                 setModifyTarget(null);
 
             } catch(error) {
-                alert(error);
+                alert(error.message);
                 return console.log(error);
             }
         }
@@ -223,7 +216,7 @@ export default function ReplyPage () {
 
     // 댓글 수정하기
     const modifyReplyFn = async (cancel) => {
-        if(cancel) {
+        if(cancel === true) {
             setModifyTarget(null);
             setModfiyReply(input);
 
@@ -231,6 +224,8 @@ export default function ReplyPage () {
             if(replyModifyAble === false) {
                 return alert('빈칸을 모두 입력해주세요.');
             }
+
+            alert(modfiyReply.password);
 
             try {
                 await updateBoardComment({
@@ -257,41 +252,36 @@ export default function ReplyPage () {
                 setModifyTarget(null);
                 setModfiyReply(input);
 
+                setReplyModifyAble(false);
+
             } catch(error) {
                 alert(error);
                 return console.log(error);
             }
         }
     }
-
-    if(loading === false) {    
-        return( 
-            <ReplyUI 
-                imageList={imageList}
-                addReply={addReply}
-                replyAble={replyAble}
-                initRating={initRating}
-                saveReplyWriterInfo={saveReplyWriterInfo}
-                replyList={data.fetchBoardComments}
-                onloadMore={onloadMore}
-                input={input}
-                modal={modal}
-                toggleModals={toggleModals}
-                setConfirmPassword={setConfirmPassword}
-                confirmPassword={confirmPassword}
-                removeReply={removeReply}
-                passInput={passInput}
-                initModifyTarget={initModifyTarget}
-                modifyTarget={modifyTarget}
-                modfiyReplyInput={modfiyReply}
-                replyModifyAble={replyModifyAble}
-                modifyReply={modifyReplyFn}
-            />
-        )
-
-    } else {
-        return(
-            <div />
-        )
-    }
+  
+    return( 
+        <ReplyUI 
+            imageList={imageList}
+            addReply={addReply}
+            replyAble={replyAble}
+            initRating={initRating}
+            saveReplyWriterInfo={saveReplyWriterInfo}
+            replyList={data}
+            onloadMore={onloadMore}
+            input={input}
+            modal={modal}
+            toggleModals={toggleModals}
+            setConfirmPassword={setConfirmPassword}
+            confirmPassword={confirmPassword}
+            removeReply={removeReply}
+            passInput={passInput}
+            initModifyTarget={initModifyTarget}
+            modifyTarget={modifyTarget}
+            modfiyReplyInput={modfiyReply}
+            replyModifyAble={replyModifyAble}
+            modifyReply={modifyReplyFn}
+        />
+    )
 }

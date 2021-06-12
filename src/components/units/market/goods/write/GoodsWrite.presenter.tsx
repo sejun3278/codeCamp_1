@@ -9,6 +9,10 @@ import imageList from '../../../../../../image.json';
 
 import 'react-quill/dist/quill.snow.css';
 
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import Map from '../map/Map.presenter';
+
 export default function MarketWrite({
     changeInput,
     addGoods,
@@ -20,7 +24,7 @@ export default function MarketWrite({
     formRef,
     remarksRef,
     contentsRef,
-    priceRef
+    priceRef,
 }) {
     return(
         <MarketWriteDiv>
@@ -45,12 +49,21 @@ export default function MarketWrite({
                                 <input ref={remarksRef} type='text' name='remarks' placeholder='한줄로 설명할 문구를 작성해주세요.' maxLength={50} onChange={changeInput} />
                             </MarketWriteContents>
 
-                            <MarketWriteContents>
+                            <MarketWriteContents style={{ 'minHeight' : '250px' }}>
                                 <Title> 상품 설명 * </Title>
-                                <textarea ref={contentsRef} name='contents' placeholder='상품 설명을 입력해주세요.' onChange={changeInput}></textarea>
+                                {/* <CKEditor
+                                    editor={ ClassicEditor }
+                                    data="<p></p>"
+                                    onReady={ editor => {
+                                        // You can store the "editor" and use when it is needed.
+                                        console.log( 'Editor is ready to use!', editor );
+                                    } }
+                                    onChange={(event, data ) => changeInput(event, true, data)}
+                                /> */}
+                                {/* <textarea ref={contentsRef} name='contents' placeholder='상품 설명을 입력해주세요.' onChange={changeInput}></textarea> */}
                             </MarketWriteContents>
 
-                            <MarketWriteContents>
+                            <MarketWriteContents style={{ 'marginTop' : '50px' }}>
                                 <Title> 판매가격 * </Title>
                                 <input ref={priceRef} type='number' name='price' placeholder='판매 가격을 입력해주세요.' min={0} onChange={changeInput}/>
                             </MarketWriteContents>
@@ -64,7 +77,9 @@ export default function MarketWrite({
                                 <MarketMapGridDiv>
                                     <MarketMapDiv>
                                         <Title> 거래 위치 </Title>
-                                        <img alt='' src='/images/map.png'/>
+                                        <div>
+                                            <Map />
+                                        </div>
                                     </MarketMapDiv>
 
                                     <div>
@@ -114,37 +129,6 @@ export default function MarketWrite({
                                         </MarketThumbDiv>
                                     )
                                 })}
-
-                                {/* {file.map( (el, key) => {
-                                    return(
-                                        <MarketThumbDiv key={key} 
-                                            style={key === 1 ? { 'textAlign' : 'right' } : undefined}
-                                        >
-                                            {el === null
-                                            ?
-                                                <MarketThumb>
-                                                    <label htmlFor={`thumb_${key}`}>
-                                                        <MarketThumbShowDiv>
-                                                            <div>
-                                                                <div> + </div>
-                                                                <div> Upload </div>
-                                                            </div>
-                                                        </MarketThumbShowDiv>
-                                                    </label>
-                                                    <input accept=".png" type='file' id={`thumb_${key}`} onChange={addFile} />
-                                                </MarketThumb>
-
-                                            :  <MarketThumb style={{ 'textAlign' : 'right' }}>
-                                                    <MarketThumbnailShow
-                                                        style={{ 'backgroundImage' : `url(${el})` }}
-                                                    />
-                                                    <RemoveThumbnail alt='' src='/images/close.png' onClick={() => removeFile(key)}/>
-                                                </MarketThumb>
-                                            }
-
-                                        </MarketThumbDiv>
-                                    )
-                                })} */}
                             </MarketWriteContents>
 
                             <MarketWriteContents style={{ 'marginTop' : '85px' }}>

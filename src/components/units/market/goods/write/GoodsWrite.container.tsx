@@ -34,17 +34,27 @@ export default function MarketGoodsPage () {
     const kakaoKey = "52c079a2821b29491ec6470e2b957f3e";
 
     // input 값 저장하기
-    const changeInput = (event) => {
+    const changeInput = (event, contentsType, contents) => {
         const inputs = { ...input };
-        const type = event.target.name;
 
-        let value = event.target.value.trim();
-        if(type === 'tags') {
-            // 태그인 경우 배열화 시켜서 배열에 저장한다.
-            value = (value).trim().slice(1, value.length + 1).split('#');
+        let value;
+        let type;
 
-        } else if(type === 'price') {
-            value = Number(value);
+        if(!contentsType) { 
+            value = event.target.value.trim();       
+            type = event.target.name;
+
+            if(type === 'tags') {
+                // 태그인 경우 배열화 시켜서 배열에 저장한다.
+                value = (value).trim().slice(1, value.length + 1).split('#');
+
+            } else if(type === 'price') {
+                value = Number(value);
+            }
+
+        } else {
+            value = contents.getData();
+            type = 'contents'
         }
         inputs[type] = value;
 

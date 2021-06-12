@@ -15,10 +15,10 @@ export default function MainPage () {
     const [ page, setPage ] = useState(1);
 
     // 베스트 게시글 가져오기
-    const { data : bestBoards, loading : bestBoardsLoading } = useQuery(FETCH_BOARDS_OF_THE_BEST);
+    const { data : bestBoards } = useQuery(FETCH_BOARDS_OF_THE_BEST);
     
     // 전체 게시글 가져오기
-    const { data : boards, loading : boardsLoading } = useQuery(FETCH_BOARDS, {
+    const { data : boards } = useQuery(FETCH_BOARDS, {
         variables : {
             search : search,
             page : page
@@ -26,7 +26,7 @@ export default function MainPage () {
     }); 
 
     // 전체 게시글 수 가져오기
-    const { data : boardsCount, loading : boardsCountLoading } = useQuery(FETCH_BOARDS_COUNT, {
+    const { data : boardsCount } = useQuery(FETCH_BOARDS_COUNT, {
         variables : {
             search : search
         }
@@ -70,8 +70,7 @@ export default function MainPage () {
         setPage(movePage);
     }
 
-    if(bestBoardsLoading === false && boardsLoading === false && boardsCountLoading === false) {
-        const allCount = boardsCount !== undefined ? boardsCount.fetchBoardsCount : undefined;
+        const allCount = boardsCount !== undefined && boardsCount?.fetchBoardsCount
         const allPage = Math.ceil(allCount / 10);
         // ( 1423 / 10 ) 을 올림한 값인 143 을 받는다. == 총 143 개의 페이지가 있음
         const allBlock = Math.ceil(allPage / 10);
@@ -95,9 +94,10 @@ export default function MainPage () {
         if(allCount === 0) {
             nextBlock = false;
         }
+
         return(
             <MainUI 
-                bestBoards={bestBoards.fetchBoardsOfTheBest}
+                bestBoards={bestBoards}
                 router={router}
                 searchBtn={searchBtn}
                 searchInput={searchInput}
@@ -113,9 +113,4 @@ export default function MainPage () {
                 // prevBlcok={prevBlcok}
             />
         )
-    } else {
-        return (
-            <div />
-        )
     }
-}

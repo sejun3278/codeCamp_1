@@ -32,7 +32,7 @@ export default function MainPage({
                 <BestContentsDiv>
                     <h2> 베스트 게시글 </h2>
                     <BestItemListDiv>
-                        {bestBoards.map( (bestBoard, key) => {
+                        {bestBoards?.fetchBoardsOfTheBest?.map( (bestBoard, key) => {
                             return(
                                 <BestItems key={key}
                                     onClick={() => router.push(`/board/${bestBoard._id}`)}
@@ -73,12 +73,8 @@ export default function MainPage({
                 </form>
 
                 <BoardsListDiv>
-                    {boards === undefined
-                        ? <EmptyPage>
-                            <h2> 게시물을 찾을 수 없습니다. </h2>
-                          </EmptyPage>
-
-                        : <BoardListDivs>
+                    {boards !== undefined
+                        && <BoardListDivs>
                             <BoardsCount> 총 {setComma(boardsCount?.fetchBoardsCount)} 개의 게시물이 조회되었습니다. </BoardsCount>
                           
                             <BoardListContentsDiv>
@@ -90,7 +86,7 @@ export default function MainPage({
                                 </BoardContents>
                                 
                                 <BoardsContentDiv>
-                                {boards.fetchBoards.map( (el, key) => {
+                                {boards?.fetchBoards.map( (el, key) => {
                                     
                                     let title = el.title;
                                     if(search !== "") {
@@ -146,7 +142,7 @@ export default function MainPage({
 
                     </BoardListPageDiv>
 
-                    <BoardWriteDiv onClick={() => router.push('/board')}>
+                    <BoardWriteDiv onClick={() => router.push('/board/write')}>
                         <img alt='' src='./images/write.png'/>
                         게시물 등록하기
                     </BoardWriteDiv>

@@ -38,6 +38,11 @@ export const MarketContentsGridDiv = styled.div`
 `
 
 export const MarketWriteContentsDiv = styled.div`
+
+    .ck-reset .ck-editor__main .ck-editor__editable {
+        min-height : 150px;
+        padding-left : 15px;
+    }
 `
 
 export const MarketWriteContents= styled.div`
@@ -76,12 +81,7 @@ export const MarketMapGridDiv = styled.div`
 `
 
 export const MarketMapDiv = styled.div`
-    img {
-        width : 90%;
-        /* max-width : 384px; */
-        height : 220px;
-        /* height : 100%; */
-    }
+
 
 `
 

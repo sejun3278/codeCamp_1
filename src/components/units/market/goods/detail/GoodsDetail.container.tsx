@@ -17,7 +17,7 @@ export default function GoodsDetailPage() {
 
     const [ thumb, setThumb ] = useState(0);
 
-    const { data : goodsInfo } = useQuery(FETCH_USED_ITEM, {
+    const { data : goodsInfo, loading } = useQuery(FETCH_USED_ITEM, {
         variables : {
             useditemId : goodsId
         }
@@ -40,8 +40,7 @@ export default function GoodsDetailPage() {
 
         setThumb(copyThumb);
     }
-
-    console.log(goodsInfo?.fetchUseditem, loginEmail)
+    
     return(
         <>
             <GoodsDetailUI 

@@ -122,6 +122,7 @@ export const ReplyWriteSumbit = styled.input`
 export const ReplyListContents = styled.div`
     min-height : 80px;
     margin-top : 40px;
+    padding-bottom : 40px;
 `
 
 export const ReplyList = styled.div`

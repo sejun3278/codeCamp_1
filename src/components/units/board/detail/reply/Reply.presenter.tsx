@@ -84,7 +84,7 @@ export default function BoardReplyPage({
                     hasMore={true}
                     // height={600}
                 >
-                {replyList.map( (el, key) => {
+                {replyList?.fetchBoardComments?.map( (el, key) => {
                     const ratingArr = new Array(5).fill(key + 1);
                     const replyRating = el.rating;
 
@@ -146,7 +146,7 @@ export default function BoardReplyPage({
                                     <ReplyOptionaryDiv>
                                         <ReplyLimit> {modfiyReplyInput.contents.length} / 100 </ReplyLimit>
 
-                                        <ReplyWriteSumbit type='button' value='수정하기' onClick={modifyReply}
+                                        <ReplyWriteSumbit type='button' value='수정하기' onClick={() => modifyReply(false)}
                                             style={replyModifyAble === true ? { 'backgroundColor' : '#FFD600', 'color' : 'black' } : undefined}
                                         />
                                         <ReplyWriteSumbit type='button' value='취소' onClick={() => modifyReply(true)} />

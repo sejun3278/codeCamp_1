@@ -83,6 +83,12 @@ function MyApp({ Component, pageProps }) {
   
   return (
     <GlobalContext.Provider value={{ accessToken, setAccessToken, loginEmail, setLoginEmail }}>
+      
+      <script
+        type="text/javascript"
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=52c079a2821b29491ec6470e2b957f3e&autoload=false">    
+      </script>
+      
       <ApolloProvider client={client}>
         <Wrapper style={{ 'height' : '100%' }}>
           {

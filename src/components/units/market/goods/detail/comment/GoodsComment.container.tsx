@@ -2,7 +2,7 @@ import { useState, useRef, useContext } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 
 import GoodsCommentUI from './GoodsComment.presenter';
-import { CREATE_USEDITEM_QUESTION, FETCH_USEDITEM_QUESTIONS } from './GoodsComment.queries';
+import { CREATE_USEDITEM_QUESTION, FETCH_USEDITEM_QUESTIONS, DELETE_QUESTION } from './GoodsComment.queries';
 import { useRouter } from 'next/router';
 
 export default function GoodsCommentPage(
@@ -14,7 +14,7 @@ export default function GoodsCommentPage(
     const [ comment, setComment ] = useState("");
     const [ page, setPage ] = useState(1);
     const [ createUseditemQuestion ] = useMutation(CREATE_USEDITEM_QUESTION);
-
+    const [ deletUseditemQuestion ] = useMutation(DELETE_QUESTION);
 
     const commentRef = useRef<HTMLInputElement>();
 

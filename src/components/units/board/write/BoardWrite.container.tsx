@@ -1,24 +1,13 @@
 import BoardWriteUI from './BoardWrite.presenter';
-// import { TEST_BOARD } from './BoardWrite.queries';
-import { CREATE_BOARD, UPLOAD_FILE } from './BoardWrite.queries'
-// import { useRouter } from "next/router";
-import {
-    useEffect,
-//   ChangeEvent,
-//   ChangeEventHandler,
-//   RefObject,
-//   useEffect,
-  useRef,
-  useState,
-} from "react";
-import { fromPromise, useMutation, useQuery, ApolloError } from '@apollo/client';
+import { CREATE_BOARD, UPLOAD_FILE, FETCH_BOARD, UPDATE_BOARD } from './BoardWrite.queries';
+import { useState } from "react";
+import { useMutation, useQuery } from '@apollo/client';
 
 import { useRouter } from 'next/router';
-import { checkImage } from '../../../commons/libraries/validations';
-import { getStorageUrl } from '../../../commons/libraries/utils';
-import { promises } from 'stream';
+import { checkImage } from '../../../../commons/libraries/validations';
+import { getStorageUrl } from '../../../../commons/libraries/utils';
 
-const dataInit = {
+let dataInit = {
   writer: "",
   password: "",
   title: "",
@@ -29,18 +18,39 @@ const dataInit = {
 };
 
 export default function BoardWritePage() {
+    const router = useRouter();
+    const boardId = router.query.id;
+
+    // 수정 모드인지 확인한다.
+    const editMode = router.pathname.includes('edit');
+
+    const { data : boardInfo, loading } = useQuery(FETCH_BOARD, {
+        variables : {
+            boardId : boardId
+        }
+    })
+
+    if(loading === false) {
+        const info = boardInfo?.fetchBoard;
+
+        if(info) {
+            dataInit['writer'] = info?.writer;
+            dataInit['title'] = info?.title;
+            dataInit['contents'] = info?.contents;
+            dataInit['youtubeUrl'] = info?.youtubeUrl;
+            dataInit['images'] = info?.images;
+            dataInit['showImages'] = info?.images;
+        }
+    }
+
     const [dataList, setData] = useState(dataInit);
     const [addAble, setAble] = useState(false);
     const [ createBoard ] = useMutation(CREATE_BOARD);
     const [ uploadFile ] = useMutation(UPLOAD_FILE);
-
-    const router = useRouter();
-    // const addImageBtn = useRef<HTMLInputElement>();
+    const [ updateBoard ] = useMutation(UPDATE_BOARD);
 
     const setState = (event) => {
-        const input = {
-            ...dataList
-        }
+        const input = { ...dataList };
 
         let value = event.target.value.trim();
         if(event.target.name === 'contents') {
@@ -53,10 +63,10 @@ export default function BoardWritePage() {
 
         const able =
             (
-                input.writer.length > 0 &&
-                input.password.length > 0 &&
-                input.title.length > 0 &&
-                input.contents.length > 0
+                input?.writer?.length > 0 &&
+                input?.password?.length > 0 &&
+                input?.title?.length > 0 &&
+                input?.contents?.length > 0
             )
         setAble(able);
     }
@@ -71,26 +81,46 @@ export default function BoardWritePage() {
 
             } else {
                 // 이미지 배열에서 null 값 제외하기
-                const images = dataList.images.filter( (el) => { return el !== null })
+                // const images = dataList.images.filter( (el) => { return el !== null })
 
-                const add = await createBoard({
-                    variables : {
-                        createBoardInput : {
-                            writer : dataList.writer,
-                            password : dataList.password,
-                            title : dataList.title,
-                            contents : dataList.contents,
-                            youtubeUrl : dataList.youtubeUrl,
-                            images : images
+                if(editMode === false) {
+                    const add = await createBoard({
+                        variables : {
+                            createBoardInput : {
+                                writer : dataList.writer,
+                                password : dataList.password,
+                                title : dataList.title,
+                                contents : dataList.contents,
+                                youtubeUrl : dataList.youtubeUrl,
+                                images : dataList.images
+                            }
                         }
-                    }
-                });
+                    });
 
-                alert('게시물 등록이 완료되었습니다.');
-                router.push(`/board/${add.data?.createBoard._id}`)
+                    alert('게시물 등록이 완료되었습니다.');
+                    router.push(`/board/${add.data?.createBoard._id}`);
+
+                } else {
+                    const update = await updateBoard({
+                        variables : {
+                            updateBoardInput : {
+                                title : dataList.title,
+                                contents : dataList.contents,
+                                youtubeUrl : dataList.youtubeUrl,
+                                images : dataList.images
+                            },
+                            paasword : dataList.password,
+                            boardId : boardId
+                        }
+                    })
+
+                    alert('게시물 수정이 완료되었습니다.');
+                    router.push(`/board/${update.data?.updateBoard._id}`);
+                }
             }
 
         } catch(error) {
+            console.log(error)
             return alert("게시물 등록에 실패했습니다.");
         }
     }
@@ -102,6 +132,12 @@ export default function BoardWritePage() {
 
         // 파일을 저장할 배열 가져오기
         const inputList = { ...dataList };
+
+        if(editMode === true) {
+            // 수정을 위해 기존의 배열을 복사한다.
+            inputList.showImages = inputList.showImages.slice(0);
+            inputList.images = inputList.images.slice(0);
+        }
         
         if((inputList.showImages + fileList.length) > 3) {
             alert('총 3 개의 이미지만 업로드 할 수 있습니다.');
@@ -148,6 +184,12 @@ export default function BoardWritePage() {
         // 현재 이미지 파일 리스트
         const inputList = { ...dataList };
 
+        if(editMode === true) {
+            // 수정을 위해 기존의 배열을 복사한다.
+            inputList.showImages = inputList.showImages.slice(0);
+            inputList.images = inputList.images.slice(0);
+        }
+
         inputList.showImages[idx] = null;
         inputList.showImages = inputList.showImages.filter( (el) => {
             return el !== null;
@@ -160,6 +202,8 @@ export default function BoardWritePage() {
         setData(inputList);
     }
 
+    console.log(dataList)
+
     return (
         <BoardWriteUI 
             setState={setState}
@@ -169,6 +213,8 @@ export default function BoardWritePage() {
             data={dataList}
             showImage={dataList.showImages}
             removeImage={removeImage}
+            editMode={editMode}
+            boardInfo={boardInfo}
         />
     )
 }
