@@ -40,7 +40,7 @@ export default function GoodsDetailPage() {
 
         setThumb(copyThumb);
     }
-    
+
     return(
         <>
             <GoodsDetailUI 
@@ -48,6 +48,7 @@ export default function GoodsDetailPage() {
                 selectImage={selectImage}
                 thumb={thumb}
                 loginEmail={loginEmail}
+                router={router}
             />
 
             <GoodsCommnetUI 

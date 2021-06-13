@@ -65,7 +65,7 @@ export default function HeaderPage({
                 </HeaderCategory>
                 <HeaderCategory
                     style={router.route.includes('/market') ? { 'color' : 'black' } : undefined}
-                    onClick={() => moveUrl('/market/write')}
+                    onClick={() => moveUrl('/market')}
                 > 
                     중고마켓 
                 </HeaderCategory>

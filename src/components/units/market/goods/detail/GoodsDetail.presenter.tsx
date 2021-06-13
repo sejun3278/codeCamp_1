@@ -10,7 +10,8 @@ export default function GoodsDetailUI({
     goodsInfo,
     selectImage,
     thumb,
-    loginEmail
+    loginEmail,
+    router
 }) {
     return(
         <>
@@ -108,7 +109,9 @@ export default function GoodsDetailUI({
                     </GoodsInfoDiv>
 
                     <GoodsOptionDiv>
-                        <input type='button' value='목록으로' />
+                        <input type='button' value='목록으로' 
+                               onClick={() => router.push('/market')}
+                        />
                         <input type='button' 
                                value={goodsInfo?.seller?.email === loginEmail ? '수정하기' : '구매하기'}
                                style={{ 'backgroundColor' : '#FFD600' }}
