@@ -17,7 +17,7 @@ export default function GoodsDetailPage() {
 
     const [ thumb, setThumb ] = useState(0);
 
-    const { data : goodsInfo, loading } = useQuery(FETCH_USED_ITEM, {
+    const { data : goodsInfo } = useQuery(FETCH_USED_ITEM, {
         variables : {
             useditemId : goodsId
         }
@@ -41,6 +41,37 @@ export default function GoodsDetailPage() {
         setThumb(copyThumb);
     }
 
+    // 이미 본 상품 구성하기
+    if(typeof window !== 'undefined') {
+        const localStorage = window.localStorage;
+
+        if(localStorage.goodsLog === undefined) {
+            window.localStorage.setItem('goodsLog', JSON.stringify([]));
+        }
+
+        let logList = JSON.parse(localStorage.getItem('goodsLog'));
+        const goods = goodsInfo?.fetchUseditem;
+
+        if(goods) {
+            // 중복 여부 체크하기
+            for(let i = 0; i < logList.length; i++) {
+                if(logList[i]) {
+                    if(logList[i]._id === goodsId) {
+                        logList[i] = null;
+                    }
+                }
+            }
+
+            logList = logList.filter( (el) => {
+                return el !== null;
+            })
+            logList.push(goods);
+
+            window.localStorage.setItem('goodsLog', JSON.stringify(logList));
+        }
+    }
+
+    console.log(goodsInfo)
     return(
         <>
             <GoodsDetailUI 
@@ -52,6 +83,7 @@ export default function GoodsDetailPage() {
             />
 
             <GoodsCommnetUI 
+                goodsInfo={goodsInfo?.fetchUseditem}
                 loginEmail={loginEmail}
             />
         </>

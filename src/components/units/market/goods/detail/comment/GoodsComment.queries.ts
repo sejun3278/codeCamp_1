@@ -17,6 +17,7 @@ export const FETCH_USEDITEM_QUESTIONS = gql`
             createdAt
             user {
                 email
+                name
             }
         }
     }
@@ -24,18 +25,23 @@ export const FETCH_USEDITEM_QUESTIONS = gql`
 
 export const DELETE_QUESTION = gql`
     mutation deleteUseditemQuestion($useditemQuestionId : ID!) {
-        deleteUseditemQuestion(useditemQuestionId : $useditemQuestionId)
+        deleteUseditemQuestion(useditemQuestionId : $useditemQuestionId) 
+    }
+`;
+
+export const UPDATE_USEDITEM_QUESTION = gql`
+    mutation updateUseditemQuestion($updateUseditemQuestionInput : UpdateUseditemQuestionInput!, $useditemQuestionId : ID!) {
+        updateUseditemQuestion(updateUseditemQuestionInput : $updateUseditemQuestionInput, useditemQuestionId : $useditemQuestionId) {
+            _id
+        }
     }
 `
 
-// export const FETCH_BOARD_COMMENTS = gql`
-//   query fetchBoardComments($page : Int, $boardId : ID!) {
-//       fetchBoardComments(page : $page, boardId : $boardId) {
-//         _id
-//         writer
-//         contents
-//         rating
-//         createdAt
-//     }
-//   }
-// `
+export const CREATE_USEDITEM_ANSWER = gql`
+    mutation createUseditemQuestionAnswer($createUseditemQuestionAnswerInput : CreateUseditemQuestionAnswerInput!, $useditemQuestionId : ID!) {
+        createUseditemQuestionAnswer(createUseditemQuestionAnswerInput : $createUseditemQuestionAnswerInput, useditemQuestionId : $useditemQuestionId) {
+            _id
+            contents
+        }
+    }
+`

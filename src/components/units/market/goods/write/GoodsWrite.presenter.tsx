@@ -51,7 +51,7 @@ export default function MarketWrite({
 
                             <MarketWriteContents style={{ 'minHeight' : '250px' }}>
                                 <Title> 상품 설명 * </Title>
-                                {/* <CKEditor
+                                <CKEditor
                                     editor={ ClassicEditor }
                                     data="<p></p>"
                                     onReady={ editor => {
@@ -59,7 +59,7 @@ export default function MarketWrite({
                                         console.log( 'Editor is ready to use!', editor );
                                     } }
                                     onChange={(event, data ) => changeInput(event, true, data)}
-                                /> */}
+                                />
                                 {/* <textarea ref={contentsRef} name='contents' placeholder='상품 설명을 입력해주세요.' onChange={changeInput}></textarea> */}
                             </MarketWriteContents>
 

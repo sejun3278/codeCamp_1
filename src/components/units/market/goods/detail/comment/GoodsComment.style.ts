@@ -114,3 +114,89 @@ export const MyComment = styled.div`
     }
 
 `
+
+export const ModifyModalDiv = styled.div`
+    p {
+        text-align : center;
+        margin : 10px 0px;
+        font-size : 15px;
+        font-weight : bold;
+    }
+
+    textarea {
+        margin-top : 10px;
+        width : 100%;
+        height : 80px;
+        resize : none;
+        padding : 10px;
+        border-color : #ababab;
+    }
+`
+
+export const ModifyOptionDiv = styled.div`
+    border : solid 1px #ababab;
+    height : 30px;
+    margin-top : -10px;
+    padding : 5px;
+    color : #ababab;
+    text-align : right;
+`
+
+export const ModifyConfirmDiv = styled.div`
+    margin-top : 20px;
+
+    input {
+        min-width : 40%;
+        height : 30px;
+        cursor: pointer;
+        margin : 0px 16px;
+        border-color : #ababab;
+        background-color : white;
+        font-weight : bold;
+        background-color : #F2F2F2;
+    }
+`
+
+export const GoodsQuestionAnswerDiv = styled.div`
+    margin-left : 60px;
+    display : grid;
+    grid-template-columns : 40px auto;
+    padding-bottom : 15px;
+
+    img {
+        vertical-align : top;
+    }
+
+    textarea {
+        resize : none;
+        min-height : 80px;
+        width : 100%;
+        padding : 10px;
+        border-color : #ababab;
+    }
+`
+
+export const GoodsQuestionAnswerOptionDiv = styled.div`
+    height : 40px;
+    line-height : 40px;
+    border : solid 1px #ababab;
+    margin-top : -6px;
+    display : grid;
+    grid-template-columns : auto 100px;
+
+    div {
+        input {
+            width : 100%;
+            background-color : #ababab;
+            border : none;
+            height : 38px;
+            cursor: pointer;
+        }
+    }
+`
+
+export const GoodsAnswerLength = styled.div`
+    font-size : 13px;
+    color : #BDBDBD;
+    margin-left : 10px;
+`

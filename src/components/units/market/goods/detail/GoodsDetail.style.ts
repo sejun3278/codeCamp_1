@@ -206,6 +206,10 @@ export const GoodsMapDiv = styled.div`
         margin : 70px 0px;
     }
 
+    div {
+        width : 100%;
+    }
+
 `
 
 export const GoodsOptionDiv = styled.div`
@@ -224,7 +228,7 @@ export const GoodsOptionDiv = styled.div`
         border : none;
         cursor: pointer;
 
-        @media (max-width : 520px) {
+        @media (max-width : 540px) {
             width : 90%;
             margin : 10px 0px;
         }

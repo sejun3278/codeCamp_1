@@ -5,6 +5,7 @@ import {
     GoodsMapDiv, GoodsOptionDiv
 } from './GoodsDetail.style';
 import { setComma } from '../../../../../commons/libraries/validations';
+import Map from '../map/Map.presenter';
 
 export default function GoodsDetailUI({
     goodsInfo,
@@ -104,7 +105,8 @@ export default function GoodsDetailUI({
                         </GoodsTagsDiv>
 
                         <GoodsMapDiv>
-                            <img alt='' src='/images/map.png' />
+                            <Map />
+                            {/* <img alt='' src='/images/map.png' /> */}
                         </GoodsMapDiv>
                     </GoodsInfoDiv>
 

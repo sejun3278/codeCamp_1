@@ -2,10 +2,11 @@ import {
     GoodsMainDiv, GoodsMainContentsDiv, GoodsBestListDiv, GoodsBestList, GoodsBest, GoodsBestImage, GoodsBestInfoDiv, GoodsBestName, GoodsBestImageDiv,
     GoodsBestInfoGridDiv, GoodsBestRemarks, GoodsBestPrice, GoodsBestLikeDiv, GoodsListOptionDiv, GoodsListFilterDiv, GoodsListSearchDiv, GoostListSearchStyle, GoodsSearchBtn,
     GoodsListContentsDiv, GoodsMainGridDiv, GoodsListContents, GoodsInfo, GoodsInfoImage, GoodsInfoDiv, GoodsInfoName, GoodsRemarks, GoodsOptionDiv, GoodsTagInfo,
-    GoodsSellerInfoDiv, GoodsSellerName, GoodsLikeInfo, GoodsSellerInfo, GoodsPriceDiv, GoodsWriteDiv, GoodsWriteBtn, GoodsLogDiv, GoodsLogListDiv
+    GoodsSellerInfoDiv, GoodsSellerName, GoodsLikeInfo, GoodsSellerInfo, GoodsPriceDiv, GoodsWriteDiv, GoodsWriteBtn
 } from './GoodsList.style';
 import { setComma } from '../../../commons/libraries/validations';
 import InfiniteScroll from 'react-infinite-scroller';
+import LogList from './log/GoodsLog.container';
 
 export default function GoodsListlUI({
     bestGoods,
@@ -14,7 +15,8 @@ export default function GoodsListlUI({
     searchRef,
     goodsSearch,
     goodsList,
-    onloadMore
+    onloadMore,
+    logList
 }) {
     return(
         <GoodsMainDiv>
@@ -88,23 +90,42 @@ export default function GoodsListlUI({
             </GoodsMainGridDiv>
 
             <GoodsListContentsDiv>
-                <div> </div>
                 <div>
-                <GoodsListContents>
-                    {goodsList?.fetchUseditems &&
+                </div>
+
+                <div>
+                    <div>
+
+                    <div id='mobileGoodsLogDiv'>
+                        <LogList />
+                    </div>
+                    {/* {goodsList?.fetchUseditems && */}
                         <InfiniteScroll
                             loadMore={onloadMore}
-                            hasMore={true}
+                            hasMore={true || false}
                         >
+                        <GoodsListContents>
                             {goodsList?.fetchUseditems?.map( (item, key) => {
 
+                                let name = item.name;
+                                if(search !== "") {
+                                    const originTitle = name;
+                                    const start = originTitle.indexOf(search);
+
+                                    name = name.slice(0, start);
+                                    name += `<b class='searchFont'> ${originTitle.slice(start, start + search.length)} </b>`;
+                                    name += originTitle.slice(start + search.length, originTitle.length);
+                                }
+
                                 return(
-                                    <GoodsInfo key={key}>
+                                    <GoodsInfo key={key}
+                                            onClick={() => router.push('/market/goods/' + item._id)}
+                                    >
                                         <div>
                                             <GoodsInfoImage alt='' src={`/images/bestGoods_0.png` } />
                                         </div>
                                         <GoodsInfoDiv>
-                                            <GoodsInfoName> {item.name} </GoodsInfoName>
+                                            <GoodsInfoName dangerouslySetInnerHTML={{ __html : name }} />
                                             <GoodsOptionDiv>
                                                 <div>
                                                     <GoodsRemarks> {item.remarks} </GoodsRemarks>
@@ -140,22 +161,23 @@ export default function GoodsListlUI({
                                     </GoodsInfo>
                                 )
                             })}
-                        </InfiniteScroll>
-                    }
-                </GoodsListContents>
-                <GoodsWriteDiv>
-                    <GoodsWriteBtn type='button' value='상품 등록하기' 
-                                   onClick={() => router.push('/market/write')}
-                    />
-                </GoodsWriteDiv>
+                    </GoodsListContents>
+
+                    </InfiniteScroll>
+                </div>
+                    {/* } */}
+
+                    <GoodsWriteDiv>
+                        <GoodsWriteBtn type='button' value='상품 등록하기' 
+                                    onClick={() => router.push('/market/write')}
+                        />
+                    </GoodsWriteDiv>
+                </div>
+                
+                <div id='webGoodsLogDiv'>
+                    <LogList />
                 </div>
 
-                <GoodsLogDiv>
-                    <GoodsLogListDiv>
-                        <p> 오늘 본 상품</p>
-                        
-                    </GoodsLogListDiv>
-                </GoodsLogDiv>
             </GoodsListContentsDiv>
         </GoodsMainDiv>
     )

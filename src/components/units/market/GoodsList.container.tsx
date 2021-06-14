@@ -21,19 +21,11 @@ export default function GoodsDetailPage() {
     })
 
     const onloadMore = () => {
-        // if(goodsList === undefined) {
-        //     return;
-
-        // } else {
-
-        // }
-
         if( (goodsList?.fetchUseditems?.length % 10) !== 0) {
             return;
         }
 
         fetchMore({
-            
             variables : { 
                 // page : page + 1
                 page : Math.floor(goodsList?.fetchUseditems.length / 10) + 1 
@@ -58,14 +50,18 @@ export default function GoodsDetailPage() {
                 searchRef.current.focus();
                 return alert('상품명을 입력해주세요.');
             }
-        }
-
-        
+        }        
         setPage(1);
         setSearch(searchValue);
     }
 
-
+    // 오늘 본 상품 가져오기
+    let logList = [];
+    if(typeof window !== 'undefined') {
+        if(window.localStorage.getItem('goodsLog') !== undefined) {
+            logList = JSON.parse(window.localStorage.getItem('goodsLog'))
+        }
+    }
 
     return(
         <GoodsListUI 
@@ -76,6 +72,7 @@ export default function GoodsDetailPage() {
             searchRef={searchRef}
             goodsSearch={goodsSearch}
             onloadMore={onloadMore}
+            logList={logList}
         />
     )
 }

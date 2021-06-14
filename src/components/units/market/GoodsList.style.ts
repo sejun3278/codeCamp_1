@@ -205,10 +205,24 @@ export const GoodsListContentsDiv = styled.div`
     @media (max-width : 800px) {
         display : block;
     }
+
+    #mobileGoodsLogDiv {
+        display : none;
+
+        @media (max-width : 1200px) {
+            display : block !important;
+        }
+    }
+
+    #webGoodsLogDiv {
+        @media (max-width : 1200px) {
+            display : none !important;
+        }
+    }
 `
 
 export const GoodsInfo = styled.div`
-    min-height : 150px;
+    /* min-height : 150px; */
     border-bottom : solid 1px #BDBDBD;
     border-top : none !important;
     margin-right : 0px !important;
@@ -223,7 +237,7 @@ export const GoodsInfo = styled.div`
 `
 
 export const GoodsListContents = styled.div`
-    height : 1000px;
+    max-height : 800px;
     overflow-y : auto;
     margin-bottom : 40px;
     padding-bottom : 10px;
@@ -255,6 +269,10 @@ export const GoodsInfoImage = styled.img`
 
 export const GoodsInfoDiv = styled.div`
     padding : 10px;
+
+    .searchFont {
+        background-color : orange;
+    }
 `
 
 export const GoodsInfoName = styled.div`
@@ -358,20 +376,79 @@ export const GoodsWriteBtn = styled.input`
     cursor: pointer;
 `
 
-export const GoodsLogDiv = styled.div`
-    text-align : center;
+// export const GoodsLogDiv = styled.div`
+//     text-align : center;
 
-`
+//     #webGoodsLogDiv {
+//         @media (max-width : 1100px) {
+//             display : none !important;
+//         }
+//     }
 
-export const GoodsLogListDiv = styled.div`
-    width : 70%;
-    border: 1px solid #BDBDBD;
-    box-sizing: border-box;
-    margin-left : 30px;
+//     #mobileGoodsLogDiv { 
+//         display : none;
 
-    p {
-        text-align: center;
-        font-size : 14px;
-        font-weight : bold;
-    }
-`
+//         @media (max-width : 1100px) {
+//             display : block !important;
+//         }
+//     }
+// `
+
+// export const GoodsLogListDiv = styled.div`
+//     width : 75%;
+//     border: 1px solid #BDBDBD;
+//     box-sizing: border-box;
+//     margin-left : 30px;
+
+//     @media (max-width : 1100px) {
+//         margin-left : 10px;
+//         width : 99%;
+//         margin-bottom : 20px;
+//     }
+
+//     p {
+//         text-align: center;
+//         font-size : 14px;
+//         font-weight : bold;
+//         padding-bottom : 10px;
+//         border-bottom : solid 2px #ababab;
+
+//         @media (max-width : 1100px) {
+//             border-bottom : none;
+//             text-align : left;
+//             margin-left : 20px;
+//         }
+//     }
+// `
+
+// export const GoodsListEmpty = styled.div`
+//     padding : 10px;
+//     font-size : 13px;
+//     color : #ababab;
+// `
+
+// export const GoodsLogList = styled.div`
+//     /* border : solid 1px #ababab; */
+//     border : solid 1px #ababab;
+//     margin : 10px;
+//     min-height : 100px;
+
+// `
+
+// export const GoodsLogLikeDiv = styled.div`
+//     text-align : right;
+//     margin-right : 10px;
+
+//     img {
+//         width : 15px;
+//         vertical-align : middle;
+//     }
+// `
+
+// export const GoodsLogInfo = styled.div`
+
+// `
+
+// export const GoodsLogImage = styled.img`
+//     width : 60px;
+// `
