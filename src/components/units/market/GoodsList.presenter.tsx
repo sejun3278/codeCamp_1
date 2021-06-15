@@ -5,7 +5,7 @@ import {
     GoodsSellerInfoDiv, GoodsSellerName, GoodsLikeInfo, GoodsSellerInfo, GoodsPriceDiv, GoodsWriteDiv, GoodsWriteBtn
 } from './GoodsList.style';
 import { setComma } from '../../../commons/libraries/validations';
-import InfiniteScroll from 'react-infinite-scroller';
+// import InfiniteScroll from 'react-infinite-scroller';
 import LogList from './log/GoodsLog.container';
 
 export default function GoodsListlUI({
@@ -16,7 +16,9 @@ export default function GoodsListlUI({
     goodsSearch,
     goodsList,
     onloadMore,
-    logList
+    logList,
+    ref,
+    inView
 }) {
     return(
         <GoodsMainDiv>
@@ -25,6 +27,13 @@ export default function GoodsListlUI({
                 <GoodsMainContentsDiv> 
                     <GoodsBestListDiv>
                         <h2> 베스트 상품 </h2>
+
+                        <div style={{ 'height' : '300px', 'overflowY' : 'auto' }} ref={ref}>
+                            <p> {inView} </p>
+                            <div style={{ 'height' : '250px' }}> 1 </div>
+                            <div style={{ 'height' : '250px' }}> 2 </div>
+                            <div style={{ 'height' : '250px' }}> 3 </div>
+                        </div>
 
                         <GoodsBestList>
                             {bestGoods?.fetchUseditemsOfTheBest?.map( (best, key) => {
@@ -93,18 +102,20 @@ export default function GoodsListlUI({
                 <div>
                 </div>
 
-                <div>
-                    <div>
+                <div >
+                    <div style={{ 'borderTop' : 'solid 1px #ababab'}}>
 
                     <div id='mobileGoodsLogDiv'>
                         <LogList />
                     </div>
-                    {/* {goodsList?.fetchUseditems && */}
-                        <InfiniteScroll
-                            loadMore={onloadMore}
-                            hasMore={true || false}
-                        >
-                        <GoodsListContents>
+
+                    <div >
+                    {goodsList?.fetchUseditems &&
+                        // <InfiniteScroll
+                        //     // loadMore={onloadMore}
+                        //     hasMore={true || false}
+                        // >
+                        <GoodsListContents onScroll={onloadMore}>
                             {goodsList?.fetchUseditems?.map( (item, key) => {
 
                                 let name = item.name;
@@ -163,7 +174,10 @@ export default function GoodsListlUI({
                             })}
                     </GoodsListContents>
 
-                    </InfiniteScroll>
+                    // </InfiniteScroll>
+                }
+                </div>
+
                 </div>
                     {/* } */}
 

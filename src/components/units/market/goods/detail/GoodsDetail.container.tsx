@@ -5,23 +5,30 @@ import { useRouter } from 'next/router';
 
 import { useQuery } from '@apollo/client';
 import { FETCH_USED_ITEM } from './GoodsDetail.queries';
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 
 import { GlobalContext } from '../../../../../../pages/_app';
+import { GoodsContext } from "../../../../../../pages/market/goods/[id]/index";
 
 export default function GoodsDetailPage() {
     const router = useRouter();
     const goodsId = router.query.id;
 
     const { loginEmail } = useContext(GlobalContext);
+    const { setSellerEmail } = useContext(GoodsContext);
 
     const [ thumb, setThumb ] = useState(0);
 
-    const { data : goodsInfo } = useQuery(FETCH_USED_ITEM, {
+    const { data : goodsInfo, loading } = useQuery(FETCH_USED_ITEM, {
         variables : {
             useditemId : goodsId
         }
     });
+
+    useEffect( () => {
+        // 상품 판매자 이메일 저장하기
+        setSellerEmail(goodsInfo?.fetchUseditem?.seller?.email);
+    }, [loading])
 
     const selectImage = (type, idx) => {
         let copyThumb = thumb;
@@ -71,7 +78,6 @@ export default function GoodsDetailPage() {
         }
     }
 
-    console.log(goodsInfo)
     return(
         <>
             <GoodsDetailUI 

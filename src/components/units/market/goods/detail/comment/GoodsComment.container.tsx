@@ -7,6 +7,7 @@ import {
     CREATE_USEDITEM_ANSWER
 } from './GoodsComment.queries';
 import { useRouter } from 'next/router';
+import { GoodsContext } from "../../../../../../../pages/market/goods/[id]/index";
 
 export default function GoodsCommentPage({
     loginEmail,
@@ -14,6 +15,8 @@ export default function GoodsCommentPage({
 }) {
     const router = useRouter();
     const goodsId = router.query.id;
+
+    const { setAnswerRefresh, sellerEmail } = useContext(GoodsContext);
 
     const [ comment, setComment ] = useState("");
     const [ page, _ ] = useState(1);
@@ -25,7 +28,7 @@ export default function GoodsCommentPage({
     const commentRef = useRef<HTMLInputElement>();
 
     // 문의글 데이터 가져오기
-    const { data : questionData, fetchMore } = useQuery(FETCH_USEDITEM_QUESTIONS, {
+    const { data : questionData, loading, fetchMore } = useQuery(FETCH_USEDITEM_QUESTIONS, {
         variables : {
             page : page,
             useditemId : goodsId
@@ -193,6 +196,8 @@ export default function GoodsCommentPage({
                 setAnswer("");
                 setRecomment(null);
 
+                setAnswerRefresh(true);
+
             } catch(error) {
                 alert(error.message);
                 return;
@@ -223,6 +228,7 @@ export default function GoodsCommentPage({
             setAnswer={setAnswer}
             addAnswer={addAnswer}
             answerRef={answerRef}
+            sellerEmail={sellerEmail}
         />
     )
 }

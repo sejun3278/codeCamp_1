@@ -28,11 +28,27 @@ export const GoodsLogListDiv = styled.div`
     max-height : 800px;
     overflow-y : auto;
 
+    ::-webkit-scrollbar {
+        width: 6px;
+        background-color: #F2F2F2;
+        border-radius: 4px;
+        height : 30px !important; 
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: #FFD600;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
     @media (max-width : 1200px) {
         margin-left : 10px;
-        width : 99%;
+        width : 98.7%;
+        height : 270px;
+        /* overflow-y : hidden; */
         margin-bottom : 20px;
         text-align : left;
+        padding : 0px 20px;
     }
 
     p {
@@ -45,7 +61,7 @@ export const GoodsLogListDiv = styled.div`
         @media (max-width : 1200px) {
             border-bottom : none;
             text-align : left;
-            margin-left : 20px;
+            margin-left : 25px;
         }
     }
 `
@@ -57,11 +73,9 @@ export const GoodsListEmpty = styled.div`
 `
 
 export const GoodsLogList = styled.div`
-    /* border : solid 1px #ababab; */
     border : solid 1px #ababab;
     margin : 10px;
-    min-height : 100px;
-    padding-bottom : 10px;
+    padding-bottom : 5px;
     cursor: pointer;
 
     @media (max-width : 1200px) {
@@ -71,12 +85,17 @@ export const GoodsLogList = styled.div`
 `
 
 export const GoodsLogLikeDiv = styled.div`
-    text-align : right;
+    /* text-align : right; */
     margin-right : 10px;
+    height : 30px;
+    margin-top : 5px;
+    display : grid;
+    grid-template-columns : 50% 50%;
 
     img {
         width : 15px;
         vertical-align : middle;
+        cursor : pointer;
     }
 `
 
@@ -90,7 +109,7 @@ export const GoodsLogImage = styled.img`
 
 export const GoodsLogInfo = styled.div`
     text-align : left;
-    margin : 0px 10px;
+    margin : 5px 10px;
 
     div {
         width : 97%;

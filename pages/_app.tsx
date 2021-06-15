@@ -14,7 +14,9 @@ export const GlobalContext = createContext({
   accessToken : "",
   setAccessToken : (_ : any) => {},
   loginEmail : "",
-  setLoginEmail : (_ : any) => {}
+  setLoginEmail : (_ : any) => {},
+  savePath : "",
+  setSavePath : (_ : any) => {},
 })
 
 const Wrapper = styled.div`
@@ -27,6 +29,7 @@ function MyApp({ Component, pageProps }) {
   const router = useRouter();
   const [ accessToken, setAccessToken ] = useState("");
   const [ loginEmail, setLoginEmail ] = useState("");
+  const [ savePath, setSavePath ] = useState("");
 
   const uploadLink = createUploadLink({
     // uri : 'http://example.codebootcamp.co.kr/graphql',
@@ -82,7 +85,7 @@ function MyApp({ Component, pageProps }) {
   })
   
   return (
-    <GlobalContext.Provider value={{ accessToken, setAccessToken, loginEmail, setLoginEmail }}>
+    <GlobalContext.Provider value={{ accessToken, setAccessToken, loginEmail, setLoginEmail, savePath, setSavePath }}>
       
       <script
         type="text/javascript"

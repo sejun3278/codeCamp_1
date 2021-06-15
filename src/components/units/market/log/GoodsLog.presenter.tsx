@@ -6,42 +6,42 @@ import {
 import { setComma } from '../../../../commons/libraries/validations';
 
 const GoodsLogUI = function({
-    logList
+    logList,
+    router,
+    removeGoodsLog
 }) {
     return(
             <GoodsLogDiv>
-                <GoodsLogListDiv>
-                    <p> 오늘 본 상품 ({logList?.length}) </p>
+                {logList &&
+                    logList.length > 0 &&
+                    <GoodsLogListDiv>
+                        <p> 오늘 본 상품 ({logList?.length}) </p>
 
-                    {logList?.length === 0
-                        ? <GoodsListEmpty>
-                            오늘 본 상품 정보가 없습니다.
-                          </GoodsListEmpty>
+                        {logList?.reverse().map( (el, key) => {
+                                return(
+                                    <GoodsLogList key={key}>
+                                        <GoodsLogLikeDiv>
+                                            <div style={{ 'textAlign' : 'left', 'marginLeft' : '10px' }}> <img onClick={() => removeGoodsLog(key)} alt='' src='/images/close.png' /> </div>
+                                            <div style={{ 'textAlign' : 'right' }}> <img alt='' src='/images/like_yellow.png' /> 0 </div>
+                                        </GoodsLogLikeDiv>
+            
+                                        <GoodsLogInfoDiv onClick={() => router.push(`/market/goods/${el._id}`)}>
+                                            <GoodsLogImageDiv>
+                                                <GoodsLogImage alt='' src='/images/bestGoods_0.png' />
+                                            </GoodsLogImageDiv>
 
-                        : 
-                        logList?.reverse().map( (el, key) => {
-                            return(
-                                <GoodsLogList key={key}>
-                                    <GoodsLogLikeDiv>
-                                        <img alt='' src='/images/like_yellow.png' /> 0
-                                    </GoodsLogLikeDiv>
-        
-                                    <GoodsLogInfoDiv>
-                                        <GoodsLogImageDiv>
-                                            <GoodsLogImage alt='' src='/images/bestGoods_0.png' />
-                                        </GoodsLogImageDiv>
-
-                                        <GoodsLogInfo>
-                                            <GoodsLogName> {el?.name} </GoodsLogName>
-                                            <GoodsLogRemark> {el?.remarks} </GoodsLogRemark>
-                                            <GoodsLogPrice> {setComma(el.price)} 원 </GoodsLogPrice>
-                                        </GoodsLogInfo>
-                                    </GoodsLogInfoDiv>
-                                </GoodsLogList>
-                            )
-                        })
-                    }
+                                            <GoodsLogInfo>
+                                                <GoodsLogName> {el?.name} </GoodsLogName>
+                                                <GoodsLogRemark> {el?.remarks} </GoodsLogRemark>
+                                                <GoodsLogPrice> {setComma(el.price)} 원 </GoodsLogPrice>
+                                            </GoodsLogInfo>
+                                        </GoodsLogInfoDiv>
+                                    </GoodsLogList>
+                                )
+                            })
+                        }
                     </GoodsLogListDiv>
+                }
                 </GoodsLogDiv>
     )
 }

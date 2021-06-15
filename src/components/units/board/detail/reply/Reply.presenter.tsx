@@ -79,87 +79,89 @@ export default function BoardReplyPage({
             </ReplyWriteDiv>
 
             <ReplyListContents>
-                <InfiniteScroll
-                    loadMore={onloadMore}
-                    hasMore={true}
-                    // height={600}
-                >
-                {replyList?.fetchBoardComments?.map( (el, key) => {
-                    const ratingArr = new Array(5).fill(key + 1);
-                    const replyRating = el.rating;
+                {replyList?.fetchBoardComments &&
+                    <InfiniteScroll
+                        loadMore={onloadMore}
+                        hasMore={true}
+                        // height={600}
+                    >
+                    {replyList?.fetchBoardComments?.map( (el, key) => {
+                        const ratingArr = new Array(5).fill(key + 1);
+                        const replyRating = el.rating;
 
-                    return(
-                        <ReplyList key={key}>
+                        return(
+                            <ReplyList key={key}>
 
-                            {key !== modifyTarget
-                            ?
-                                <ReplyListInfoDiv>
-                                    <ReplyListThumbDiv>
-                                        <img alt='' src={imageList.thumbnail} />
-                                    </ReplyListThumbDiv>
+                                {key !== modifyTarget
+                                ?
+                                    <ReplyListInfoDiv>
+                                        <ReplyListThumbDiv>
+                                            <img alt='' src={imageList.thumbnail} />
+                                        </ReplyListThumbDiv>
 
-                                    <ReplyWriteListInfoDiv>
-                                        <ReplyWriterListInfo>
-                                            <ReplyWriterName> {el.writer} </ReplyWriterName>
-                                            <ReplyListRating>  
-                                                {ratingArr.map( (_, key2) => {
-                                                    return(
-                                                        <div key={key2}>
-                                                            <img alt='' src={key2 + 1 <= replyRating ? imageList.star : imageList.emptyStar } />
-                                                        </div>
-                                                    )
-                                                })}
-                                            </ReplyListRating>
-                                            <ReplyListOption>
-                                                <img alt='' src={modifyTarget !== key ? imageList.modify : imageList.modifyOn} title='수정하기' onClick={() => initModifyTarget(key)} />
-                                                <img alt='' src={imageList.remove} title='삭제하기' onClick={() => toggleModals(key)} />
-                                            </ReplyListOption>
-                                        </ReplyWriterListInfo>
-                                        
-                                        <ReplyListContent dangerouslySetInnerHTML={{ __html : el.contents }}/>
-                                        <ReplyDate dangerouslySetInnerHTML={{ __html : el.createdAt.slice(0, 10) }} />
-                                    </ReplyWriteListInfoDiv>
-                                </ReplyListInfoDiv>
+                                        <ReplyWriteListInfoDiv>
+                                            <ReplyWriterListInfo>
+                                                <ReplyWriterName> {el.writer} </ReplyWriterName>
+                                                <ReplyListRating>  
+                                                    {ratingArr.map( (_, key2) => {
+                                                        return(
+                                                            <div key={key2}>
+                                                                <img alt='' src={key2 + 1 <= replyRating ? imageList.star : imageList.emptyStar } />
+                                                            </div>
+                                                        )
+                                                    })}
+                                                </ReplyListRating>
+                                                <ReplyListOption>
+                                                    <img alt='' src={modifyTarget !== key ? imageList.modify : imageList.modifyOn} title='수정하기' onClick={() => initModifyTarget(key)} />
+                                                    <img alt='' src={imageList.remove} title='삭제하기' onClick={() => toggleModals(key)} />
+                                                </ReplyListOption>
+                                            </ReplyWriterListInfo>
+                                            
+                                            <ReplyListContent dangerouslySetInnerHTML={{ __html : el.contents }}/>
+                                            <ReplyDate dangerouslySetInnerHTML={{ __html : el.createdAt.slice(0, 10) }} />
+                                        </ReplyWriteListInfoDiv>
+                                    </ReplyListInfoDiv>
 
-                            : 
-                            /* 수정하기 */
-                            <ReplyWriteDiv>
-                                <ReplyWriterInfoDiv>
-                                    <div> <ReplyWriterInfo readOnly disabled value={modfiyReplyInput.writer} type='text' maxLength={15} placeholder='작성자' name='writer' /> </div>
-                                    <div> <ReplyWriterInfo type='password' maxLength={15} placeholder='비밀번호' name='password' onChange={(event) => saveReplyWriterInfo(event, false, true)} /> </div>
-                                    <ReplyWriterRatingDiv>
-                                        {initRating.map( (_, key) => {
-                                            return(
-                                                <ReplyWriterRating key={key} onClick={(event) => saveReplyWriterInfo(event, key + 1, true)}
-                                                    style={key + 1 <= modfiyReplyInput.rating ? { 'color' : '#FFD600' }  : undefined}
-                                                >
-                                                    <img alt='' src={key + 1 <= modfiyReplyInput.rating ? imageList.star : imageList.emptyStar} />
-                                                    {/* {key + 1 <= rating ? '★' : '☆'} */}
-                                                </ReplyWriterRating>
-                                            )
-                                        })}
-                                    </ReplyWriterRatingDiv>
-                                </ReplyWriterInfoDiv>
-                
-                                <ReplyWriteContentsDiv>
-                                    <textarea maxLength={100} defaultValue={modfiyReplyInput.contents} name='contents' placeholder="개인정보를 공유 및 요청하거나, 명예 훼손, 무단 광고, 불법 정보 유포시 모니터링 후 삭제될 수 있으며, 이에 대한 민형사상 책임은 게시자에게 있습니다." onChange={(event) => saveReplyWriterInfo(event, false, true)}></textarea>
-                                    <ReplyOptionaryDiv>
-                                        <ReplyLimit> {modfiyReplyInput.contents.length} / 100 </ReplyLimit>
+                                : 
+                                /* 수정하기 */
+                                <ReplyWriteDiv>
+                                    <ReplyWriterInfoDiv>
+                                        <div> <ReplyWriterInfo readOnly disabled value={modfiyReplyInput.writer} type='text' maxLength={15} placeholder='작성자' name='writer' /> </div>
+                                        <div> <ReplyWriterInfo type='password' maxLength={15} placeholder='비밀번호' name='password' onChange={(event) => saveReplyWriterInfo(event, false, true)} /> </div>
+                                        <ReplyWriterRatingDiv>
+                                            {initRating.map( (_, key) => {
+                                                return(
+                                                    <ReplyWriterRating key={key} onClick={(event) => saveReplyWriterInfo(event, key + 1, true)}
+                                                        style={key + 1 <= modfiyReplyInput.rating ? { 'color' : '#FFD600' }  : undefined}
+                                                    >
+                                                        <img alt='' src={key + 1 <= modfiyReplyInput.rating ? imageList.star : imageList.emptyStar} />
+                                                        {/* {key + 1 <= rating ? '★' : '☆'} */}
+                                                    </ReplyWriterRating>
+                                                )
+                                            })}
+                                        </ReplyWriterRatingDiv>
+                                    </ReplyWriterInfoDiv>
+                    
+                                    <ReplyWriteContentsDiv>
+                                        <textarea maxLength={100} defaultValue={modfiyReplyInput.contents} name='contents' placeholder="개인정보를 공유 및 요청하거나, 명예 훼손, 무단 광고, 불법 정보 유포시 모니터링 후 삭제될 수 있으며, 이에 대한 민형사상 책임은 게시자에게 있습니다." onChange={(event) => saveReplyWriterInfo(event, false, true)}></textarea>
+                                        <ReplyOptionaryDiv>
+                                            <ReplyLimit> {modfiyReplyInput.contents.length} / 100 </ReplyLimit>
 
-                                        <ReplyWriteSumbit type='button' value='수정하기' onClick={() => modifyReply(false)}
-                                            style={replyModifyAble === true ? { 'backgroundColor' : '#FFD600', 'color' : 'black' } : undefined}
-                                        />
-                                        <ReplyWriteSumbit type='button' value='취소' onClick={() => modifyReply(true)} />
-                                    </ReplyOptionaryDiv>
-                                </ReplyWriteContentsDiv>
-                            </ReplyWriteDiv>
+                                            <ReplyWriteSumbit type='button' value='수정하기' onClick={() => modifyReply(false)}
+                                                style={replyModifyAble === true ? { 'backgroundColor' : '#FFD600', 'color' : 'black' } : undefined}
+                                            />
+                                            <ReplyWriteSumbit type='button' value='취소' onClick={() => modifyReply(true)} />
+                                        </ReplyOptionaryDiv>
+                                    </ReplyWriteContentsDiv>
+                                </ReplyWriteDiv>
 
-                        }
+                            }
 
-                        </ReplyList>
-                    )
-                })}
-                </InfiniteScroll>
+                            </ReplyList>
+                        )
+                    })}
+                    </InfiniteScroll>
+                }
 
                 <Modal
                     isOpen={modal}

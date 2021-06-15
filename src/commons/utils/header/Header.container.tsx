@@ -19,7 +19,7 @@ export default function HeaderPage () {
     const logoDiv= useRef<HTMLHeadingElement>();
     const router = useRouter();
 
-    const { accessToken } = useContext(GlobalContext);
+    const { accessToken, setSavePath } = useContext(GlobalContext);
 
     const handleFollow = () => {
         setScrollY(Math.trunc(window.pageYOffset)); // window 스크롤 값을 ScrollY에 저장
@@ -51,12 +51,22 @@ export default function HeaderPage () {
         router.push(url);
     }
 
+    // 로그인 후 되돌아갈 경로 저장하기
+    const moveLogin = (url) => {
+        // 현재 경로 저장하기
+        const nowPage = router.asPath;
+        setSavePath(nowPage);
+
+        router.push(url);
+    }
+
     return(
         <HeaderUI
             moveUrl={moveUrl}
             router={router}
             logoDiv={logoDiv}
             accessToken={accessToken}
+            moveLogin={moveLogin}
         />
     )
 }

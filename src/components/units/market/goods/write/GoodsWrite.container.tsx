@@ -31,7 +31,7 @@ export default function MarketGoodsPage () {
     const contentsRef = useRef<HTMLTextAreaElement>();
     const priceRef = useRef<HTMLInputElement>();
 
-    const kakaoKey = "52c079a2821b29491ec6470e2b957f3e";
+    // const kakaoKey = "52c079a2821b29491ec6470e2b957f3e";
 
     // input 값 저장하기
     const changeInput = (event, contentsType, contents) => {
@@ -139,9 +139,11 @@ export default function MarketGoodsPage () {
             }
         }
 
-        window.setTimeout( () => {
-            setShowImages(imageList)
-        }, 100)
+        if(typeof window !== 'undefined') {
+            window.setTimeout( () => {
+                setShowImages(imageList)
+            }, 100)
+        }
     }
 
     // 파일 삭제하기

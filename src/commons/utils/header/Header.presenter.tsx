@@ -20,7 +20,8 @@ export default function HeaderPage({
     moveUrl,
     router,
     logoDiv,
-    accessToken
+    accessToken,
+    moveLogin
 }) {
     return(
         <HeaderDiv>
@@ -33,8 +34,8 @@ export default function HeaderPage({
                     {!accessToken
                     &&
                         <div>
-                            <HeaderLogin type='button' value='로그인' onClick={() => moveUrl('/login')} />
-                            <HeaderSignup type='button' value='회원가입' onClick={() => moveUrl('/signup')} />
+                            <HeaderLogin type='button' value='로그인' onClick={() => moveLogin('/login')} />
+                            <HeaderSignup type='button' value='회원가입' onClick={() => moveLogin('/signup')} />
                         </div>
                     }
                 </HeaderLoginDiv>

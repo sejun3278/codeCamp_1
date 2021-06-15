@@ -3,6 +3,7 @@ import { useQuery } from '@apollo/client';
 import { FETCH_USEDITEM_OF_THE_BEST, FETCH_USEDITEMS } from './GoodsList.queries';
 import { useRouter } from 'next/router';
 import { useState, useRef } from 'react';
+import { useInView } from 'react-intersection-observer';
 
 export default function GoodsDetailPage() {
     const router = useRouter();
@@ -20,23 +21,40 @@ export default function GoodsDetailPage() {
         }
     })
 
-    const onloadMore = () => {
-        if( (goodsList?.fetchUseditems?.length % 10) !== 0) {
-            return;
-        }
+    const [ scrollLoading, setScrollLoading ] = useState(false);
+    const onloadMore = (event) => {
+        // 리스트의 전체 크기
+        const allHeight = event.target.scrollHeight;
 
-        fetchMore({
-            variables : { 
-                // page : page + 1
-                page : Math.floor(goodsList?.fetchUseditems.length / 10) + 1 
-        },
-            updateQuery : (prev, { fetchMoreResult }) => ( {
-                fetchUseditems : [ 
-                    ...prev.fetchUseditems, 
-                    ...fetchMoreResult.fetchUseditems 
-                ]
-            })
-        })
+        // 스크롤바 위치
+        const scroll = event.target.scrollTop;
+
+        if( (Math.ceil(scroll) + 800) >= allHeight ) {
+            if( (goodsList?.fetchUseditems?.length % 10) !== 0) {
+                return; 
+            }
+
+            if(scrollLoading === false) {
+                setScrollLoading(true);
+
+                fetchMore({
+                    variables : { 
+                        // page : page + 1
+                        page : Math.floor(goodsList?.fetchUseditems.length / 10) + 1 
+                },
+                    updateQuery : (prev, { fetchMoreResult }) => ( {
+                        fetchUseditems : [ 
+                            ...prev.fetchUseditems, 
+                            ...fetchMoreResult.fetchUseditems 
+                        ]
+                    })
+                })
+
+                window.setTimeout( () => {
+                    setScrollLoading(false);
+                }, 300)
+            }
+        }
     }
 
 
@@ -63,6 +81,12 @@ export default function GoodsDetailPage() {
         }
     }
 
+
+const { ref, inView, entry } = useInView({
+    /* Optional options */
+    threshold: 0,
+  });
+
     return(
         <GoodsListUI 
             router={router}
@@ -73,6 +97,8 @@ export default function GoodsDetailPage() {
             goodsSearch={goodsSearch}
             onloadMore={onloadMore}
             logList={logList}
+            ref={ref}
+            inView={inView}
         />
     )
 }

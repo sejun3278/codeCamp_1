@@ -42,7 +42,8 @@ export default function GoodsCommentPage({
     answer,
     setAnswer,
     addAnswer,
-    answerRef
+    answerRef,
+    sellerEmail
 }) {
     return(
         <GoodsCommentDiv>
@@ -87,7 +88,8 @@ export default function GoodsCommentPage({
                         loadMore={onloadMore}
                         hasMore={true}
                     >
-                        {questionData?.fetchUseditemQuestions.map( (question, key) => {
+                        {questionData?.fetchUseditemQuestions?.map( (question, key) => {
+
                             return(
                                 <GoodsQuestion key={key}>
                                     <GoodsQuestionGridDiv>
@@ -126,15 +128,19 @@ export default function GoodsCommentPage({
 
                                     <GoodsRecommentUI 
                                         commentId={question?._id}
+                                        question={question}
+                                        goodsInfo={goodsInfo}
+                                        loginEmail={loginEmail}
+                                        setRecomment={setRecomment}
                                     />
-                                    {recomment !== null &&
+                                    {(recomment !== null && recomment._id === question._id ) &&
                                         <GoodsQuestionAnswerDiv>
                                             <div> <img alt='' src='/images/answer_arrow.png'/> </div>
                                             <div> 
                                                 <textarea ref={answerRef} maxLength={100} placeholder='답글을 등록해주세요.' onChange={(event) => setAnswer(event.target.value.trim())}></textarea>
                                                 <GoodsQuestionAnswerOptionDiv>
                                                     <GoodsAnswerLength> {answer.length} / 100 </GoodsAnswerLength>
-                                                    <div> <input onClick={addAnswer} type='button' value='답글등록' style={answer.length > 0 ? { 'backgroundColor' : '#FFD600', 'fontWeight' : 'bold' } : undefined} /> </div>
+                                                    <div style={{ 'marginTop' : '-2px' }}> <input onClick={addAnswer} type='button' value='답글등록' style={answer.length > 0 ? { 'backgroundColor' : '#FFD600', 'fontWeight' : 'bold' } : undefined} /> </div>
                                                 </GoodsQuestionAnswerOptionDiv>
                                             </div>
                                         </GoodsQuestionAnswerDiv>

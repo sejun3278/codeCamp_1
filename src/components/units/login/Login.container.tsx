@@ -89,7 +89,15 @@ export default function LoginPage () {
                 globalContextList.setLoginEmail(input.email);
 
                 alert(input.email + ' 님 반갑습니다!');
-                router.push('/');
+
+                if(globalContextList.savePath !== "") {
+                    console.log(globalContextList.savePath)
+                    globalContextList.setSavePath("");
+                    router.push(globalContextList.savePath);
+                    
+                } else {
+                    router.push('/');
+                }
 
             } catch(error) {
                 alert(error.message);

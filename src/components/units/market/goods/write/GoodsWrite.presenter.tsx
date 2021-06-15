@@ -78,7 +78,7 @@ export default function MarketWrite({
                                     <MarketMapDiv>
                                         <Title> 거래 위치 </Title>
                                         <div>
-                                            <Map />
+                                            {/* <Map /> */}
                                         </div>
                                     </MarketMapDiv>
 

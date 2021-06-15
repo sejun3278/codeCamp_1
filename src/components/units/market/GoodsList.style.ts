@@ -59,13 +59,14 @@ export const GoodsBest = styled.div`
 `
 
 export const GoodsBestImageDiv = styled.div`
+text-align : center;
     @media (max-width : 600px) {
         border-right : solid 1px #ababab;
     }
 `
 
 export const GoodsBestImage = styled.img`
-    width : 100%;
+    width : 90%;
     max-height : 200px;
 
     @media (max-width : 600px) {
@@ -263,8 +264,9 @@ export const GoodsListContents = styled.div`
 
 export const GoodsInfoImage = styled.img`
     width : 145px;
-    height : 155px;
+    height : 145px;
     padding : 5px;
+    margin-top : 5px;
 `
 
 export const GoodsInfoDiv = styled.div`
@@ -277,9 +279,10 @@ export const GoodsInfoDiv = styled.div`
 
 export const GoodsInfoName = styled.div`
     font-weight : bold;
-    font-size : 18px;
+    font-size : 19px;
     height : 40px;
-    line-height : 50px;
+    line-height : 40px;
+    font-family : Noto Sans CJK KR;
     width : 97%;
     overflow:hidden; 
     text-overflow:ellipsis; 
