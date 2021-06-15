@@ -27,13 +27,13 @@ export default function GoodsListlUI({
                 <GoodsMainContentsDiv> 
                     <GoodsBestListDiv>
                         <h2> 베스트 상품 </h2>
-
+{/* 
                         <div style={{ 'height' : '300px', 'overflowY' : 'auto' }} ref={ref}>
                             <p> {inView} </p>
                             <div style={{ 'height' : '250px' }}> 1 </div>
                             <div style={{ 'height' : '250px' }}> 2 </div>
                             <div style={{ 'height' : '250px' }}> 3 </div>
-                        </div>
+                        </div> */}
 
                         <GoodsBestList>
                             {bestGoods?.fetchUseditemsOfTheBest?.map( (best, key) => {
