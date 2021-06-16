@@ -10,11 +10,13 @@ import { useState, useContext, useEffect } from 'react';
 import { GlobalContext } from '../../../../../../pages/_app';
 import { GoodsContext } from "../../../../../../pages/market/goods/[id]/index";
 
+import Head from 'next/head';
+
 export default function GoodsDetailPage() {
     const router = useRouter();
     const goodsId = router.query.id;
 
-    const { loginEmail } = useContext(GlobalContext);
+    const { userInfo } = useContext(GlobalContext);
     const { setSellerEmail } = useContext(GoodsContext);
 
     const [ thumb, setThumb ] = useState(0);
@@ -80,17 +82,21 @@ export default function GoodsDetailPage() {
 
     return(
         <>
+            <Head>
+                <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+                <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+            </Head>
             <GoodsDetailUI 
                 goodsInfo={goodsInfo?.fetchUseditem}
                 selectImage={selectImage}
                 thumb={thumb}
-                loginEmail={loginEmail}
+                userInfo={userInfo}
                 router={router}
             />
 
             <GoodsCommnetUI 
                 goodsInfo={goodsInfo?.fetchUseditem}
-                loginEmail={loginEmail}
+                userInfo={userInfo}
             />
         </>
     )

@@ -1,9 +1,5 @@
 import HeaderUI from './Header.presenter';
-// import { FETCH_BOARD, LIKE_BOARD, DISLIKE_BOARD } from './Main.queries';
 import {
-    //   ChangeEvent,
-    //   ChangeEventHandler,
-    //   RefObject,
       useContext,
       useEffect,
       useRef,
@@ -19,7 +15,7 @@ export default function HeaderPage () {
     const logoDiv= useRef<HTMLHeadingElement>();
     const router = useRouter();
 
-    const { accessToken, setSavePath } = useContext(GlobalContext);
+    const { setAccessToken, accessToken, setSavePath, userInfo, setUserInfo, chargeModal, setChargeModal } = useContext(GlobalContext);
 
     const handleFollow = () => {
         setScrollY(Math.trunc(window.pageYOffset)); // window 스크롤 값을 ScrollY에 저장
@@ -60,6 +56,35 @@ export default function HeaderPage () {
         router.push(url);
     }
 
+    const [ clickProfile, setclickProfile ] = useState(false);
+
+    // 로그아웃
+    const logout = () => {
+        if(window.confirm('로그아웃 하시겠습니까?')) {
+            alert('로그아웃 되었습니다.');
+
+            // accessToken 과 유저정보 삭제하기
+            setAccessToken("");
+            setUserInfo({});
+
+            return router.push('/');
+        }
+    }
+
+    const loginProfile = useRef<HTMLDivElement>();
+    useEffect( () => {
+        if(clickProfile === true) {
+            loginProfile.current.style.display = 'block';
+        }
+
+    }, [clickProfile])
+
+    // 충전창 띄우기
+    // const [chargeModal, setChargeModal] = useState(false);
+    useEffect( () => {
+        if(chargeModal) setclickProfile(false);
+    }, [chargeModal])
+
     return(
         <HeaderUI
             moveUrl={moveUrl}
@@ -67,6 +92,13 @@ export default function HeaderPage () {
             logoDiv={logoDiv}
             accessToken={accessToken}
             moveLogin={moveLogin}
+            setclickProfile={setclickProfile}
+            clickProfile={clickProfile}
+            userInfo={userInfo}
+            logout={logout}
+            loginProfile={loginProfile}
+            chargeModal={chargeModal}
+            setChargeModal={setChargeModal}
         />
     )
 }

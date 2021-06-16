@@ -5,7 +5,7 @@ import { useQuery, useMutation } from '@apollo/client';
 
 import { GoodsContext } from "../../../../../../../../pages/market/goods/[id]/index";
 
-const GoodsRecommentPage = function({ commentId, goodsInfo, loginEmail, question, setRecomment }) {
+const GoodsRecommentPage = function({ commentId, goodsInfo, userInfo, question, setRecomment }) {
     const [ page, _ ] = useState(0);
     const { answerRefresh, setAnswerRefresh, sellerEmail } = useContext(GoodsContext);
     const [ deleteAnswer ] = useMutation(DELETE_USEDITEM_QUESTION_ANSWER);
@@ -99,14 +99,13 @@ const GoodsRecommentPage = function({ commentId, goodsInfo, loginEmail, question
         }
     }
 
-    console.log(question)
     if(answerData?.fetchUseditemQuestionAnswers) {
         return(
             <GoodsRecommentUI 
                 answerData={answerData}
                 sellerEmail={sellerEmail}
                 goodsInfo={goodsInfo}
-                loginEmail={loginEmail}
+                userInfo={userInfo}
                 removeAnswer={removeAnswer}
                 setModal={setModal}
                 modifyModal={modifyModal}

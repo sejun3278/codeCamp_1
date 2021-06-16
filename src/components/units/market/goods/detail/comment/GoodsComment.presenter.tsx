@@ -27,7 +27,7 @@ export default function GoodsCommentPage({
     addQuestion,
     commentRef,
     questionData,
-    loginEmail,
+    userInfo,
     onloadMore,
     removeQuestion,
     modifyModal,
@@ -76,7 +76,7 @@ export default function GoodsCommentPage({
                 </GoodsCommentTitle>
 
                 <GoodsWriteDiv>
-                    <textarea ref={commentRef} disabled={goodsInfo?.seller?.email === loginEmail} maxLength={100} value={comment} onChange={(event) => setComment(event.target.value.trim())} placeholder='개인정보를 공유 및 요청하거나, 명예 훼손, 무단 광고, 불법 정보 유포시 모니터링 후 삭제될 수 있으며, 이에 대한 민형사상 책임은 게시자에게 있습니다.'></textarea>
+                    <textarea ref={commentRef} disabled={goodsInfo?.seller?.email === userInfo.email} maxLength={100} value={comment} onChange={(event) => setComment(event.target.value.trim())} placeholder='개인정보를 공유 및 요청하거나, 명예 훼손, 무단 광고, 불법 정보 유포시 모니터링 후 삭제될 수 있으며, 이에 대한 민형사상 책임은 게시자에게 있습니다.'></textarea>
                     <GoodsTextOptionDiv>
                         <div> {comment.length} / 100 </div>
                         <div> <input onClick={addQuestion} type='button' value='문의하기' style={comment.length > 0 ? { 'backgroundColor' : '#FFD600', 'color' : 'black' } : undefined} /> </div>
@@ -84,6 +84,8 @@ export default function GoodsCommentPage({
                 </GoodsWriteDiv>
 
                 <GoodsQuestionDiv>
+                    {(questionData?.fetchUseditemQuestions) !== undefined
+                    &&
                     <InfiniteScroll
                         loadMore={onloadMore}
                         hasMore={true}
@@ -102,7 +104,7 @@ export default function GoodsCommentPage({
                                             <GoodsQuestionDate> {question.createdAt.slice(0, 10)} </GoodsQuestionDate>
                                         </div>
                                         <GoodsQuestionOptionDiv> 
-                                            {question?.user?.email === loginEmail
+                                            {question?.user?.email === userInfo.email
                                                 // 내가 작성한 문의글인 경우, 삭제 및 수정 가능
                                                 && <MyComment>
                                                         <img alt='' src='/images/comment_modify.png' title='수정하기' 
@@ -114,8 +116,8 @@ export default function GoodsCommentPage({
                                                     </MyComment>
                                             }
                                             
-                                            {goodsInfo?.seller?.email === loginEmail
-                                                && question?.user?.email !== loginEmail
+                                            {goodsInfo?.seller?.email === userInfo.email
+                                                && question?.user?.email !== userInfo.email
                                                     && <MyComment>
                                                             <img alt='' src='/images/answer.png' title='답변하기' 
                                                                         onClick={() => setRecomment(question)}
@@ -130,7 +132,7 @@ export default function GoodsCommentPage({
                                         commentId={question?._id}
                                         question={question}
                                         goodsInfo={goodsInfo}
-                                        loginEmail={loginEmail}
+                                        userInfo={userInfo}
                                         setRecomment={setRecomment}
                                     />
                                     {(recomment !== null && recomment._id === question._id ) &&
@@ -149,6 +151,7 @@ export default function GoodsCommentPage({
                             )
                         })}
                     </InfiniteScroll>
+                }
                 </GoodsQuestionDiv>
 
             </GoodsComment>

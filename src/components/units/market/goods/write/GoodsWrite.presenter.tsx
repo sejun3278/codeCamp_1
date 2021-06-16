@@ -7,11 +7,8 @@ import {
 import React from 'react';
 import imageList from '../../../../../../image.json';
 
-import 'react-quill/dist/quill.snow.css';
-
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import Map from '../map/Map.presenter';
+import { CKEditorConfig } from '../../../../../commons/utils/ckEditor/CKEdtior';
 
 export default function MarketWrite({
     changeInput,
@@ -23,8 +20,10 @@ export default function MarketWrite({
     removeFile,
     formRef,
     remarksRef,
-    contentsRef,
     priceRef,
+    editorLoaded,
+    ClassicEditor,
+    CKEditor,
 }) {
     return(
         <MarketWriteDiv>
@@ -51,15 +50,18 @@ export default function MarketWrite({
 
                             <MarketWriteContents style={{ 'minHeight' : '250px' }}>
                                 <Title> 상품 설명 * </Title>
-                                <CKEditor
-                                    editor={ ClassicEditor }
-                                    data="<p></p>"
-                                    onReady={ editor => {
-                                        // You can store the "editor" and use when it is needed.
-                                        console.log( 'Editor is ready to use!', editor );
-                                    } }
-                                    onChange={(event, data ) => changeInput(event, true, data)}
-                                />
+                                {editorLoaded === true
+                                    && 
+                                    
+
+                                    <CKEditor
+                                        editor={ ClassicEditor }
+                                        config={CKEditorConfig}
+                                        data="<p></p>"
+                                        onChange={(event, data ) => changeInput(event, true, data)}
+                                    />
+                                }
+
                                 {/* <textarea ref={contentsRef} name='contents' placeholder='상품 설명을 입력해주세요.' onChange={changeInput}></textarea> */}
                             </MarketWriteContents>
 

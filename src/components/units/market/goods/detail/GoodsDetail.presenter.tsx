@@ -11,7 +11,7 @@ export default function GoodsDetailUI({
     goodsInfo,
     selectImage,
     thumb,
-    loginEmail,
+    userInfo,
     router
 }) {
     return(
@@ -105,8 +105,8 @@ export default function GoodsDetailUI({
                         </GoodsTagsDiv>
 
                         <GoodsMapDiv>
-                            <Map />
-                            {/* <img alt='' src='/images/map.png' /> */}
+                            {/* <Map /> */}
+                            <img alt='' src='/images/map.png' />
                         </GoodsMapDiv>
                     </GoodsInfoDiv>
 
@@ -115,8 +115,9 @@ export default function GoodsDetailUI({
                                onClick={() => router.push('/market')}
                         />
                         <input type='button' 
-                               value={goodsInfo?.seller?.email === loginEmail ? '수정하기' : '구매하기'}
+                               value={goodsInfo?.seller?.email === userInfo.email ? '수정하기' : '구매하기'}
                                style={{ 'backgroundColor' : '#FFD600' }}
+                            //    onClick={}
                         />
                     </GoodsOptionDiv>
                 </GoodsDetailInfoDiv>

@@ -1,11 +1,15 @@
 import {
     HeaderDiv, HeaderLogoDiv, HeaderLogo, HeaderLoginDiv, HeaderLogoImg, HeaderLogin, HeaderSignup, CarouselDiv,
-    CaruselImage, HeaderCategoryDiv, HeaderCategory, CaruselImage1, CaruselImage2, CaruselImage3
+    CaruselImage, HeaderCategoryDiv, HeaderCategory, CaruselImage1, CaruselImage2, CaruselImage3, LoginProfileImg,
+    LoginUserProfileDiv, ProfileInfoDiv, ProfileImageDiv, ProfileInfo, ProfileChangeImg, LoginOptionalDiv
 } from './Header.style';
 import Slider from "react-slick";
+import Modal from 'react-modal';
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+
+import { setComma } from '../../../commons/libraries/validations';
 
 const sliderSettings = {
     dots: true,
@@ -16,15 +20,45 @@ const sliderSettings = {
     arrow : true
 };
 
+const modalStyles = {
+    content : {
+      top                   : '40%',
+      left                  : '50%',
+      right                 : 'auto',
+      bottom                : 'auto',
+      marginRight           : '-50%',
+      transform             : 'translate(-50%, -50%)',
+      minWidth              : '420px'
+    }
+};
+Modal.setAppElement('body');
+
+import ChargePage from '../../../components/units/charge/Charge.container'; 
+
 export default function HeaderPage({
     moveUrl,
     router,
     logoDiv,
     accessToken,
-    moveLogin
+    moveLogin,
+    setclickProfile,
+    clickProfile,
+    userInfo,
+    logout,
+    loginProfile,
+    chargeModal,
+    setChargeModal
 }) {
     return(
         <HeaderDiv>
+            <Modal
+                isOpen={chargeModal}
+                style={modalStyles}
+                contentLabel="Example Modal"
+            >
+                <ChargePage />
+            </Modal>
+
             <HeaderLogoDiv ref={logoDiv}>
                 <HeaderLogo>
                     <HeaderLogoImg src="/images/logo.png" onClick={() => moveUrl('/')}/>
@@ -32,13 +66,53 @@ export default function HeaderPage({
 
                 <HeaderLoginDiv>
                     {!accessToken
-                    &&
-                        <div>
+                        
+                        ? <div>
                             <HeaderLogin type='button' value='로그인' onClick={() => moveLogin('/login')} />
                             <HeaderSignup type='button' value='회원가입' onClick={() => moveLogin('/signup')} />
-                        </div>
+                          </div>
+
+                        : <div>
+                            <LoginProfileImg alt='' src='/images/profile.png' onClick={() => setclickProfile(prev => !prev)}/>
+                            <img alt='' src='/images/more.png' onClick={() => setclickProfile(prev => !prev)}
+                                style={clickProfile === true ? { 'transform' : 'rotate(180deg)' } : undefined}
+                            />
+                          
+                            { (accessToken && clickProfile === true)
+                                &&
+                                <LoginUserProfileDiv ref={loginProfile}>
+                                    <ProfileInfoDiv>
+                                        <ProfileImageDiv>
+                                            <img alt='' src='/images/profile.png' />
+                                            <ProfileChangeImg alt='' src='/images/profileChange.png'/>
+                                        </ProfileImageDiv>
+
+                                        <ProfileInfo>
+                                            <div> {userInfo?.name} </div>
+                                            <div style={ userInfo?.userPoint?.amount === 0 ? { 'color' : '#ababab' } : undefined}> 
+                                                {setComma(userInfo?.userPoint?.amount)} P 
+                                            </div>
+                                        </ProfileInfo>
+                                    </ProfileInfoDiv>
+
+                                    <LoginOptionalDiv>
+                                        <div style={{ 'borderBottom' : 'solid 1px #EFEFEF' }}
+                                             onClick={() => setChargeModal(true)}
+                                        >
+                                            <img alt='' src='/images/charge.png' />
+                                            <b> 충전하기 </b>
+                                        </div>
+                                        <div onClick={logout}>
+                                            <img alt='' src='/images/logout.png' />
+                                            <b> 로그아웃 </b>
+                                        </div>
+                                    </LoginOptionalDiv>
+                                </LoginUserProfileDiv>
+                            }
+                          </div>
                     }
                 </HeaderLoginDiv>
+                
             </HeaderLogoDiv>
 
             <CarouselDiv>

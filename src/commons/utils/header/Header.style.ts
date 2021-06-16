@@ -54,6 +54,17 @@ export const HeaderLoginDiv = styled.div`
         cursor: pointer;
         font-weight : 900;
     }
+
+    img {
+        vertical-align : middle;
+        cursor : pointer;
+
+    }
+`
+
+export const LoginProfileImg = styled.img`
+    width : 30px;
+    margin-right : 15px;
 `
 
 export const HeaderLogin = styled.input`
@@ -165,5 +176,98 @@ export const HeaderCategory = styled.div`
 
     @media (max-width : 375px) {
         width : 30%;
+    }
+`
+export const LoginUserProfileDiv = styled.div`
+    display : none;
+    position : absolute;
+    z-index : 9999;
+    width : 258px;
+    height : 231px !important;
+    margin-top : -10px;
+    right : 20%;
+    background-color : #FFFFFF;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 1);
+    border-radius : 10px;
+
+    @media (max-width : 555px) {
+        right : 0%;
+        margin-top : 10px;
+        text-align : center;
+        padding-top : 10px;
+    }
+`
+
+export const ProfileInfoDiv = styled.div`
+    display : grid;
+    grid-template-columns : 100px auto;
+    line-height : 4;
+    height : 85px !important;
+    border-bottom : solid 2px black;
+
+    div {
+        height : 20px;
+    }
+
+    @media (max-width : 555px) {
+        line-height : 0 !important;
+        height : 70px !important;
+    }
+`
+
+export const ProfileImageDiv = styled.div`
+    img {
+        vertical-align : bottom !important;
+        margin-top : 15px;
+
+        @media (max-width : 555px) {
+            margin-top : 5px;
+        }
+    }
+
+`
+
+export const ProfileInfo = styled.div`
+    text-align : left;
+    font-weight : bold;
+
+    @media (max-width : 555px) {
+        padding-top : 20px;
+    }
+`
+
+export const ProfileChangeImg = styled.img`
+    position : absolute;
+    margin-top : 45px !important;
+    margin-left : -15px;
+
+    @media (max-width : 555px) {
+        margin-top : 35px !important;
+    }
+`
+
+export const LoginOptionalDiv = styled.div`
+    color : #EFEFEF;
+    text-align : left;
+    /* padding : 0px 35px; */
+
+    div {
+        height : 73px !important;
+        cursor : pointer;
+        padding-left : 50px;
+
+        @media (max-width : 555px) {
+            height : 76px !important;
+            line-height : 4.7;
+        }
+    }
+
+    img {
+        vertical-align : text-bottom;
+    }
+
+    b {
+        color : #BDBDBD;
+        margin-left : 10px;
     }
 `

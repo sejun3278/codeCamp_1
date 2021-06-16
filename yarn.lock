@@ -297,6 +297,13 @@
   dependencies:
     ckeditor5 "^28.0.0"
 
+"@ckeditor/ckeditor5-font@^28.0.0":
+  version "28.0.0"
+  resolved "https://registry.yarnpkg.com/@ckeditor/ckeditor5-font/-/ckeditor5-font-28.0.0.tgz#7eb221a98eeb73a571682cf340a48c10209757db"
+  integrity sha512-fgNuTpifHECdGI/vJxatgx7qmFsW+PdEVF97ms3oggVO8iYDlHkhK1xp5O6Uhz7diTnhTYvvQ6OMOuJURMHtNg==
+  dependencies:
+    ckeditor5 "^28.0.0"
+
 "@ckeditor/ckeditor5-heading@^28.0.0":
   version "28.0.0"
   resolved "https://registry.yarnpkg.com/@ckeditor/ckeditor5-heading/-/ckeditor5-heading-28.0.0.tgz#38bcfd1a3a7ea5e484e05580e3e53c7ca61e9cd2"

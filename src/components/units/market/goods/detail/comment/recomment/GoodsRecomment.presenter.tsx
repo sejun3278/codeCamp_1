@@ -21,7 +21,7 @@ const GoodsRecommentUI = function({
     answerData,
     sellerEmail,
     goodsInfo,
-    loginEmail,
+    userInfo,
     removeAnswer,
     modifyModal,
     setModal,
@@ -36,7 +36,6 @@ const GoodsRecommentUI = function({
         <GoodsRecommentDiv>
             {answerData?.fetchUseditemQuestionAnswers
                 && answerData?.fetchUseditemQuestionAnswers.map( (el, key) => {
-                    console.log(el)
 
                     let name = el.user.name;
                     if(goodsInfo?.seller?.email === el.user.email) {
@@ -76,7 +75,7 @@ const GoodsRecommentUI = function({
                             </GoodsRecommentInfo>
 
                             <GoodsAnswerIconDiv>
-                                { (el.user.email === loginEmail)
+                                { (el.user.email === userInfo.email)
                                     && <GoodsAnswerOption>
                                             <img alt='' src='/images/comment_modify.png' title='수정하기'
                                                  onClick={() => setModal(el)}
@@ -88,7 +87,7 @@ const GoodsRecommentUI = function({
                                 }
                                 
                                 
-                                { (el.user.email !== loginEmail) && loginEmail
+                                { (el.user.email !== userInfo.email) && userInfo.email
                                     && <GoodsAnswerOption>
                                             <img alt='' src='/images/answer.png' title='답변하기' 
                                                         onClick={() => setRecomment(question)}

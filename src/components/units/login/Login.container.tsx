@@ -1,8 +1,8 @@
 import LoginUI from './Login.presenter';
 import { useState, useRef, useContext } from 'react';
-import { useMutation } from '@apollo/client';
+import { useApolloClient, useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
-import { LOGIN_USER } from './Login.queries';
+import { LOGIN_USER, FETCH_USER_LOGGED_IN } from './Login.queries';
 
 import { GlobalContext } from '../../../../pages/_app';
 
@@ -30,6 +30,8 @@ export default function LoginPage () {
     const emailRef = useRef<HTMLInputElement>();
     const passwordRef = useRef<HTMLInputElement>();
 
+    const client = useApolloClient();
+
     // if (typeof window !== "undefined") {
     //     // 코드 작성
     //     const _next : any = window.document.querySelector('#__next');
@@ -53,9 +55,18 @@ export default function LoginPage () {
         setErrors(error)
     }
 
+    const [ clickLogin, setClickLogin ] = useState(false);
+    // const { data : userInfo } = useQuery(FETCH_USER_LOGGED_IN);
+
+    // console.log(userInfo)
+
+    // const [ fetchUserLazy, { data : userQuery } ] = useLazyQuery(FETCH_USER_LOGGED_IN);
+
     // 로그인
     const login = async (event) => {
         event.preventDefault();
+
+        if(clickLogin) return;
 
         if(able === false) {
             const error = { ...errors }
@@ -74,6 +85,8 @@ export default function LoginPage () {
             return; 
 
         } else {
+            setClickLogin(true);
+
             try {
                 const login = await loginUser({
                     variables : {
@@ -86,20 +99,38 @@ export default function LoginPage () {
                 globalContextList.setAccessToken(accessToken);
 
                 // 이메일 저장하기
-                globalContextList.setLoginEmail(input.email);
+                // globalContextList.setLoginEmail(input.email);
 
-                alert(input.email + ' 님 반갑습니다!');
+                // useLazyQuery 사용시
+                // fetchUserLazy({
+                //     context : {
+                //         headers : { authorization : accessToken }
+                //     }
+                // })
+
+                const userQuery = await client.query({
+                    query : FETCH_USER_LOGGED_IN,
+                    context : {
+                        headers : { authorization : accessToken }
+                    }
+                });
+                const userInfo = userQuery.data.fetchUserLoggedIn;
+
+                // 유저 정보 저장하기
+                globalContextList.setUserInfo(userInfo);
+
+                alert(userInfo.email + ' 님 반갑습니다!');
 
                 if(globalContextList.savePath !== "") {
-                    console.log(globalContextList.savePath)
                     globalContextList.setSavePath("");
                     router.push(globalContextList.savePath);
                     
                 } else {
-                    router.push('/');
+                    router.back();
                 }
 
             } catch(error) {
+                setClickLogin(false);
                 alert(error.message);
                 return;
             }

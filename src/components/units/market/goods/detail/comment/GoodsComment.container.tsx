@@ -10,7 +10,7 @@ import { useRouter } from 'next/router';
 import { GoodsContext } from "../../../../../../../pages/market/goods/[id]/index";
 
 export default function GoodsCommentPage({
-    loginEmail,
+    userInfo,
     goodsInfo
 }) {
     const router = useRouter();
@@ -39,7 +39,7 @@ export default function GoodsCommentPage({
     const addQuestion = (event) => {
         event.preventDefault();
 
-        if(goodsInfo?.seller?.email === loginEmail) {
+        if(goodsInfo?.seller?.email === userInfo.email) {
             alert('자신이 등록한 글에는 문의글을 등록할 수 없습니다.');
             return;
         }
@@ -213,7 +213,7 @@ export default function GoodsCommentPage({
             addQuestion={addQuestion}
             commentRef={commentRef}
             questionData={questionData}
-            loginEmail={loginEmail}
+            userInfo={userInfo}
             onloadMore={onloadMore}
             removeQuestion={removeQuestion}
             modifyModal={modifyModal}

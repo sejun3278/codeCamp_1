@@ -10,13 +10,33 @@ import styled from '@emotion/styled';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 
+import Head from 'next/head';
+
+interface userInfoType {
+  email : String,
+  name : String,
+  userPoint : {
+    amount : Number
+  }
+}
+
+const userInit : userInfoType = {
+  email : "",
+  name : "",
+  userPoint : {
+    amount : 0
+  }
+}
+
 export const GlobalContext = createContext({
   accessToken : "",
   setAccessToken : (_ : any) => {},
-  loginEmail : "",
-  setLoginEmail : (_ : any) => {},
+  userInfo : userInit ,
+  setUserInfo : (_ : any) => {},
   savePath : "",
   setSavePath : (_ : any) => {},
+  chargeModal : false,
+  setChargeModal :  (_ : any) => {},
 })
 
 const Wrapper = styled.div`
@@ -28,8 +48,9 @@ const Wrapper = styled.div`
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
   const [ accessToken, setAccessToken ] = useState("");
-  const [ loginEmail, setLoginEmail ] = useState("");
+  const [ userInfo, setUserInfo ] = useState(userInit);
   const [ savePath, setSavePath ] = useState("");
+  const [ chargeModal, setChargeModal ] = useState(false);
 
   const uploadLink = createUploadLink({
     // uri : 'http://example.codebootcamp.co.kr/graphql',
@@ -85,26 +106,31 @@ function MyApp({ Component, pageProps }) {
   })
   
   return (
-    <GlobalContext.Provider value={{ accessToken, setAccessToken, loginEmail, setLoginEmail, savePath, setSavePath }}>
-      
-      <script
-        type="text/javascript"
-        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=52c079a2821b29491ec6470e2b957f3e&autoload=false">    
-      </script>
-      
-      <ApolloProvider client={client}>
-        <Wrapper style={{ 'height' : '100%' }}>
-          {
-          // (router.pathname.includes('board') === true || router.pathname === '/')
-          (router.pathname !== '/login' && router.pathname !== '/signup')
-            &&
-            <Header />
-          }
+    <>
+      <GlobalContext.Provider value={{ 
+        accessToken, setAccessToken, userInfo, setUserInfo, savePath, setSavePath,
+        chargeModal, setChargeModal
+      }}>
+        
+        <script
+          type="text/javascript"
+          src="//dapi.kakao.com/v2/maps/sdk.js?appkey=52c079a2821b29491ec6470e2b957f3e&autoload=false">    
+        </script>
+        
+        <ApolloProvider client={client}>
+          <Wrapper style={{ 'height' : '100%' }}>
+            {
+            // (router.pathname.includes('board') === true || router.pathname === '/')
+            (router.pathname !== '/login' && router.pathname !== '/signup')
+              &&
+              <Header />
+            }
 
-          <Component {...pageProps} />
-        </Wrapper>
-      </ApolloProvider>
-    </GlobalContext.Provider>
+            <Component {...pageProps} />
+          </Wrapper>
+        </ApolloProvider>
+      </GlobalContext.Provider>
+    </>
   )
 }
 

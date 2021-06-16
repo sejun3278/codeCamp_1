@@ -1,6 +1,6 @@
 import MarketGoodsUI from './GoodsWrite.presenter';
 import withAuth from '../../../../commons/hocs/widthAtuth';
-import { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { useRouter } from 'next/router'
 
@@ -30,6 +30,19 @@ export default function MarketGoodsPage () {
     const remarksRef = useRef<HTMLInputElement>();
     const contentsRef = useRef<HTMLTextAreaElement>();
     const priceRef = useRef<HTMLInputElement>();
+
+    const editorRef = useRef<any>()
+    const [editorLoaded, setEditorLoaded] = useState(false)
+    const { CKEditor, ClassicEditor } = editorRef.current || {}
+
+    useEffect(() => {
+
+      editorRef.current = {
+        CKEditor: require('@ckeditor/ckeditor5-react').CKEditor, // v3+
+        ClassicEditor: require('@ckeditor/ckeditor5-build-classic')
+      }
+      setEditorLoaded(true)
+    }, [])
 
     // const kakaoKey = "52c079a2821b29491ec6470e2b957f3e";
 
@@ -169,11 +182,12 @@ export default function MarketGoodsPage () {
             formRef={formRef}
             removeFile={removeFile}
             remarksRef={remarksRef}
-            contentsRef={contentsRef}
             priceRef={priceRef}
+            CKEditor={CKEditor}
+            ClassicEditor={ClassicEditor}
+            editorLoaded={editorLoaded}
         />
     )
-
 }
 
 // export default withAuth(MarketGoodsPage);

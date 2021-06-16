@@ -57,7 +57,6 @@ export default function GoodsDetailPage() {
         }
     }
 
-
     // 검색 버튼 클릭
     const goodsSearch = (event) => {
         event.preventDefault();
@@ -81,12 +80,6 @@ export default function GoodsDetailPage() {
         }
     }
 
-
-const { ref, inView, entry } = useInView({
-    /* Optional options */
-    threshold: 0,
-  });
-
     return(
         <GoodsListUI 
             router={router}
@@ -97,8 +90,6 @@ const { ref, inView, entry } = useInView({
             goodsSearch={goodsSearch}
             onloadMore={onloadMore}
             logList={logList}
-            ref={ref}
-            inView={inView}
         />
     )
 }
