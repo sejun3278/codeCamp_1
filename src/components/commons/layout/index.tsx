@@ -10,7 +10,7 @@ const widthoutNavigation = [
     '/query'
 ]
 
-import Headers from '../../../commons/utils/header/Header.container';
+import Headers from '../../../commons/utils/layout/Header.container';
 import { useRouter } from 'next/router';
 import { createContext, useState } from 'react';
 
@@ -31,7 +31,7 @@ const Layout = ({ children }) => {
     return(
         <LayoutContext.Provider value={value}>
             <Wrapper>
-                <Headers />
+                {/* <Headers /> */}
             </Wrapper>
         </LayoutContext.Provider>
     )

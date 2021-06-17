@@ -45,3 +45,11 @@ export const CREATE_USEDITEM_ANSWER = gql`
         }
     }
 `
+
+export const UPDATE_USEDITEM_QUESTION_ANSWER = gql`
+    mutation updateUseditemQuestionAnswer($updateUseditemQuestionAnswerInput : UpdateUseditemQuestionAnswerInput!, $useditemQuestionAnswerId : ID!) {
+        updateUseditemQuestionAnswer(updateUseditemQuestionAnswerInput : $updateUseditemQuestionAnswerInput, useditemQuestionAnswerId :$useditemQuestionAnswerId) {
+            _id
+        }
+    }
+`

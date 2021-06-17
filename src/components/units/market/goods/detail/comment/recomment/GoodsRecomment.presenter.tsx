@@ -30,7 +30,8 @@ const GoodsRecommentUI = function({
     modifyText,
     modifyQuestion,
     question,
-    setRecomment
+    setRecomment,
+    clickOpenModify
 }) {
     return(
         <GoodsRecommentDiv>
@@ -44,26 +45,29 @@ const GoodsRecommentUI = function({
 
                     return(
                         <GoodsRecomment key={key}>
-                            <Modal
-                                isOpen={modifyModal !== null}
-                                style={modalStyles}
-                                contentLabel="Example Modal"
-                            >
-                                <ModifyModalDiv>
-                                    <p> 답변글 수정 </p>
-                                    <textarea ref={modifyText} maxLength={100} onChange={(event) => setModifyContent(event.target.value.trim())}>{modifyContent}</textarea>
-                                    <ModifyOptionDiv>
-                                        {modifyContent.length} / 100
-                                    </ModifyOptionDiv>
+                            { (modifyModal !== null && modifyModal._id === el._id)
+                            &&
+                                <Modal
+                                    isOpen={modifyModal !== null}
+                                    style={modalStyles}
+                                    contentLabel="Example Modal"
+                                >
+                                    <ModifyModalDiv>
+                                        <p> 답변글 수정 </p>
+                                        <textarea ref={modifyText} defaultValue={modifyContent} maxLength={100} onChange={(event) => setModifyContent(event.target.value.trim())}></textarea>
+                                        <ModifyOptionDiv>
+                                            {modifyContent.length} / 100
+                                        </ModifyOptionDiv>
 
-                                    <ModifyConfirmDiv>
-                                        <input type='button' value='취소' onClick={() => setModal(null)} />
-                                        <input type='button' value='수정' onClick={modifyQuestion}
-                                            style={modifyContent.length > 0 && modifyContent !== modifyModal?.contents ? { 'backgroundColor' : '#FFD600' } : undefined}
-                                        />
-                                    </ModifyConfirmDiv>
-                                </ModifyModalDiv>
-                            </Modal>
+                                        <ModifyConfirmDiv>
+                                            <input type='button' value='취소' onClick={() => setModal(null)} />
+                                            <input type='button' value='수정' onClick={modifyQuestion}
+                                                style={modifyContent.length > 0 && modifyContent !== modifyModal?.contents ? { 'backgroundColor' : '#FFD600' } : undefined}
+                                            />
+                                        </ModifyConfirmDiv>
+                                    </ModifyModalDiv>
+                                </Modal>
+                            }
 
                             <div> <GoodsRecommentArrow alt='' src='/images/answer_arrow.png' /> </div>
                             <GoodsRecommentInfo>

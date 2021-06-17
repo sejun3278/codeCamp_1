@@ -5,7 +5,9 @@ import { useQuery, useMutation } from '@apollo/client';
 
 import { GoodsContext } from "../../../../../../../../pages/market/goods/[id]/index";
 
-const GoodsRecommentPage = function({ commentId, goodsInfo, userInfo, question, setRecomment }) {
+const GoodsRecommentPage = function({ 
+    commentId, goodsInfo, userInfo, question, setRecomment, setModifyModal, setModifyType
+}) {
     const [ page, _ ] = useState(0);
     const { answerRefresh, setAnswerRefresh, sellerEmail } = useContext(GoodsContext);
     const [ deleteAnswer ] = useMutation(DELETE_USEDITEM_QUESTION_ANSWER);
@@ -99,6 +101,12 @@ const GoodsRecommentPage = function({ commentId, goodsInfo, userInfo, question, 
         }
     }
 
+    // 수정창 열기
+    const clickOpenModify = (info) => {
+        setModifyModal(info);
+        setModifyType('answer');
+    }
+    
     if(answerData?.fetchUseditemQuestionAnswers) {
         return(
             <GoodsRecommentUI 
@@ -115,6 +123,7 @@ const GoodsRecommentPage = function({ commentId, goodsInfo, userInfo, question, 
                 modifyQuestion={modifyQuestion}
                 question={question}
                 setRecomment={setRecomment}
+                clickOpenModify={clickOpenModify}
                 // setRecomment=
             />
         )

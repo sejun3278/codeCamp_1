@@ -4,7 +4,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import GoodsCommentUI from './GoodsComment.presenter';
 import { 
     CREATE_USEDITEM_QUESTION, FETCH_USEDITEM_QUESTIONS, DELETE_QUESTION, UPDATE_USEDITEM_QUESTION,
-    CREATE_USEDITEM_ANSWER
+    CREATE_USEDITEM_ANSWER, UPDATE_USEDITEM_QUESTION_ANSWER
 } from './GoodsComment.queries';
 import { useRouter } from 'next/router';
 import { GoodsContext } from "../../../../../../../pages/market/goods/[id]/index";
@@ -24,6 +24,7 @@ export default function GoodsCommentPage({
     const [ deletUseditemQuestion ] = useMutation(DELETE_QUESTION);
     const [ updateUseditemQuestion ] = useMutation(UPDATE_USEDITEM_QUESTION);
     const [ createUseditemQuestionAnswer ] = useMutation(CREATE_USEDITEM_ANSWER);
+    const [ updateUseditemQuestionAnswer ] = useMutation(UPDATE_USEDITEM_QUESTION_ANSWER);
 
     const commentRef = useRef<HTMLInputElement>();
 
@@ -129,6 +130,7 @@ export default function GoodsCommentPage({
     }, [modifyModal])
 
     const modifyText = useRef<HTMLTextAreaElement>();
+    const [ modifyType, setModifyType ] = useState(null);
 
     const modifyQuestion = async () => {
         if(modifyContent.trim().length === 0) {
@@ -141,24 +143,44 @@ export default function GoodsCommentPage({
         }
 
         try {
-            await updateUseditemQuestion({
-                variables : {
-                    updateUseditemQuestionInput : { 
-                        contents : modifyContent 
-                    },
-                    useditemQuestionId : modifyModal?._id,
-                },
-
-                refetchQueries : [{ 
-                    query : FETCH_USEDITEM_QUESTIONS,
+            if(modifyType === null) {
+                await updateUseditemQuestion({
                     variables : {
-                        page : page,
-                        useditemId : goodsId
-                    }
-                }]
-            })
+                        updateUseditemQuestionInput : { 
+                            contents : modifyContent 
+                        },
+                        useditemQuestionId : modifyModal?._id,
+                    },
 
-            alert('문의글이 수정되었습니다.')
+                    refetchQueries : [{ 
+                        query : FETCH_USEDITEM_QUESTIONS,
+                        variables : {
+                            page : page,
+                            useditemId : goodsId
+                        }
+                    }]
+                })
+            } else {
+                await updateUseditemQuestionAnswer({
+                    variables : {
+                        updateUseditemQuestionAnswerInput : { 
+                            contents : modifyContent 
+                        },
+                        useditemQuestionAnswerId : modifyModal?._id,
+                    },
+    
+                    // refetchQueries : [{ 
+                    //     query : UPDATE_USEDITEM_QUESTION_ANSWER,
+                    //     variables : {
+                    //         page : page,
+                    //         useditemQuestionId : goodsId
+                    //     }
+                    // }]
+                })
+            }
+
+            const alertMent = modifyType === 'answer' ? '답변글' : '문의글';
+            alert(alertMent + '이 수정되었습니다.');
             setModifyModal(null);
 
         } catch(error) {
@@ -171,7 +193,7 @@ export default function GoodsCommentPage({
     const [ recomment, setRecomment ] = useState(null);
     const [ answer, setAnswer ] = useState("");
     const answerRef = useRef<HTMLTextAreaElement>();
-
+    
     // 대댓글 등록
     const addAnswer = async () => {
         if(recomment === null) {
@@ -204,7 +226,14 @@ export default function GoodsCommentPage({
             }
         }
     }
+
+    // 문의글 창 열기
+    const openQuestionModal = (info) => {
+        setModifyModal(info);
+        setModifyType(null);
+    }
     
+    console.log(modifyType)
     return(
         <GoodsCommentUI 
             comment={comment}
@@ -229,6 +258,9 @@ export default function GoodsCommentPage({
             addAnswer={addAnswer}
             answerRef={answerRef}
             sellerEmail={sellerEmail}
+            setModifyType={setModifyType}
+            modifyType={modifyType}
+            openQuestionModal={openQuestionModal}
         />
     )
 }

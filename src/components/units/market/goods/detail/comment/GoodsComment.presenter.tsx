@@ -43,7 +43,10 @@ export default function GoodsCommentPage({
     setAnswer,
     addAnswer,
     answerRef,
-    sellerEmail
+    sellerEmail,
+    setModifyType,
+    modifyType,
+    openQuestionModal
 }) {
     return(
         <GoodsCommentDiv>
@@ -55,8 +58,8 @@ export default function GoodsCommentPage({
                     contentLabel="Example Modal"
                 >
                     <ModifyModalDiv>
-                        <p> 문의글 수정 </p>
-                        <textarea ref={modifyText} maxLength={100} onChange={(event) => setModifyContent(event.target.value.trim())}>{modifyContent}</textarea>
+                        <p> {modifyType === 'answer' ? '답변' : '문의'}글 수정 </p>
+                        <textarea defaultValue={modifyContent} ref={modifyText} maxLength={100} onChange={(event) => setModifyContent(event.target.value.trim())}></textarea>
                         <ModifyOptionDiv>
                             {modifyContent.length} / 100
                         </ModifyOptionDiv>
@@ -108,7 +111,7 @@ export default function GoodsCommentPage({
                                                 // 내가 작성한 문의글인 경우, 삭제 및 수정 가능
                                                 && <MyComment>
                                                         <img alt='' src='/images/comment_modify.png' title='수정하기' 
-                                                                    onClick={() => setModifyModal(question)}
+                                                                    onClick={() => openQuestionModal(question)}
                                                         />
                                                         <img alt='' src='/images/comment_remove.png' title='삭제하기' 
                                                                     onClick={() => removeQuestion(question._id)}
@@ -134,6 +137,8 @@ export default function GoodsCommentPage({
                                         goodsInfo={goodsInfo}
                                         userInfo={userInfo}
                                         setRecomment={setRecomment}
+                                        setModifyModal={setModifyModal}
+                                        setModifyType={setModifyType}
                                     />
                                     {(recomment !== null && recomment._id === question._id ) &&
                                         <GoodsQuestionAnswerDiv>
