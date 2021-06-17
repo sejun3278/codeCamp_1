@@ -2,17 +2,16 @@ import '../styles/globals.css'
 import { ApolloProvider, ApolloClient, InMemoryCache, ApolloLink  } from '@apollo/client';
 import { createUploadLink } from 'apollo-upload-client';
 
-import { onError } from "@apollo/client/link/error";
-import Header from '../src/commons/utils/header/Header.container';
+import Layout from '../src/commons/utils/layout/index';
 import { createContext, useState } from 'react';
 import styled from '@emotion/styled';
 
-import axios from 'axios';
 import { useRouter } from 'next/router';
 
-import Head from 'next/head';
+// import Head from 'next/head';
 
 interface userInfoType {
+  _id : String,
   email : String,
   name : String,
   userPoint : {
@@ -21,6 +20,7 @@ interface userInfoType {
 }
 
 const userInit : userInfoType = {
+  _id : "",
   email : "",
   name : "",
   userPoint : {
@@ -39,9 +39,9 @@ export const GlobalContext = createContext({
   setChargeModal :  (_ : any) => {},
 })
 
-const Wrapper = styled.div`
-  min-width : 360px;
-`
+// const Layout = styled.div`
+//   min-width : 360px;
+// `
 
 // const url = 'http://backend.codebootcamp.co.kr/graphql';
 
@@ -118,16 +118,16 @@ function MyApp({ Component, pageProps }) {
         </script>
         
         <ApolloProvider client={client}>
-          <Wrapper style={{ 'height' : '100%' }}>
-            {
+          <Layout>
+            {/* {
             // (router.pathname.includes('board') === true || router.pathname === '/')
             (router.pathname !== '/login' && router.pathname !== '/signup')
               &&
               <Header />
-            }
+            } */}
 
             <Component {...pageProps} />
-          </Wrapper>
+          </Layout>
         </ApolloProvider>
       </GlobalContext.Provider>
     </>

@@ -8,3 +8,16 @@ export const CREATE_POINT = gql`
         }
     }
 `
+
+export const FETCH_USER_LOGGED_IN = gql`
+    query {
+        fetchUserLoggedIn {
+        _id
+        email
+        name
+        userPoint {
+            amount
+        }
+    }
+}
+`

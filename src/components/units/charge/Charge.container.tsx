@@ -1,34 +1,38 @@
 import ChargeUI from './Charge.presenter';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Head from 'next/head';
-import { CREATE_POINT } from './Charge.queries';
+import { CREATE_POINT, FETCH_USER_LOGGED_IN } from './Charge.queries';
 
 import { GlobalContext } from '../../../../pages/_app';
 import { setComma } from '../../../commons/libraries/validations';
-import { useMutation } from '@apollo/client';
+import { useMutation, useApolloClient } from '@apollo/client';
 
 export default function ChargePage() {
-    const { setChargeModal, userInfo, setUserInfo } = useContext(GlobalContext)
+    const { setChargeModal, userInfo, setUserInfo, accessToken } = useContext(GlobalContext)
     const [ point, setPoint ] = useState(0);
     const [ createPoint ] = useMutation(CREATE_POINT);
+
+    const client = useApolloClient();
 
     useEffect( () => {
         setPoint(0);
 
     }, [point < 0])
 
-    const pointRef = useRef<HTMLInputElement>();
+    const [ openSelect, setOpenSelect ] = useState(false);
+
     // 결제하기
     const charge = (event) => {
-        event.preventDefault();
+        // event.preventDefault();
 
         if(point < 100) {
-            pointRef.current.focus();
-            
+            setOpenSelect(true);
+
             alert('포인트 충전은 100원 이상부터 가능합니다.')
             return;
 
         } else {
+            console.log(userInfo._id)
             if(window.confirm(setComma(point) + ' 포인트 충전을 진행하시겠습니까?')) {
                 // setChargeModal(false);
 
@@ -66,12 +70,15 @@ export default function ChargePage() {
 
                         alert(setComma(point) + ' 포인트가 충전되었습니다.');
 
-                        // 포인트 최신화하기
-                        const copyUserInfo = { ...userInfo };
-                        console.log(copyUserInfo)
-                        
-                        copyUserInfo.userPoint.amount = Number(copyUserInfo.userPoint.amount) + Number(point);
-                        setUserInfo(copyUserInfo);
+                        // 유저 정보 최신화하기
+                        const userQuery = await client.query({
+                            query : FETCH_USER_LOGGED_IN,
+                            context : {
+                                headers : { authorization : accessToken }
+                            }
+                        });
+                        const userInfo = userQuery.data.fetchUserLoggedIn;
+                        setUserInfo(userInfo);
 
                         setChargeModal(false);
 
@@ -98,8 +105,9 @@ export default function ChargePage() {
                 point={point}
                 setPoint={setPoint}
                 charge={charge}
-                pointRef={pointRef}
                 setComma={setComma}
+                setOpenSelect={setOpenSelect}
+                openSelect={openSelect}
             />
         </>
     )

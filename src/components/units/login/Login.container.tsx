@@ -119,7 +119,12 @@ export default function LoginPage () {
                 // 유저 정보 저장하기
                 globalContextList.setUserInfo(userInfo);
 
-                alert(userInfo.email + ' 님 반갑습니다!');
+                if(typeof window !== 'undefined') {
+                    // 로컬 스토리지에 저장하기
+                    // window.localStorage.setItem('login', JSON.stringify(userInfo));
+                }
+
+                alert(input.email + ' 님 반갑습니다!');
 
                 if(globalContextList.savePath !== "") {
                     globalContextList.setSavePath("");

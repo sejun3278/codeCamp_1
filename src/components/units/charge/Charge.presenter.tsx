@@ -1,5 +1,7 @@
 import { 
-    ChargeMainDiv, ChargeCloseDiv, ChargeTitle, ChargeBillDiv, ChargeBillGridDiv, ChargeBillTitleDiv, ChargeBillPrice, ChargeBillInput, ChargeSubmit
+    ChargeMainDiv, ChargeCloseDiv, ChargeTitle, ChargeBillDiv, ChargeSelectPriceDiv, ChargeSelectListDiv, ChargeSelect, ChargeSubmit
+    
+    // ChargeBillGridDiv, ChargeBillTitleDiv, ChargeBillPrice, ChargeBillInput, 
 
 } from './Charge.style';
 
@@ -9,8 +11,9 @@ export default function ChargeUI({
     setPoint,
     point,
     charge,
-    pointRef,
-    setComma
+    setComma,
+    openSelect,
+    setOpenSelect
 }) {
     return(
         <ChargeMainDiv>
@@ -19,31 +22,54 @@ export default function ChargeUI({
                      onClick={() => setChargeModal(false)}
                 />
             </ChargeCloseDiv>
-            <ChargeTitle> <img alt='' src='/images/charge.png'/> 포인트 충전 </ChargeTitle>
+            <ChargeTitle>
+                <img alt='' src='/images/chargeIcon.png'/>
+                <p> 충전하실 금액을 선택해주세요! </p>
+            </ChargeTitle>
 
-            <form onSubmit={charge}>
-            <ChargeBillDiv>
-                <ChargeBillGridDiv>
-                    <ChargeBillTitleDiv> 충전 전 포인트 </ChargeBillTitleDiv>
-                    <ChargeBillPrice> {setComma(userInfo?.userPoint?.amount)} P </ChargeBillPrice>
-                </ChargeBillGridDiv>
+            {/* <form onSubmit={}> */}
+                <div>
+                    <ChargeBillDiv>
+                        <ChargeSelectPriceDiv
+                            onClick={() => setOpenSelect(!openSelect)}
+                        >
+                            <div style={{ 'float' : 'left' }}> 
+                                {point === 0 ? '포인트 선택' : setComma(point) + ' P' }
+                            </div>
+                            <div style={{ 'float' : 'right' }}> 
+                                <img alt='' src='/images/chargeSelectIcon.png'
+                                    style={ openSelect ? { 'transform' : 'rotate(180deg)' } : undefined }
+                                /> 
+                            </div>
+                        </ChargeSelectPriceDiv>
 
-                <ChargeBillGridDiv>
-                    <ChargeBillTitleDiv> 충전 할 포인트 </ChargeBillTitleDiv>
-                    <ChargeBillPrice> + <ChargeBillInput type='number' ref={pointRef} min={0} onChange={ (e) => setPoint(Number(e.target.value))}/> P </ChargeBillPrice>
-                </ChargeBillGridDiv>
+                        {openSelect &&
+                            <ChargeSelectListDiv>
+                                {new Array(100, 500, 2000, 5000).map( (selecPoint, key) => {
+                                    return(
+                                        <ChargeSelect key={key}
+                                            onClick={() => point !== selecPoint ? setPoint(selecPoint) : charge()}
+                                            id={point === selecPoint ? 'selectPoint' : undefined}
+                                            style={key === 3 ? { 'borderBottom' : 'none'  } : undefined}
+                                        >
+                                            {setComma(selecPoint)} P
+                                        </ChargeSelect>
+                                    )
+                                })}
+                            </ChargeSelectListDiv>
+                        }
 
-                <ChargeBillGridDiv>
-                    <ChargeBillTitleDiv> 충전 후 포인트 </ChargeBillTitleDiv>
-                    <ChargeBillPrice> <b> {setComma(Number(userInfo?.userPoint?.amount) + point)} P </b> </ChargeBillPrice>
-                </ChargeBillGridDiv>
-            </ChargeBillDiv>
+                    <ChargeSubmit type='button' value='충전하기'
+                        onClick={charge}
+                        style={point >= 100 ? { 'backgroundColor' : 'black' } : undefined}
+                        title={point < 100 ? "100 포인트 이상부터 결제가 가능합니다." : "포인트 충전"}
+                    />
 
-            <ChargeSubmit type='submit' value='포인트 충전'
-                title={point < 100 ? "100 포인트 이상부터 결제가 가능합니다." : "포인트 충전"}
-                style={point < 100 ? { 'color' : '#ababab', 'cursor' : 'not-allowed' } : { 'color' : 'black', 'backgroundColor' : '#FFD600' } }
-            />
-            </form>
+                    </ChargeBillDiv>
+                </div>
+
+
+            {/* </form> */}
         </ChargeMainDiv>
     )
 }
