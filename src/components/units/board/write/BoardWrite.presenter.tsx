@@ -1,11 +1,12 @@
 import { 
     Wrapper, TitleDiv, HalfGrid, DivGrid, InputDiv,
-    InputTitle, InputContents, TextAreaContents, HostDiv, HostNumberDiv,
+    InputTitle, InputContents, ContentsDiv, HostDiv, HostNumberDiv,
     HostNumberInput, HostNumberButton, SetMainDiv, SetMain, SelectMain, SelectLabel, SubmitDiv, Sumbit,
-    ImageAddDiv, ImageDiv, AddImageShowDiv, ImageRemoveBtn
+    ImageAddDiv, ImageDiv, AddImageShowDiv, ImageRemoveBtn,
 
 } from './BoardWrite.style';
 import imageList from '../../../../../image.json'
+import QuillEditor from '../../../../commons/utils/editor/quill/index'; 
 
 export default function BoardWritePage({
     setState,
@@ -16,7 +17,8 @@ export default function BoardWritePage({
     showImage,
     removeImage,
     editMode,
-    boardInfo
+    boardInfo,
+    getContentsData,
 }) {
 
     return <Wrapper>
@@ -71,9 +73,15 @@ export default function BoardWritePage({
                             />
                         </InputDiv>
 
-                        <InputDiv> 
+                        <InputDiv style={{ 'marginTop' : '20px' }}> 
                             <InputTitle> 내용 * </InputTitle>
-                            <TextAreaContents
+                            <ContentsDiv>
+                                <QuillEditor 
+                                    inputChange={getContentsData}
+                                    defaultData={data.contents}
+                                />
+                            </ContentsDiv>
+                            {/* <TextAreaContents
                                 placeholder="내용을 적어주세요."
                                 name="contents"
                                 onChange={setState}
@@ -82,10 +90,10 @@ export default function BoardWritePage({
                                 maxLength={500}
                                 defaultValue={data.contents}
 
-                            ></TextAreaContents>
+                            ></TextAreaContents> */}
                         </InputDiv>
 
-                        <InputDiv style={{ 'marginTop' : '30px' }}>
+                        <InputDiv style={{ 'marginTop' : '70px' }}>
                             <InputTitle> 주소 </InputTitle>
                             <HostDiv>
                                 <div>

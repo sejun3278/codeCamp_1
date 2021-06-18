@@ -92,6 +92,7 @@ export const MarketMapOptionalDiv = styled.div`
     }
 
     input[type=text], input[type=number] {
+        cursor : default;
         padding-left : 0px;
         text-align : center;
         max-width : 70px;

@@ -6,6 +6,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { checkImage } from '../../../../commons/libraries/validations';
 import { getStorageUrl } from '../../../../commons/libraries/utils';
+import { useEffect } from 'react';
 
 let dataInit = {
   writer: "",
@@ -60,68 +61,89 @@ export default function BoardWritePage() {
 
         input[event.target.name] = value;
         setData(input)
-
-        const able =
-            (
-                input?.writer?.length > 0 &&
-                input?.password?.length > 0 &&
-                input?.title?.length > 0 &&
-                input?.contents?.length > 0
-            )
-        setAble(able);
     }
 
+    // 콘텐츠 받아오기
+    const getContentsData = (contents) => {
+        const input = { ...dataList }
+
+        input['contents'] = contents;
+        setData(input)
+    }
+
+    useEffect( () => {
+        const able =
+        (
+            dataList?.writer?.length > 0 &&
+            dataList?.password?.length > 0 &&
+            dataList?.title?.length > 0 &&
+            dataList?.contents?.length > 0
+        )
+        setAble(able);
+    }, [dataList])
+
+    const  [ submit, setSubmit ] = useState(false);
     const addBoard = async (event) => {
         event.preventDefault();
 
-        try{
-            if(addAble === false) {
-                // 등록 불가일 때
-                return alert('비어있는 항목을 모두 채워주세요.');
+        if(submit === false) {
+            setSubmit(true);
 
-            } else {
-                // 이미지 배열에서 null 값 제외하기
-                // const images = dataList.images.filter( (el) => { return el !== null })
-
-                if(editMode === false) {
-                    const add = await createBoard({
-                        variables : {
-                            createBoardInput : {
-                                writer : dataList.writer,
-                                password : dataList.password,
-                                title : dataList.title,
-                                contents : dataList.contents,
-                                youtubeUrl : dataList.youtubeUrl,
-                                images : dataList.images
-                            }
-                        }
-                    });
-
-                    alert('게시물 등록이 완료되었습니다.');
-                    router.push(`/board/${add.data?.createBoard._id}`);
+            try{
+                if(addAble === false) {
+                    // 등록 불가일 때
+                    return alert('비어있는 항목을 모두 채워주세요.');
 
                 } else {
-                    const update = await updateBoard({
-                        variables : {
-                            updateBoardInput : {
-                                title : dataList.title,
-                                contents : dataList.contents,
-                                youtubeUrl : dataList.youtubeUrl,
-                                images : dataList.images
-                            },
-                            paasword : dataList.password,
-                            boardId : boardId
-                        }
-                    })
+                    // 이미지 배열에서 null 값 제외하기
+                    // const images = dataList.images.filter( (el) => { return el !== null })
 
-                    alert('게시물 수정이 완료되었습니다.');
-                    router.push(`/board/${update.data?.updateBoard._id}`);
+                    if(editMode === false) {
+                        const add = await createBoard({
+                            variables : {
+                                createBoardInput : {
+                                    writer : dataList.writer,
+                                    password : dataList.password,
+                                    title : dataList.title,
+                                    contents : dataList.contents,
+                                    youtubeUrl : dataList.youtubeUrl,
+                                    images : dataList.images
+                                }
+                            }
+                        });
+
+                        alert('게시물 등록이 완료되었습니다.');
+                        router.push(`/board/${add.data?.createBoard._id}`);
+
+                    } else {
+                        const update = await updateBoard({
+                            variables : {
+                                updateBoardInput : {
+                                    title : dataList.title,
+                                    contents : dataList.contents,
+                                    youtubeUrl : dataList.youtubeUrl,
+                                    images : dataList.images
+                                },
+                                paasword : dataList.password,
+                                boardId : boardId
+                            }
+                        })
+
+                        alert('게시물 수정이 완료되었습니다.');
+                        router.push(`/board/${update.data?.updateBoard._id}`);
+                    }
                 }
+
+            } catch(error) {
+                setSubmit(false);
+
+                console.log(error)
+                return alert("게시물 등록에 실패했습니다.");
             }
 
-        } catch(error) {
-            console.log(error)
-            return alert("게시물 등록에 실패했습니다.");
+        } else {
+            alert('글을 등록하고 있습니다. \n잠시만 기다려주세요.');
+            return;
         }
     }
 
@@ -202,8 +224,6 @@ export default function BoardWritePage() {
         setData(inputList);
     }
 
-    console.log(dataList)
-
     return (
         <BoardWriteUI 
             setState={setState}
@@ -215,6 +235,7 @@ export default function BoardWritePage() {
             removeImage={removeImage}
             editMode={editMode}
             boardInfo={boardInfo}
+            getContentsData={getContentsData}
         />
     )
 }

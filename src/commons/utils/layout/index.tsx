@@ -71,6 +71,7 @@ const Layout = ({ children }) => {
         router.push(url);
     }
 
+    console.log(children)
     return(
         <div>
             <Wrapper>
@@ -82,7 +83,9 @@ const Layout = ({ children }) => {
                     </div>
                 }
 
-                <div style={{ 'height' : '100%' }}> {children} </div>
+                <div style={{ 'height' : '100%' }}> 
+                    {children} 
+                </div>
             </Wrapper>
         </div>
     )

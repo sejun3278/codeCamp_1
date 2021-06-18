@@ -1,9 +1,13 @@
-import {
-    Map
-} from './Map.style';
+import styled from '@emotion/styled';
 import Head from 'next/head';
 import { useEffect } from 'react';
 import { useState } from 'react';
+
+export const Map = styled.div`
+    width: 95%;
+    height: 220px;
+    border: 1px solid lightgray;
+`
 
 const init = {
   lat : 37.4848929702844,

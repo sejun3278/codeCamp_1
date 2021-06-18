@@ -320,3 +320,7 @@ export const AddImageShowDiv = styled.div`
 export const RemoveImageIcon = styled.img`
 
 `
+
+export const ContentsDiv = styled.div`
+
+`

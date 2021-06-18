@@ -7,8 +7,10 @@ import {
 import React from 'react';
 import imageList from '../../../../../../image.json';
 
-import Map from '../map/Map.presenter';
-import { CKEditorConfig } from '../../../../../commons/utils/ckEditor/CKEdtior';
+// import Map from '../map/Map.presenter';
+import Map from '../../../../../commons/utils/map/kakao/index';
+import { CKEditorConfig } from '../../../../../commons/utils/editor/ckEditor/CKEdtior';
+// import Head from 'next/head';
 
 export default function MarketWrite({
     changeInput,
@@ -52,8 +54,6 @@ export default function MarketWrite({
                                 <Title> 상품 설명 * </Title>
                                 {editorLoaded === true
                                     && 
-                                    
-
                                     <CKEditor
                                         editor={ ClassicEditor }
                                         config={CKEditorConfig}
@@ -79,17 +79,15 @@ export default function MarketWrite({
                                 <MarketMapGridDiv>
                                     <MarketMapDiv>
                                         <Title> 거래 위치 </Title>
-                                        <div>
-                                            {/* <Map /> */}
-                                        </div>
+                                        <Map />
                                     </MarketMapDiv>
 
                                     <div>
                                         <MarketMapOptionalDiv>
                                             <Title> GPS </Title>
-                                            <input type='text' maxLength={5} placeholder='위도' />
+                                            <input type='text' placeholder='위도' readOnly />
                                             <img alt='' src='/images/map_marker.png' />
-                                            <input type='text' maxLength={5} placeholder='경도' />
+                                            <input type='text' placeholder='경도' readOnly />
                                         </MarketMapOptionalDiv>
 
                                         <MarketHostDiv>

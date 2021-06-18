@@ -20,7 +20,14 @@ export default function LayoutNavigationUI({
             > 
                 중고마켓 
             </HeaderCategory>
-            <HeaderCategory style={{ 'border' : 'none' }}> 마이페이지 </HeaderCategory>
+            <HeaderCategory
+                id='noneBorder'
+                style={router.route.includes('/myPage') ? { 'color' : 'black' } : undefined}
+                onClick={() => moveUrl('/myPage')}
+            > 
+                마이페이지 
+            
+            </HeaderCategory>
         </HeaderCategoryDiv>
     )
 }

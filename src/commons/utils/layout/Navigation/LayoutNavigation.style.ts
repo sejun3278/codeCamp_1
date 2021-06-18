@@ -9,6 +9,10 @@ export const HeaderCategoryDiv = styled.div`
     color: #AB9000;
     font-weight : bold;
     font-size : 14px;
+
+    #noneBorder {
+        border : none !important;
+    }
 `;
 
 export const HeaderCategory = styled.div` 
