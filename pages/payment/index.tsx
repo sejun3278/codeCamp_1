@@ -36,7 +36,6 @@ const Paymentpage = () => {
           }, 
           async (rsp) => { // callback
             if (rsp.success) {
-                console.log(rsp)
                 await createPoint({
                     variables : {
                         impUid : rsp.imp_uid

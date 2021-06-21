@@ -16,8 +16,6 @@ export default function Mypage() {
     const router = useRouter();
     const pathname = router.pathname;
 
-    console.log(router)
-
     return(
         <MyPageMainDiv>
             <div> </div>

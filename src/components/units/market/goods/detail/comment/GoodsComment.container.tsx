@@ -233,7 +233,6 @@ export default function GoodsCommentPage({
         setModifyType(null);
     }
     
-    console.log(modifyType)
     return(
         <GoodsCommentUI 
             comment={comment}

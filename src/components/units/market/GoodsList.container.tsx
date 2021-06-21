@@ -21,6 +21,8 @@ export default function GoodsDetailPage() {
         }
     })
 
+    console.log(goodsList)
+
     const [ scrollLoading, setScrollLoading ] = useState(false);
     const onloadMore = (event) => {
         // 리스트의 전체 크기

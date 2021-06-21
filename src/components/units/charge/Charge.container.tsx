@@ -32,7 +32,6 @@ export default function ChargePage() {
             return;
 
         } else {
-            console.log(userInfo._id)
             if(window.confirm(setComma(point) + ' 포인트 충전을 진행하시겠습니까?')) {
                 // setChargeModal(false);
 

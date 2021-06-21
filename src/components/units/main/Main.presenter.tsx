@@ -6,10 +6,10 @@ import {
 } from './Main.style';
 
 import imageList from '../../../../image.json';
-import React from 'react';
+import React, { memo } from 'react';
 import { setComma } from '../../../commons/libraries/validations';
 
-export default function MainPage({
+const MainPage = ({
     bestBoards,
     router,
     searchBtn,
@@ -24,7 +24,7 @@ export default function MainPage({
     nextBlock,
     prevBlcok
     // prevBlock
-}) {
+}) => {
     return(
         <MainBoardDiv>
             <div />
@@ -153,3 +153,5 @@ export default function MainPage({
         </MainBoardDiv>
     )
 }
+
+export default memo(MainPage);
