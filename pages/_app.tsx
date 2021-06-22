@@ -4,9 +4,12 @@ import { createUploadLink } from 'apollo-upload-client';
 
 import Layout from '../src/commons/utils/layout/index';
 import { createContext, useState } from 'react';
-import styled from '@emotion/styled';
 
 import { useRouter } from 'next/router';
+import axios from 'axios';
+
+import { onError } from "@apollo/client/link/error";
+import getAccessToken from '../src/commons/libraries/getAccessToken';
 
 // import Head from 'next/head';
 
@@ -54,54 +57,41 @@ function MyApp({ Component, pageProps }) {
 
   const uploadLink = createUploadLink({
     // uri : 'http://example.codebootcamp.co.kr/graphql',
-    uri: "http://backend.codebootcamp.co.kr/graphql",
+    uri: "https://backend.codebootcamp.co.kr/graphql",
+    // https 로 변경해야만 Refresh Token 가능
     headers: { authorization: `Bearer ${accessToken}` },
     credentials: "include",
   })
+  console.log(accessToken)
 
   // @ts-ignore
-  // const errorLink = onError( async( { graphQLErrors, operation, forward } ) => {
-  //   if(graphQLErrors) {
-  //     for(let err of graphQLErrors) {
-  //       if(err.extensions.code === 'UNAUTHENTICATED') {
-  //         // 만료된 토큰을 재발급 받기
-  //         const response = await axios.post(
-  //           "http://backend.codebootcamp.co.kr/graphql",
-  //           {
-  //             query : `
-  //               mutation restoreAccessToken {
-  //                 restoreAccessToken {
-  //                   accessToken
-  //                 }
-  //               }
-  //             `
-  //           },
-  //           { 
-  //             headers : { "Content-Type" : "application/json" },
-  //             withCredentials : true
-  //           }
-  //         )
+  // async, await 삭제 (비동기 형태로 가져온다.)
+  const errorLink = onError(( { graphQLErrors, operation, forward } ) => {
+    if(graphQLErrors) {
+      for(let err of graphQLErrors) {
+        if(err.extensions.code === 'UNAUTHENTICATED') {
+          // const newAccessToken = getAccessToken({ setAccessToken });
 
-  //         const newAccessToken = response.data.data.restoreAccessToken.accessToken;
-  //         setAccessToken(newAccessToken);
+          // 재발급 받은 토큰으로 실패했던 쿼리 다시 날리기
+          operation.setContext({
+            headers : {
+              ...operation.getContext().headers,
+              // 스프레드로 기존의 헤더 부분을 가져온 후
+              authorization : `bearer ${ getAccessToken({ setAccessToken }) }`
+              // 새로 가져온 AccessToken 을 넣어준다.
+            }
+          })
 
-  //         // 재발급 받은 토큰으로 실패했던 쿼리 다시 날리기
-  //         operation.setContext({
-  //           headers : {
-  //             ...operation.getContext().headers,
-  //             authorization : `bearer ${newAccessToken}`
-  //           }
-  //         })
+          return forward(operation)
+        }
+      }
+    }
+  })
 
-  //         return forward(operation)
-  //       }
-  //     }
-  //   }
-  // })
-
+  // 아폴로 클라이언트 설정 부분
   const client = new ApolloClient({
     // uri : 'http://backend.codebootcamp.co.kr/graphql',
-    link : ApolloLink.from([ uploadLink ]),
+    link : ApolloLink.from([ errorLink, uploadLink ]),
     cache : new InMemoryCache()
   })
   

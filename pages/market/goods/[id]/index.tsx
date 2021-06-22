@@ -12,7 +12,6 @@ export default function home () {
     const [ answerRefresh, setAnswerRefresh ] = useState(false);
     const [ sellerEmail, setSellerEmail ] = useState("");
 
-
     return(
         <GoodsContext.Provider value={{ answerRefresh, setAnswerRefresh, sellerEmail, setSellerEmail }}>
             <GoodsPage />
