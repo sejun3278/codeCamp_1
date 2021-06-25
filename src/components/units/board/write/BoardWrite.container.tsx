@@ -52,7 +52,7 @@ export default function BoardWritePage() {
 
     const setState = (event) => {
         const input = { ...dataList };
-
+//
         let value = event.target.value.trim();
         if(event.target.name === 'contents') {
             // 내용 줄바꿈
